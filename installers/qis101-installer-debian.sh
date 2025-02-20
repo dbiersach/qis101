@@ -1,10 +1,11 @@
 cd $HOME
+conda deactivate
 conda update -n base conda -y
 conda create -y -n qis101 python=3.12
 conda activate qis101
 conda install -c conda-forge -y pylint mypy autopep8 black ruff
 conda install -c conda-forge -y numba matplotlib pyqt
-conda install -c conda-forge -y sympy scipy scikit-learn
+conda install -c conda-forge -y sympy scipy scikit-learn sqlite
 conda install -c conda-forge -y pathspec websockets requests pyserial pylatexenc
 conda install -c conda-forge -y pandas pandasql openpyxl h5py pandocfilters
 conda install -c conda-forge -y networkx pulp numexpr
@@ -40,3 +41,4 @@ code --install-extension cschlosser.doxdocgen
 code --install-extension redhat.vscode-yaml
 code --install-extension charliermarsh.ruff
 echo 'c.ServerApp.use_redirect_file = False' >> $HOME/.jupyter/jupyter_lab_config.py
+
