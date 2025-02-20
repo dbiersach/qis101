@@ -58,6 +58,8 @@
             "unpkg.com"
         ],
         "python.terminal.executeInFileDir": true,
+        "terminal.integrated.enablePersistentSessions": false,
+        "terminal.integrated.shellIntegration.enabled": false,
       
     },
     "launch": {
