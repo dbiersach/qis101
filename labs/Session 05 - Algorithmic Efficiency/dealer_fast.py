@@ -44,7 +44,7 @@ def main():
     print_deck(deck)
 
     print(f"Total deals: {total_deals:,}")
-    print(f"Total run time (sec): {elapsed_time:.3f}\n")
+    print(f"Total run time (sec): {elapsed_time:.3f}")
 
 
 if __name__ == "__main__":

@@ -36,8 +36,7 @@ def widest_span_with_greatest_slope(x, y, cutoff=0.5):
 
 
 def main():
-    file_name = "scintillator_pulse.csv"
-    file_path = Path(__file__).parent / file_name
+    file_path = Path(__file__).parent / "scintillator_pulse.csv"
     time, volts = np.genfromtxt(file_path, delimiter=",", unpack=True)
     time /= 1000  # Scale domain to microseconds
 

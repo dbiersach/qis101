@@ -2,58 +2,23 @@ Set-Location $HOME
 conda update -n base conda -y
 conda create -y -n qis101 python=3.12
 conda activate qis101
-pip install pylint
-pip install mypy
-pip install autopep8
-pip install black
-pip install ruff
-pip install numba
-pip install matplotlib
-#pip install pyqt6
-#pip install pyside6
-pip install sympy
-pip install scipy
-pip install scikit-learn
-pip install pathspec
-pip install websockets
-pip install requests
-pip install pyserial
-pip install pandocfilters
-pip install pylatexenc
-pip install pandas
-pip install pandasql
-pip install openpyxl
-pip install h5py
-pip install networkx
-pip install pulp
-pip install numexpr
-pip install 'ipython[all]'
-pip install ipympl
-pip install jupyter
-pip install jupyterlab
-pip install jupyterlab_widgets
-pip install jupyterlab_code_formatter
-pip install jupyter_contrib_nbextensions
-pip install jupyterblack
-pip install nodejs
-pip install pygame
-pip install traitsui
-pip install mayavi
-pip install 'qiskit[all]'
-pip install 'qiskit[visualization]'
-pip install 'qiskit[machine-learning]'
-pip install qiskit
-pip install qiskit-aer
-pip install qiskit-algorithms
-pip install qiskit-dynamics
-pip install qiskit-finance
-pip install qiskit-ibm-runtime
-pip install qiskit-ibm-catalog
-pip install qiskit-machine-learning
-pip install qiskit-nature
-pip install qiskit-optimization
+conda install -c conda-forge -y pylint mypy autopep8 black ruff
+conda install -c conda-forge -y numba matplotlib pyqt
+conda install -c conda-forge -y sympy scipy scikit-learn
+conda install -c conda-forge -y pathspec websockets requests pyserial pylatexenc
+conda install -c conda-forge -y pandas pandasql openpyxl h5py pandocfilters
+conda install -c conda-forge -y networkx pulp numexpr
+conda install -c conda-forge -y 'ipython[all]' ipympl
+conda install -c conda-forge -y jupyter jupyterlab jupyterlab_widgets
+conda install -c conda-forge -y jupyterlab_code_formatter jupyter_contrib_nbextensions
+conda install -c conda-forge -y nodejs pygame traitsui
+conda install -c conda-forge -y configobj vtk mayavi
+pip install 'qiskit[all]' 'qiskit[visualization]' 'qiskit[machine-learning]'
+pip install qiskit qiskit-aer qiskit-algorithms
+pip install qiskit-ibm-runtime qiskit-ibm-catalog
+pip install qiskit-dynamics qiskit-finance qiskit-nature
+pip install qiskit-machine-learning  qiskit-optimization
 #pip install qiskit-metal
-#pip uninstall simplejson
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.cpptools-extension-pack
 code --install-extension ms-vscode.powershell
