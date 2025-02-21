@@ -1,4 +1,5 @@
-# quadratic_regression.py
+#!/usr/bin/env python3
+"""quadratic_regression.py"""
 
 from pathlib import Path
 
@@ -76,17 +77,20 @@ def main():
     stop_count = a * stop_time**2 + b * stop_time + c
     plt.scatter(stop_time, stop_count, marker="s", s=50, c="g", zorder=2)
 
-    title = "Tape Counter Per Minute\n"
-    title += f"({stop_time} min = Counter {stop_count:,.0f})"
-    plt.title(title)
+    plt.title(
+        (
+            "Tape Counter Per Minute\n"  # noqa
+            f"({stop_time} min = Counter {stop_count:,.0f})"
+        )
+    )
     plt.xlabel("Elapsed Time (min)")
     plt.ylabel("Tape Counter")
-    ax = plt.gca()
-    ax.xaxis.set_major_locator(MultipleLocator(5))
-    ax.yaxis.set_major_locator(MultipleLocator(100))
-    ax.legend(loc="upper left")
-    ax.grid("on", zorder=1)
+    plt.gca().xaxis.set_major_locator(MultipleLocator(5))
+    plt.gca().yaxis.set_major_locator(MultipleLocator(100))
+    plt.grid("on")
+    plt.legend(loc="center right", framealpha=1.0, facecolor="white")
     plt.show()
 
 
-main()
+if __name__ == "__main__":
+    main()
