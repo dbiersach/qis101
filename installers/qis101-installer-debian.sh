@@ -3,10 +3,11 @@ conda deactivate
 conda update -n base conda -y
 conda create -y -n qis101 python=3.12
 conda activate qis101
-pip install numpy==1.26.4 numba matplotlib pyqt6 pygame
-pip install sympy scipy scikit-learn pandas jupyter ipympl
-pip install networkx pulp numexpr
-pip install mayavi configobj vtk==9.3
+conda install -c conda-forge -y mayavi sqlite
+conda install -c conda-forge -y matplotlib pyqt pygame
+conda install -c conda-forge -y sympy scipy scikit-learn pandas jupyter ipympl
+conda install -c conda-forge -y networkx pulp numexpr
+pip install numba numpy==1.26.4
 pip install 'qiskit[all]' qiskit-aer qiskit-algorithms
 pip install qiskit-ibm-runtime qiskit-ibm-catalog
 pip install qiskit-dynamics qiskit-finance qiskit-nature
@@ -31,5 +32,6 @@ code --install-extension james-yu.latex-workshop
 code --install-extension cschlosser.doxdocgen
 code --install-extension redhat.vscode-yaml
 code --install-extension charliermarsh.ruff
+echo 'y' | jupyter lab --generate-config
 echo 'c.ServerApp.use_redirect_file = False' >> $HOME/.jupyter/jupyter_lab_config.py
 
