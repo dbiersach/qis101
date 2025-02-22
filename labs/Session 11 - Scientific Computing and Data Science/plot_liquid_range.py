@@ -2,7 +2,6 @@
 """plot_liquid_range.py"""
 
 import json
-import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -59,6 +58,5 @@ ax = plt.gca()
 ax.set_xticks(x)
 ax.set_xticklabels(data[:, 0], fontsize=9, rotation=90)
 ax.legend(loc="lower center")
-ax.grid(True)
-plt.show(block=True)
-sys.exit()
+ax.grid("On")
+plt.show()
