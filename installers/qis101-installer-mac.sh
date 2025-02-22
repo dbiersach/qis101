@@ -5,7 +5,8 @@ conda create -y -n qis101 python=3.12
 conda activate qis101
 pip install numpy==1.26.4 numba matplotlib pyqt6 pygame
 pip install sympy scipy scikit-learn pandas jupyter ipympl
-pip install networkx pulp numexpr
+pip install networkx numexpr
+conda install -y pulp
 pip install mayavi configobj vtk==9.3
 pip install 'qiskit[all]' qiskit-aer qiskit-algorithms
 pip install qiskit-ibm-runtime qiskit-ibm-catalog
