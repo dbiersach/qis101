@@ -9,7 +9,7 @@ pip install networkx numexpr
 conda install -y pulp
 pip install mayavi configobj vtk==9.3
 pip install 'qiskit[all]' qiskit-aer qiskit-algorithms
-pip install qiskit-ibm-runtime qiskit-ibm-catalog
+pip install qiskit-ibm-runtime qiskit-ibm-catalog  qiskit-experiments
 pip install qiskit-dynamics qiskit-finance qiskit-nature
 pip install qiskit-machine-learning qiskit-optimization
 code --install-extension ms-vscode.cpptools

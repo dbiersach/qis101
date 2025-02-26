@@ -9,7 +9,7 @@ conda install -c conda-forge -y sympy scipy scikit-learn pandas jupyter ipympl
 conda install -c conda-forge -y networkx pulp numexpr
 pip install numba numpy==1.26.4
 pip install 'qiskit[all]' qiskit-aer qiskit-algorithms
-pip install qiskit-ibm-runtime qiskit-ibm-catalog
+pip install qiskit-ibm-runtime qiskit-ibm-catalog qiskit-experiments
 pip install qiskit-dynamics qiskit-finance qiskit-nature
 pip install qiskit-machine-learning qiskit-optimization
 code --install-extension ms-vscode.cpptools
