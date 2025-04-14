@@ -41,4 +41,5 @@ def main():
     print(f"g{triplet} = {frobenius_number(triplet)}")
 
 
-main()
+if __name__ == "__main__":
+    main()

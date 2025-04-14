@@ -38,4 +38,5 @@ def main():
     print(f"Err : {err:.14%}\n")
 
 
-main()
+if __name__ == "__main__":
+    main()

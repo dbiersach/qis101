@@ -11,14 +11,14 @@ golden_ratio = (1 + math.sqrt(5)) / 2
 
 length = 150  # X direction
 width = 150  # Y direction
-height = length * golden_ratio  # Z direction
+height = 0  # Z direction
 
 vertices: list = [tuple] * 5
 vertices[0] = (0, 0, 0)  # Base Front Left
 vertices[1] = (length, 0, 0)  # Base Front Right
 vertices[2] = (length, width, 0)  # Base Back Right
 vertices[3] = (0, width, 0)  # Base Back Left
-vertices[4] = (length / 2, width / 2, height)  # Apex
+vertices[4] = (0, 0, 0)  # Apex
 
 facets: list = [tuple] * 5
 facets[0] = (vertices[0], vertices[1], vertices[2], vertices[3])  # Base

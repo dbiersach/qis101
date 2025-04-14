@@ -31,7 +31,8 @@ def widest_span_with_greatest_slope(x, y, cutoff=0.5):
                 if j >= max_j:
                     max_j = j
     # Return array of indexes within region of interest
-    roi = (x > x[min_i]) * (x < x[max_j])
+    # using Numpy's Boolean Indexing
+    roi = (x > x[min_i]) & (x < x[max_j])
     return roi
 
 

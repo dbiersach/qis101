@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''make_samples.py'''
+"""make_samples.py"""
 
 from pathlib import Path
 
@@ -43,4 +43,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

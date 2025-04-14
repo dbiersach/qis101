@@ -7,12 +7,12 @@ import numpy as np
 
 radius, height = 10, 50
 
-u = np.linspace(0, height, 30) # Vertical location
+u = np.linspace(0, height, 30)  # Vertical location
 v = np.linspace(0, 2 * np.pi, 30)  # Horizontal circular slice
 
-x = 
-y = 
-z = 
+x = np.outer(u, v)
+y = np.outer(u, v)
+z = np.outer(u, v)
 
 plt.figure(Path(__file__).name)
 ax = plt.axes(projection="3d")

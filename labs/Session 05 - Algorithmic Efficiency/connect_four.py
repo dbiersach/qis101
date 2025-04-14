@@ -49,4 +49,5 @@ def main():
     print_winner(board3)
 
 
-main()
+if __name__ == "__main__":
+    main()

@@ -19,16 +19,16 @@ def orientation(p, q, r):
     val = (ax * by) - (ay * bx)
 
     if val == 0:
-        # If points P, Q, and R are colinear
+        # Points P, Q, and R are colinear
         return 0
 
     if val < 0:
-        # If Point R is to the left of Q
+        # Point R is to the left of Q
         # as seen from point P
         return -1
 
     if val > 0:
-        # If Point R is to the right of Q
+        # Point R is to the right of Q
         # as seen from point P
         return 1
 

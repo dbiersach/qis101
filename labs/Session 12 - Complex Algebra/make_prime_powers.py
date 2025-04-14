@@ -7,7 +7,7 @@ from pprint import pprint
 
 from sympy import primerange
 
-# Create a dictionary where the keys are all the primes < n and each\n
+# Create a dictionary where the keys are all the primes < n and each
 # key's value is a list of all the powers of that prime that are also < n
 n = 10_000
 primes: list[int] = [int(p) for p in primerange(2, n)]

@@ -1,17 +1,17 @@
-# herons_method.py
+#!/usr/bin/env python3
+"""herons_method.py"""
 
 
 def sqrt(s):
     x = s / 2
-    while x**2 - s > 1e-10:
-        x = (s / x + x) / 2
+    # Insert your code here
     return x
 
 
 def main():
     x = 168923.74
-    print(x)
-    print(sqrt(x))
+    print(f"Square root of {x} = {sqrt(x)}")
 
 
-main()
+if __name__ == "__main__":
+    main()

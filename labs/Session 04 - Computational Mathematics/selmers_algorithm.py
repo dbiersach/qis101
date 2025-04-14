@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""selmer_algorithm.py"""
+"""selmers_algorithm.py"""
 
 import numpy as np
 from numba import njit, prange
@@ -44,4 +44,5 @@ def main():
     print(f"g{triplet} = {frobenius_number(triplet)}")
 
 
-main()
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,4 @@
-# qis102_utils.py
+"""qis101_utils.py"""
 
 import numpy as np
 from IPython.core.display import Math

@@ -24,4 +24,5 @@ def main():
     print(f"The base of natural logarithm  = {np.e:.5f}")
 
 
-main()
+if __name__ == "__main__":
+    main()
