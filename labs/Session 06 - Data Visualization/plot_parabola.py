@@ -10,7 +10,7 @@ import numpy as np
 def plot(ax):
     x = np.linspace(-4, 5)
     y = np.power(x, 2) + 1.0
-    ax.plot(x, y)
+    ax.plot(x, y, color="olivedrab")
 
 
 def main():

@@ -16,6 +16,8 @@ def plot(ax):
     ax.axhline(0, color="black")
     ax.axvline(0, color="black")
     ax.set_title(f"$x^2 + y^2 = {radius}$")
+    ax.set_xlim(-300, 300)
+    ax.set_ylim(-300, 300)
     ax.set_aspect("equal")
     ax.grid("on")
 
