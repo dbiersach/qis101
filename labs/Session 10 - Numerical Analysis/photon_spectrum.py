@@ -31,7 +31,7 @@ plt.plot(energy_est, density_est)
 plt.fill_between(
     energy_est,
     density_est,
-    where=(energy_est >= min_window) * (energy_est <= max_window),
+    where=(energy_est >= min_window) & (energy_est <= max_window),
     color="orange",
 )
 

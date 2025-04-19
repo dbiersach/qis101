@@ -7,19 +7,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import quad
 
-
-def f(x):
-    return np.cos(x)
-
-
-def F(x):
-    return np.sin(x)
-
-
 a, b = 0, 5000
 x = np.linspace(a, b, 1000)
 plt.figure(Path(__file__).name)
-plt.plot(x, f(x))
+plt.plot(x, np.cos(x))
 plt.title(r"$f(x)=\cos{x}$")
 plt.xlabel("x")
 plt.ylabel("f(x)")
@@ -36,4 +27,4 @@ second_estimate = quad(np.cos, a, b, full_output=True, limit=1000)[0]
 print(f"{second_estimate = :.6f}")
 
 # Compare these estimates to the exact analytic integral
-print(f"{    F(b) - F(a) = :.6f}")
+print(f"    F(b) - F(a) = {np.sin(5000):.6f}")
