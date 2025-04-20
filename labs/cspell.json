@@ -114,6 +114,7 @@
         "eigvals",
         "emax",
         "emin",
+        "errstate",
         "evalf",
         "facecolor",
         "facecolors",

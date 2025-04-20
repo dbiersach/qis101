@@ -9,10 +9,10 @@ from matplotlib.ticker import AutoMinorLocator
 from numpy.fft import fft, ifft
 
 
-def plot_samples(ax, ts, ys):
+def plot_samples(ax, ts, fs):
     num_samples = ts.size
-    ax.plot(ts, ys, color="lightgray", linewidth=1)
-    ax.scatter(ts, ys, color="black", marker=".", s=10.0, zorder=2)
+    ax.plot(ts, fs, color="lightgray", linewidth=1)
+    ax.scatter(ts, fs, color="black", marker=".", s=10.0, zorder=2)
     ax.set_title(f"Sampled Wave ({num_samples} samples)")
     ax.set_xlabel("scaled time", loc="right")
     ax.set_ylabel("amplitude")
@@ -41,9 +41,9 @@ def plot_dft(ax, ct):
     ax.legend(loc="upper right")
 
 
-def plot_idft(ax, ts, yr):
+def plot_idft(ax, ts, fr):
     num_samples = ts.size
-    ax.plot(ts, yr, color="purple")
+    ax.plot(ts, fr, color="purple")
     ax.set_title(f"Inverse FFT ({num_samples} samples)")
     ax.set_xlabel("scaled time", loc="right")
     ax.set_ylabel("amplitude")
@@ -68,10 +68,10 @@ def plot_power_spectrum(ax, ct):
 
 def main(file_name):
     file_path = Path(__file__).parent / file_name
-    ts, ys = np.genfromtxt(file_path, delimiter=",", unpack=True)
+    ts, fs = np.genfromtxt(file_path, delimiter=",", unpack=True)
 
-    ct = 2 / len(ys) * fft(ys)
-    yr = len(ys) / 2 * ifft(ct)
+    ct = 2 / len(fs) * fft(fs)
+    yr = len(fs) / 2 * ifft(ct)
     ct[0] /= 2  # DC value should NOT be doubled
 
     plt.figure(
@@ -79,7 +79,7 @@ def main(file_name):
         figsize=(12, 8),
     )
 
-    plot_samples(plt.subplot(2, 2, 1), ts, ys)
+    plot_samples(plt.subplot(2, 2, 1), ts, fs)
     plot_dft(plt.subplot(2, 2, 2), ct)
     plot_idft(plt.subplot(2, 2, 3), ts, np.real(yr))
     plot_power_spectrum(plt.subplot(2, 2, 4), ct)

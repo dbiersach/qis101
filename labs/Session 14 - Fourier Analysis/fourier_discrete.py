@@ -7,14 +7,14 @@ import numpy as np
 from matplotlib.ticker import AutoMinorLocator
 
 
-def dft(ts, ys):
+def dft(ts, fs):
     num_samples = ts.size  # ts = sample time
     num_terms = int(num_samples / 2)  # Nyquist limit
     # ct = complex terms of the DFT
     ct = np.zeros(num_terms, dtype=complex)
     for k in range(0, num_terms):  # k = filter wave number
         for n in range(0, num_samples):  # n = sample number
-            ct[k] += ys[n] * np.exp(complex(0, (k * ts[n])))
+            ct[k] += fs[n] * np.exp(complex(0, (k * ts[n])))
     ct = ct * 2 / num_samples
     ct[0] /= 2  # DC value should NOT be doubled
     return ct
@@ -23,18 +23,18 @@ def dft(ts, ys):
 def idft(ts, ct):
     num_samples = ts.size  # ts = sample time
     num_terms = ct.size
-    # yr = reconstructed y values
-    yr = np.zeros(num_samples, dtype=complex)
+    # fr = reconstructed fs(t) values
+    fr = np.zeros(num_samples, dtype=complex)
     for n in range(0, num_samples):  # n = sample number
         for k in range(0, num_terms):  # k = filter wave number
-            yr[n] += ct[k] * np.exp(complex(0, -(k * ts[n])))
-    return yr
+            fr[n] += ct[k] * np.exp(complex(0, -(k * ts[n])))
+    return fr
 
 
-def plot_samples(ax, ts, ys):
+def plot_samples(ax, ts, fs):
     num_samples = ts.size
-    ax.plot(ts, ys, color="lightgray", linewidth=1)
-    ax.scatter(ts, ys, color="black", marker=".", s=10.0, zorder=2)
+    ax.plot(ts, fs, color="lightgray", linewidth=1)
+    ax.scatter(ts, fs, color="black", marker=".", s=10.0, zorder=2)
     ax.set_title(f"Sampled Wave ({num_samples} samples)")
     ax.set_xlabel("scaled time", loc="right")
     ax.set_ylabel("amplitude")
@@ -63,9 +63,9 @@ def plot_dft(ax, ct):
     ax.legend(loc="upper right")
 
 
-def plot_idft(ax, ts, yr):
+def plot_idft(ax, ts, fr):
     num_samples = ts.size
-    ax.plot(ts, yr, color="purple")
+    ax.plot(ts, fr, color="purple")
     ax.set_title(f"Inverse DFT ({num_samples} samples)")
     ax.set_xlabel("scaled time", loc="right")
     ax.set_ylabel("amplitude")
@@ -90,11 +90,11 @@ def plot_power_spectrum(ax, ct):
 
 def main(file_name):
     file_path = Path(__file__).parent / file_name
-    # ts = sample time, ys = sample value
-    ts, ys = np.genfromtxt(file_path, delimiter=",", unpack=True)
+    # ts = sample time, fs = sample value
+    ts, fs = np.genfromtxt(file_path, delimiter=",", unpack=True)
 
-    ct = dft(ts, ys)  # ct = complex terms of the DFT
-    yr = idft(ts, ct)  # yr = reconstructed y values
+    ct = dft(ts, fs)  # ct = complex terms of the DFT
+    fr = idft(ts, ct)  # fr = reconstructed fs(t) values
 
     plt.figure(
         Path(__file__).name + f" ({file_name})",
@@ -102,9 +102,9 @@ def main(file_name):
     )
 
     # subplot's 3 params: # of rows, # of cols, which subplot #
-    plot_samples(plt.subplot(2, 2, 1), ts, ys)
+    plot_samples(plt.subplot(2, 2, 1), ts, fs)
     plot_dft(plt.subplot(2, 2, 2), ct)
-    plot_idft(plt.subplot(2, 2, 3), ts, np.real(yr))
+    plot_idft(plt.subplot(2, 2, 3), ts, np.real(fr))
     plot_power_spectrum(plt.subplot(2, 2, 4), ct)
 
     plt.tight_layout()

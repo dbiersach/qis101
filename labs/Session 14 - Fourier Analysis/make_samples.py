@@ -20,15 +20,15 @@ def main():
     num_samples = 1000
 
     ts = np.linspace(0, sample_duration, num_samples, endpoint=False)
-    ys = f(ts)
+    fs = f(ts)
 
     file_name = "samples.csv"
     file_path = Path(__file__).parent / file_name
-    np.savetxt(file_path, np.column_stack((ts, ys)), fmt="%1.13f", delimiter=", ")
+    np.savetxt(file_path, np.column_stack((ts, fs)), fmt="%1.13f", delimiter=", ")
 
     plt.figure(Path(__file__).name)
     # fmt: off
-    plt.plot(ts, ys, color="lightgray",
+    plt.plot(ts, fs, color="lightgray",
         marker="o", markerfacecolor="none",
         markersize=1, markeredgecolor="black")
     # fmt: on

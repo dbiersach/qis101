@@ -12,13 +12,13 @@ def f(x):
     return 29 * np.cos(3 * x) + 7 * np.sin(40 * x)
 
 
-def dft(ts, ys):
+def dft(ts, fs):
     num_samples = ts.size
     num_terms = int(num_samples / 2)  # Nyquist limit
     ct = np.zeros(num_terms, dtype=complex)
     for term in range(0, num_terms):
         for sample in range(0, num_samples):
-            ct[term] += ys[sample] * np.exp(complex(0, -(term * ts[sample])))
+            ct[term] += fs[sample] * np.exp(complex(0, -(term * ts[sample])))
     ct = ct * 2 / num_samples
     ct[0] /= 2  # DC value should NOT be doubled
     return ct
@@ -27,17 +27,17 @@ def dft(ts, ys):
 def idft(ts, ct):
     num_samples = ts.size
     num_terms = ct.size
-    yr = np.zeros(num_samples, dtype=complex)
+    fr = np.zeros(num_samples, dtype=complex)
     for sample in range(0, num_samples):
         for term in range(0, num_terms):
-            yr[sample] += ct[term] * np.exp(complex(0, (term * ts[sample])))
-    return yr
+            fr[sample] += ct[term] * np.exp(complex(0, (term * ts[sample])))
+    return fr
 
 
-def plot_samples(ax, ts, ys):
+def plot_samples(ax, ts, fs):
     num_samples = ts.size
-    ax.plot(ts, ys, color="lightgray", linewidth=1)
-    ax.scatter(ts, ys, color="black", marker=".", s=10.0, zorder=2)
+    ax.plot(ts, fs, color="lightgray", linewidth=1)
+    ax.scatter(ts, fs, color="black", marker=".", s=10.0, zorder=2)
     ax.set_title(f"Sampled Wave ({num_samples} samples)")
     ax.set_xlabel("scaled time", loc="right")
     ax.set_ylabel("amplitude")
@@ -64,9 +64,9 @@ def plot_dft(ax, ct):
     ax.legend(loc="upper right")
 
 
-def plot_idft(ax, ts, yr):
+def plot_idft(ax, ts, fr):
     num_samples = ts.size
-    ax.plot(ts, yr, color="purple")
+    ax.plot(ts, fr, color="purple")
     ax.set_title(f"Inverse DFT ({num_samples} samples)")
     ax.set_xlabel("scaled time", loc="right")
     ax.set_ylabel("amplitude")
@@ -94,20 +94,20 @@ def main():
     num_samples = 1000
 
     ts = np.linspace(0, sample_duration, num_samples, endpoint=False)
-    ys = f(ts)
+    fs = f(ts)
 
-    ct = dft(ts, ys)
+    ct = dft(ts, fs)
 
     plt.figure(Path(__file__).name, figsize=(12, 8))
-    plot_samples(plt.subplot(2, 2, 1), ts, ys)
+    plot_samples(plt.subplot(2, 2, 1), ts, fs)
     plot_dft(plt.subplot(2, 2, 2), ct)
 
     # Filter out high-frequency noise
     # ct[40] = 0
 
-    yr = idft(ts, ct)
+    fr = idft(ts, ct)
 
-    plot_idft(plt.subplot(2, 2, 3), ts, np.real(yr))
+    plot_idft(plt.subplot(2, 2, 3), ts, np.real(fr))
     plot_power_spectrum(plt.subplot(2, 2, 4), ct)
 
     plt.tight_layout()
