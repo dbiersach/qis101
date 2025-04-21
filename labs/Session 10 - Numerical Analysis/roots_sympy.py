@@ -38,11 +38,7 @@ def solve_with_timeout(eqn, symbol, timeout=5):  # 5 seconds
         return results_queue.get()
 
 
-# Define the unknown variable symbol
-x = sympy.symbols("x")
-
-
-def find_roots(polynomial):
+def find_roots(polynomial, x):
     print(f"Polynomial: {polynomial}")
     roots = solve_with_timeout(polynomial, x)
     if roots is None:
@@ -58,14 +54,17 @@ def find_roots(polynomial):
 
 
 def main():
+    # Using SymPy, define the unknown variable symbol 'x'
+    x = sympy.symbols("x")
+
     # Define Equation #1
-    find_roots(x**4 + x - 1)
+    find_roots(x**4 + x - 1, x)
 
     # Define Equation #2
-    find_roots(-(x**2) + x ** (3 / 2) + 5 * x - 6)
+    find_roots(-(x**2) + x ** (3 / 2) + 5 * x - 6, x)
 
     # Define Equation #3
-    find_roots(x**3.4 + x - 1)
+    find_roots(x**3.4 + x - 1, x)
 
 
 if __name__ == "__main__":
