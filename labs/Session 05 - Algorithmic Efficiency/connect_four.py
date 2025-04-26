@@ -1,4 +1,5 @@
-# connect_four.py
+#!/usr/bin/env python3
+"""connect_four.py"""
 
 
 def check_winner(player, board):

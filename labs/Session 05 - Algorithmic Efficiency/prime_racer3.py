@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''prime_racer3.py'''
+"""prime_racer3.py"""
 
 import math
 import random
