@@ -6,42 +6,35 @@ from numba import njit, prange
 
 
 @njit(parallel=True)
-def frobenius_number(coprime_triplet: tuple[int, int, int]) -> int:
+def frobenius_number(triplet, limit):
     """
-    Computes the Frobenius number for three pairwise coprime integers using Selmer's algorithm.
+    Uses Selmer-style dynamic marking to find the Frobenius number.
+    All combinations ax + by + cz are marked as representable.
     """
+    a, b, c = triplet
+    reachable = np.zeros(limit + 1, dtype=np.uint8)
 
-    # Unpack the passed in tuple
-    a, b, c = coprime_triplet
+    # Parallel loop for performance
+    for x in prange(limit // a + 1):
+        ax = x * a
+        for y in range((limit - ax) // b + 1):
+            axy = ax + y * b
+            for z in range((limit - axy) // c + 1):
+                val = axy + z * c
+                if val <= limit:
+                    reachable[val] = 1
 
-    # Compute the Frobenius number for (a, b)
-    g_ab = a * b - a - b  # Classical two-number Frobenius formula
-
-    # Track which residues mod c are representable
-    reachable = np.zeros(c, dtype=np.bool_)
-
-    # Generate reachable numbers using (a, b)
-    for x in prange(b):
-        for y in prange(a):
-            num = x * a + y * b
-            reachable[num % c] = True  # Mark reachable residues mod c
-
-    # Find the largest non-representable number
-    max_non_representable = -1
-
-    for n in range(g_ab, -1, -1):
-        if not reachable[n % c]:  # If this residue is missing, it's non-representable
-            max_non_representable = n
-            break
-
-    return max_non_representable
+    # Find the largest number that is not reachable
+    for i in range(limit, -1, -1):
+        if reachable[i] == 0:
+            return i
+    return -1  # This should never happen if limit is high enough
 
 
 def main():
-    triplet = (15, 47, 997)  # g() = 643
-    # triplet = (15, 997, 7919)  # g() = 13943
-    # triplet = (7919, 12553, 17389)  # g() = 2711658
-    print(f"g{triplet} = {frobenius_number(triplet)}")
+    triplet = (7919, 12553, 17389)  # g() = 2711658
+    limit = 3_000_000
+    print(f"g{triplet} = {frobenius_number(triplet, limit)}")
 
 
 if __name__ == "__main__":
