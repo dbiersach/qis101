@@ -7,23 +7,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def f1(theta):
+def r1(theta):
     return 4 + 4 * np.cos(4 * theta)
 
 
-def f2(theta):
+def r2(theta):
     return 3 + 3 * np.cos(4 * theta + np.pi)
 
 
-def f3(theta):
+def r3(theta):
     return 5 + 5 * np.cos(3 / 2 * theta)
 
 
 def plot(ax):
     theta = np.linspace(0, 4 * np.pi, 1000)
-    ax.plot(theta, f1(theta), label=r"$4+4\cos{4\theta}$")
-    # ax.plot(theta, f2(theta), label=r"$3+3\cos{(4\theta+\pi)}$")
-    # ax.plot(theta, f3(theta), label=r"$5+5\cos{(\dfrac{3}{2}\theta)}$")
+    ax.plot(theta, r1(theta), label=r"$4+4\cos{4\theta}$")
+    # ax.plot(theta, r2(theta), label=r"$3+3\cos{(4\theta+\pi)}$")
+    # ax.plot(theta, r3(theta), label=r"$5+5\cos{(\dfrac{3}{2}\theta)}$")
     ax.legend(loc="upper right")
     ax.axis("on")
 
