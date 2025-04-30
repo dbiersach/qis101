@@ -20,7 +20,7 @@ def main():
 
     # Print the final (largest roll count) magic number for each die
     for idx, sides in enumerate(dice):
-        print(f"Sides = {sides:3}: Magic Number = {magic[idx, 20]:>8.5f}")
+        print(f"Sides = {sides:3}: Magic Number = {magic[idx, -1]:>8.5f}")
 
     # Plot the magic number as a function of die sides and count of rolls
     plt.figure(Path(__file__).name)
