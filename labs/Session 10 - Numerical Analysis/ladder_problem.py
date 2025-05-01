@@ -26,7 +26,7 @@ def main():
 
     # The result.x is an array, and we only want the first element
     c_theta = result.x[0]
-    c_length = length(np.array(c_theta))
+    c_length = length(c_theta)
 
     plt.figure(Path(__file__).name)
     plt.plot(theta, ladder)

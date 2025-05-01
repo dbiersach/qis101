@@ -6,7 +6,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import quad
-from scipy.interpolate import interp1d
+from scipy.interpolate import CubicSpline
 
 file_name = "photon_spectrum.txt"
 file_path = Path(__file__).parent / file_name
@@ -15,7 +15,7 @@ energy, density = np.genfromtxt(file_path, delimiter=" ", unpack=True)
 min_energy, max_energy = np.min(energy), np.max(energy)
 energy_est = np.linspace(min_energy, max_energy, 1000)
 
-density_f = interp1d(energy, density, kind="cubic")
+density_f = CubicSpline(energy, density)
 density_est = density_f(energy_est)
 
 min_window, max_window = 2.12, 3.45  # MeV

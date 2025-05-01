@@ -44,7 +44,7 @@ def find_roots(polynomial, x):
     if roots is None:
         print("No roots could be found within the timeout period")
     else:
-        if not isinstance(roots[0], sympy.Float):
+        if any(not isinstance(root, sympy.Float) for root in roots):
             print("Analytic Roots:")
             for root_num, root_val in enumerate(roots):
                 print(f"  Root #{root_num + 1}: {root_val}")
