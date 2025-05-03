@@ -18,7 +18,9 @@ options = Options()
 # Optional: check for geckodriver manually
 geckodriver_path = shutil.which("geckodriver")
 if not geckodriver_path:
-    raise EnvironmentError("Install driver using: sudo apt install geckodriver")
+    raise EnvironmentError(
+        "Install Linux driver from https://github.com/mozilla/geckodriver/releases"
+    )
 
 # Launch Firefox with Selenium
 service = Service(geckodriver_path)
