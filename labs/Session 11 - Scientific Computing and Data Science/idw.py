@@ -26,11 +26,6 @@ def act_height(x: NDArray[np.float64], y: NDArray[np.float64]) -> NDArray[np.flo
 def init_samples():
     np.random.seed(2016)
 
-    global ocean_size, num_intervals, num_samples
-    ocean_size = 390
-    num_intervals = 65
-    num_samples = 220
-
     global grid_x, grid_y, grid_z
     grid_x, grid_y = np.mgrid[
         # See numpy.mgrid() docs for why using complex() for step length
