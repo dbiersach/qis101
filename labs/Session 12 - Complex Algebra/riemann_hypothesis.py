@@ -40,7 +40,7 @@ def main():
     plt.plot(xa, np.absolute(zeta), label=r"$\eta \left( s \right)$", color="red")
     plt.scatter(
         zeta_zeros_im,
-        [0] * len(zeta_zeros_im),
+        [0] * len(zeta_zeros_im),  # np.zeros_like(zeta_zeros_im)
         marker="o",
         color="green",
         label=r"$\zeta\ root$",
