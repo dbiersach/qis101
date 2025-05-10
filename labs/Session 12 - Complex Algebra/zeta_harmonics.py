@@ -12,7 +12,7 @@ from matplotlib.ticker import MultipleLocator
 prime_dict = {}
 
 
-def F(t):
+def F(x):
     """
     Returns the real cosine frequencies of the Riemann Zeta function,
     which are precisely the imaginary components of the complex Zeta zeros
@@ -21,20 +21,19 @@ def F(t):
     for prime in prime_dict:
         powers: list[int] = prime_dict[prime]
         for power in powers:
-            s += -(np.log(prime) / np.sqrt(power) * np.cos(t * np.log(power)))
+            s += -(np.log(prime) / np.sqrt(power) * np.cos(x * np.log(power)))
     return s
 
 
 def main():
-    global prime_dict
-
     # Read pickle file containing the prime powers dictionary
     file_path = Path(__file__).parent / "prime_powers.pickle"
     with open(file_path, "rb") as file_in:
+        global prime_dict
         prime_dict = pickle.load(file_in)
 
-    vectorized_F = np.vectorize(F, excluded=["prime_dict"])
     x = np.linspace(0, 100, 1_000)
+    vectorized_F = np.vectorize(F, excluded=["prime_dict"])
     y = vectorized_F(x)
 
     plt.figure(Path(__file__).name)
@@ -49,9 +48,15 @@ def main():
     ax.xaxis.set_minor_locator(MultipleLocator(1))
     ax.yaxis.set_major_locator(MultipleLocator(1))
 
-    for i in range(1, 30):
+    # fmt: off
+    plt.axvline(x=mpmath.zetazero(1).imag, ymax=0.9,
+        linestyle="--", color="red", label="Zeta Zero")
+    # fmt: on
+
+    for i in range(2, 30):
         plt.axvline(x=mpmath.zetazero(i).imag, ymax=0.9, linestyle="--", color="red")
 
+    plt.legend(loc="upper right")
     plt.show()
 
 
