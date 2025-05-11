@@ -6,7 +6,7 @@ from typing import Callable
 
 import numpy as np
 from numpy.typing import NDArray
-from sympy import Float, Number, Poly, lambdify, symbols
+from sympy import Float, Integer, Number, Poly, lambdify, symbols
 
 
 def expr_to_str(expr: Poly, num_digits: int) -> str:
@@ -14,12 +14,13 @@ def expr_to_str(expr: Poly, num_digits: int) -> str:
     Returns a string representation of the given Polynomial expression (expr),
     rounding each coefficient to a fractional part having (num_digits) precision
     """
-    return expr.xreplace(
-        {
-            n.evalf(): n if isinstance(n, int) else Float(n, num_digits)
-            for n in expr.atoms(Number)
-        }
-    )
+    symbolic_expr = expr.as_expr()  # Converts Poly to a plain symbolic expression
+    replacements = {  # Dictionary comprehension
+        n: n if isinstance(n, Integer) else Float(n.evalf(), num_digits)
+        for n in symbolic_expr.atoms(Number)
+    }
+    rounded_expr = symbolic_expr.xreplace(replacements)
+    return str(rounded_expr)
 
 
 def calc_coeff(a: float, b: float, r: float, n: int) -> float:
