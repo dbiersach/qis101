@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""kinematics_regression.py"""
+"""newtonian_kinematics.py"""
 
-import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -47,8 +46,7 @@ def main():
 
     plt.xlabel("Time (sec)")
     plt.ylabel("Distance (m)")
-    plt.show(block=True)
-    sys.exit()
+    plt.show()
 
 
 if __name__ == "__main__":

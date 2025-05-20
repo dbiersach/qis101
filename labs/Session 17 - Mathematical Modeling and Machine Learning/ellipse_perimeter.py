@@ -16,7 +16,7 @@ def d_s(theta, a, b):
 
 def ramanujan_estimate(a, b):
     h = (a - b) / (a + b)
-    return (a + b) * (1 + 3 * h / (10 + np.sqrt(4 - 3 * h))) * np.pi
+    return np.pi * (a + b) * (1 + 3 * h / (10 + np.sqrt(4 - 3 * h)))
 
 
 def fit_quadratic(x, y):
@@ -69,12 +69,10 @@ def plot_fix(ax, p, f):
 
 
 def main():
-    a, b_max = 100, 20
+    a, b_max = 100, 21
+    peri, ram, err = (np.zeros(b_max) for _ in range(3))
 
-    peri = np.zeros(b_max)
-    ram = np.zeros(b_max)
-    err = np.zeros(b_max)
-    for b in range(b_max):
+    for b in range(0, b_max):
         peri[b] = quad(d_s, 0, 2 * np.pi, args=(a, b))[0]
         ram[b] = ramanujan_estimate(a, b)
         err[b] = (ram[b] - peri[b]) / ram[b]
@@ -90,12 +88,10 @@ def main():
         print(f"{b:>3}{peri[b]:>10.3f}{ram[b]:>11.3f}{err[b]:>10.6f}{adj[b]:>10.3f}")
 
     plt.figure(Path(__file__).name, figsize=(12, 8))
-
     plot_p(plt.subplot(2, 2, 1), peri, ram)
     plot_err(plt.subplot(2, 2, 2), err)
     plot_fit(plt.subplot(2, 2, 3), err, fit_a, fit_b, fit_c)
     plot_fix(plt.subplot(2, 2, 4), peri, adj)
-
     plt.tight_layout()
     plt.show()
 
