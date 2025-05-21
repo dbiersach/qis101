@@ -116,6 +116,7 @@
         "eigenvals",
         "eigvals",
         "eigvalsh",
+        "eigvecs",
         "emax",
         "emin",
         "errstate",
