@@ -32,8 +32,8 @@ def insulator_walls(a):
 
 
 def solve_laplace(ax, boundary_func):
-    left_volts = -9
-    right_volts = 9
+    left_volts = -1
+    right_volts = 1
 
     N = 100
     grid = np.zeros((N, N))
@@ -55,7 +55,7 @@ def solve_laplace(ax, boundary_func):
         # Reapply the plate voltages
         grid_next[mask_neg] = left_volts
         grid_next[mask_pos] = right_volts
-        # The next grid now becomes the new grid
+        # The next grid becomes the current grid
         grid = grid_next
 
     # Render a colored contour plot of the electrostatic field potential
