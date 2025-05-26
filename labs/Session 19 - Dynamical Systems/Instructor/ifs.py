@@ -1,4 +1,5 @@
-# ifs.py
+#!/usr/bin/env python3
+"""ifs.py"""
 
 import numpy as np
 
@@ -34,9 +35,9 @@ class IteratedFunctionSystem:
         self.affine_height = y_max - y_min
         return
 
-    def add_mapping(self, x_left, y_left, x_right, y_right,
-                    x_top, y_top, color, probability):
-
+    def add_mapping(
+        self, x_left, y_left, x_right, y_right, x_top, y_top, color, probability
+    ):
         self.cdf += probability
 
         t = Transform()
@@ -51,13 +52,12 @@ class IteratedFunctionSystem:
         self.transforms.append(t)
 
     def generate_transforms(self):
-
         for t in self.transforms:
             t.m = np.zeros((3, 3), dtype=float)
 
-            coeffs = np.array([[0, 0, 1],
-                               [self.affine_width, 0, 1],
-                               [0, self.affine_height, 1]])
+            coeffs = np.array(
+                [[0, 0, 1], [self.affine_width, 0, 1], [0, self.affine_height, 1]]
+            )
 
             vals = np.array([t.x1, t.x2, t.x3])
             sol = np.linalg.solve(coeffs, vals)
@@ -83,3 +83,11 @@ class IteratedFunctionSystem:
                 yt = x * t.m[0, 1] + y * t.m[1, 1] + t.m[2, 1]
                 return xt, yt, t.color
         return 0, 0, 0
+
+
+def main():
+    print("This module is intended to be imported, not executed directly")
+
+
+if __name__ == "__main__":
+    main()

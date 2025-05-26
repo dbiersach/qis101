@@ -36,13 +36,14 @@ def plot_mandlebrot_set(ss):
 
 
 def handle_events(ss, event):
-    if event.type == pygame.KEYDOWN and event.key == pygame.K_w:
-        wr = ss.world_rects[-1]
-        print(
-            f"Current world rectangle: "
-            f"({wr[0][0]:.4f}, {wr[0][1]:.4f}) - "
-            f"({wr[1][0]:.4f}, {wr[1][1]:.4f})"
-        )
+    if event.type == pygame.KEYDOWN:  # noqa: SIM102
+        if event.key == pygame.K_w:
+            wr = ss.world_rects[-1]
+            print(
+                f"Current world rectangle: "
+                f"({wr[0][0]:.4f}, {wr[0][1]:.4f}) - "
+                f"({wr[1][0]:.4f}, {wr[1][1]:.4f})"
+            )
     return
 
 
