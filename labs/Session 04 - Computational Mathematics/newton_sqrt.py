@@ -4,7 +4,7 @@
 import numpy as np
 
 
-def sqrt(x):
+def newton_sqrt(x):
     low, high = 0, x
     est = (low + high) / 2
     while np.abs(est**2 - x) > 1e-10:
@@ -19,7 +19,8 @@ def sqrt(x):
 def main():
     x = 168923.74
     print(f"x = {x}")
-    print(f"sqrt(x) = {np.sqrt(x)}")
+    print(f"Newton sqrt(x) = {newton_sqrt(x):.12f}")
+    print(f"Numpy  sqrt(x) = {np.sqrt(x):.12f}")
 
 
 if __name__ == "__main__":
