@@ -11,7 +11,8 @@ def main():
     secret_key = os.urandom(16)
     print(f"Secret key = {bytearray(secret_key).hex()}")
 
-    plaintext = b"Attack at dawn"  # Create a (b) "bytes" object, not a string
+    # Create a (b) "bytes" object, not a string
+    plaintext = b"Attack at dawn"
     print(f"{plaintext.decode('ascii')}")
     print("plaintext = ")
     print([f"0x{b:02x}" for b in bytearray(plaintext)], sep=", ")
