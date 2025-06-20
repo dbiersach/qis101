@@ -8,6 +8,7 @@ pip install sympy scipy scikit-learn pandas jupyter ipympl
 pip install networkx pulp numexpr
 pip install selenium webdriver-manager beautifulsoup4
 pip install mayavi configobj vtk==9.4
+pip install 'jax[cpu]'
 pip install 'qiskit[all]' qiskit-aer qiskit-algorithms
 pip install qiskit-ibm-runtime qiskit-ibm-catalog qiskit-experiments
 pip install qiskit-dynamics qiskit-finance qiskit-nature

@@ -30,14 +30,14 @@ def mode(s):
 def main():
     a = [random.randint(1, 100) for _ in range(30)]
 
-    print("a = ", end="[")
-    print(*a, sep=", ", end="]\n")
+    print("a = ", end="{")
+    print(*a, sep=", ", end="}\n")
 
     print(f"Mean of a = {mean(a):.2f}")
     print(f"Median of a = {median(a):.2f}")
 
-    print("Mode of a = ", end="[")
-    print(*mode(a), sep=", ", end="]\n")
+    print("Mode of a = ", end="{")
+    print(*mode(a), sep=", ", end="}\n")
 
 
 if __name__ == "__main__":
