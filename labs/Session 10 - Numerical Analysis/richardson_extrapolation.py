@@ -45,24 +45,23 @@ def main():
     est_2nd_rich = D_Rich(f, x0, D2, h, 2)
     est_4th_rich = D_Rich(f, x0, D4, h, 4)
 
-    print("Exact derivative             : ", exact)
-    print()
+    print(f"\n{'Exact derivative':<27}: {exact:.16f}\n")
 
-    print("Basic 2nd order CD           : ", est_2nd_basic)
-    print("Error (Basic 2nd Order)      : ", abs(est_2nd_basic - exact))
-    print()
+    print(f"{'Basic 2nd order CD':<27}: {est_2nd_basic:.16f}")
+    print(f"{'APE (Basic 2nd Order)':<27}", end=": ")
+    print(f"{abs((est_2nd_basic - exact) / exact) * 100:.16%}\n")
 
-    print("Basic 4th order CD           : ", est_4th_basic)
-    print("Error (Basic 4th Order)      : ", abs(est_4th_basic - exact))
-    print()
+    print(f"{'Basic 4th order CD':<27}: {est_4th_basic:.16f}")
+    print(f"{'APE (Basic 4th Order)':<27}", end=": ")
+    print(f"{abs((est_4th_basic - exact) / exact) * 100:.16%}\n")
 
-    print("Richardson 2nd order CD      : ", est_2nd_rich)
-    print("Error (Richardson 2nd Order) : ", abs(est_2nd_rich - exact))
-    print()
+    print(f"{'Richardson 2nd order CD':<27}: {est_2nd_rich:.16f}")
+    print(f"{'APE (Richardson 2nd Order)':<27}", end=": ")
+    print(f"{abs((est_2nd_rich - exact) / exact) * 100:.16%}\n")
 
-    print("Richardson 4th order CD      : ", est_4th_rich)
-    print("Error (Richardson 4th Order) : ", abs(est_4th_rich - exact))
-    print()
+    print(f"{'Richardson 4th order CD':<27}: {est_4th_rich:.16f}")
+    print(f"{'APE (Richardson 4th Order)':<27}", end=": ")
+    print(f"{abs((est_4th_rich - exact) / exact) * 100:.16%}\n")
 
 
 if __name__ == "__main__":

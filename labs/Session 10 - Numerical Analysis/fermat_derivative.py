@@ -8,20 +8,20 @@ import numpy as np
 from matplotlib.ticker import MultipleLocator
 
 
-def F(x):
+def f(x):
     return np.cos(x)
 
 
-def f_analytic(x):
+def f_prime_analytic(x):
     return -np.sin(x)
 
 
-def f_fermat_quotient(x, h):
-    return (F(x + h) - F(x)) / h
+def f_prime_fermat(x, h):
+    return (f(x + h) - f(x)) / h
 
 
-def f_central_difference(x, h):
-    return (F(x + h) - F(x - h)) / (2 * h)
+def f_prime_centered(x, h):
+    return (f(x + h) - f(x - h)) / (2 * h)
 
 
 def main():
@@ -30,17 +30,20 @@ def main():
     h = (b - a) / n
     x = np.linspace(a, b, n)
 
-    y_actual = f_analytic(x)
-    y_fermat = f_fermat_quotient(x, h)
-    y_central = f_central_difference(x, h)
+    y_prime_actual = f_prime_analytic(x)
+    y_prime_fermat = f_prime_fermat(x, h)
+    y_prime_centered = f_prime_centered(x, h)
 
-    print(f"Fermat Quotient Error    : {sum((y_actual - y_fermat) ** 2):>9.7f}")
-    print(f"Central Difference Error : {sum((y_actual - y_central) ** 2):>9.7f}")
+    mae_fermat = np.mean(np.abs(y_prime_fermat - y_prime_actual))
+    mae_centered = np.mean(np.abs(y_prime_centered - y_prime_actual))
+
+    print(f"Fermat Quotient MAE     : {mae_fermat:>9.7f}")
+    print(f"Centered Difference MAE : {mae_centered:>9.7f}")
 
     plt.figure(Path(__file__).name)
-    plt.plot(x, F(x), label=r"$y=\cos{x}$")
-    plt.plot(x, y_central, label=r"$\dfrac{dy}{dx}=-\sin{x}$")
-    plt.title("Central Difference Formula")
+    plt.plot(x, f(x), label=r"$y=\cos{x}$")
+    plt.plot(x, y_prime_centered, label=r"$\dfrac{dy}{dx}=-\sin{x}$")
+    plt.title("Centered Difference Formula")
     plt.axhline(0, color="black", linestyle="-")
     plt.axvline(0, color="black", linestyle="-")
     ax = plt.gca()
