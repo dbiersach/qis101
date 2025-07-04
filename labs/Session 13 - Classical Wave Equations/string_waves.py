@@ -46,7 +46,7 @@ def anim_draw_frame(t):
     global ya_prior, ya_current, ya_next
 
     ya_prior[0], ya_prior[-1] = 0, 0
-    ya_current[0], ya_prior[-1] = 0, 0
+    ya_current[0], ya_current[-1] = 0, 0
 
     for i in range(1, pts - 1):
         ya_next[i] = ya_current[i - 1] + ya_current[i + 1] - ya_prior[i]
