@@ -14,20 +14,12 @@ def main():
     plt.figure(Path(__file__).name)
     plt.plot(x, np.cos(x), label="Exact")
 
-    # Plot Newton's Expansion for cos(x)
-    # fmt: off
-    plt.plot(x, 1 - (1 / 2) * np.power(x, 2) / 2  + (1 / 24) * np.power(x, 4)
-        - (1 / 720) * np.power(x, 6) + (1 / 362880) * np.power(x, 9),
-        label="Newton (5 terms)",
-    )
-    # fmt: on
-
     # Plot Taylor Series for cos(x)
-    num_terms_taylor = 5
     x_taylor = sympy.symbols("x")
-    poly = sympy.cos(x_taylor).series(x_taylor, 0, num_terms_taylor).removeO()
+    poly = sympy.cos(x_taylor).series(x_taylor, 0, 9).removeO()
     eqn = sympy.lambdify(x_taylor, poly.as_expr(), modules="numpy")
     print(f"Taylor Series for cos(x) = {poly}")
+    num_terms_taylor = len(poly.as_ordered_terms())
     plt.plot(x, eqn(x), label=f"Taylor ({num_terms_taylor} terms)")
 
     # Plot Euler's Method for d[cos(x)] = -sin(x)
@@ -38,7 +30,7 @@ def main():
     y_euler[0] = np.cos(x_euler[0])
     for i in range(1, len(x_euler)):
         y_euler[i] = y_euler[i - 1] - np.sin(x_euler[i - 1]) * dx_euler
-    plt.plot(x_euler, y_euler, label=f"Euler ({num_terms_euler} terms)")
+    plt.plot(x_euler, y_euler, label=f"Euler ({num_terms_euler} intervals)")
 
     plt.title(r"Series Comparison for $y = \cos(x)$")
     plt.xlabel("x")
