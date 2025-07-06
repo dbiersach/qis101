@@ -5,7 +5,7 @@ conda create -y -n qis101 python=3.12
 conda activate qis101
 conda install -c conda-forge -y mayavi sqlite
 conda install -c conda-forge -y matplotlib pyqt pygame
-conda install -c conda-forge -y sympy scipy scikit-learn pandas jupyter ipympl
+conda install -c conda-forge -y sympy scipy scikit-learn pandas jupyter ipympl tqdm
 conda install -c conda-forge -y networkx pulp numexpr
 conda install -c conda-forge -y selenium webdriver-manager beautifulsoup4
 pip install numba numpy==1.26.4

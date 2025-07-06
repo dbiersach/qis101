@@ -5,7 +5,7 @@ conda create -y -n qis101 python=3.12
 conda activate qis101
 python.exe -m pip install --upgrade pip
 pip install numba matplotlib pyqt6 pygame
-pip install sympy scipy scikit-learn pandas jupyter ipympl
+pip install sympy scipy scikit-learn pandas jupyter ipympl tqdm
 pip install networkx pulp numexpr
 pip install selenium webdriver-manager beautifulsoup4
 pip install mayavi configobj vtk==9.4
