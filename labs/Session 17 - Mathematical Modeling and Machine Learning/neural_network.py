@@ -42,6 +42,7 @@ class SimpleNeuralNetwork:
         self.weights_hidden2_hidden3 = np.random.randn(
             self.hidden_size, self.hidden_size
         ) * np.sqrt(2.0 / self.hidden_size)
+
         # Xavier initialization for output layer with sigmoid activation
         self.weights_hidden3_output = np.random.randn(
             self.hidden_size, self.output_size
@@ -68,8 +69,8 @@ class SimpleNeuralNetwork:
 
     def backward(self, x, y, output, learning_rate):
         # Calculate output error and delta (using sigmoid derivative)
-        self.error = y - output
-        self.output_delta = self.error * sigmoid_derivative(output)
+        self.loss = y - output
+        self.output_delta = self.loss * sigmoid_derivative(output)
 
         # Backpropagate through third hidden layer (ReLU)
         self.hidden3_error = self.output_delta.dot(self.weights_hidden3_output.T)
@@ -100,9 +101,8 @@ class SimpleNeuralNetwork:
             output = self.forward(x)
             self.backward(x, y, output, learning_rate)
             if epoch % 1000 == 0:
-                print(
-                    f"Epoch {epoch}, Mean Absolute Error: {np.mean(np.abs(self.error))}"
-                )
+                print(f"Epoch {epoch:>4}, Error: {np.mean(np.abs(self.loss)):.5f}")
+
 
     def save_model(self, filename):
         np.savez_compressed(

@@ -22,12 +22,27 @@ def generate_data():
     return np.array(x)
 
 
+def print_model(nn):
+    print(f"\n{nn.weights_input_hidden1.shape = }")
+    print(f"{nn.weights_input_hidden1[:4, :4]}\n")
+
+    print(f"{nn.weights_hidden1_hidden2.shape = }")
+    print(f"{nn.weights_hidden1_hidden2[:4, :4]}\n")
+
+    print(f"{nn.weights_hidden2_hidden3.shape = }")
+    print(f"{nn.weights_hidden2_hidden3[:4, :4]}\n")
+
+    print(f"{nn.weights_hidden3_output.shape = }")
+    print(f"{nn.weights_hidden3_output[:4, :4]}\n")
+
+
 def main():
     # Generate training data
     x = generate_data()
 
     nn = SimpleNeuralNetwork(input_size=8, hidden_size=256, output_size=4)
     nn.load_model("nn_popcount_weights.npz")
+    print_model(nn)
 
     # Evaluate the quality of the trained network
     final = nn.forward(x)
@@ -43,7 +58,7 @@ def main():
             print(f"Actual Popcount: {actual_pop_count}")
             no_errors = False
     if no_errors:
-        print("The model identified all primes")
+        print("The model identified all population counts")
 
 
 if __name__ == "__main__":

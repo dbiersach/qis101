@@ -35,10 +35,10 @@ class SimpleNeuralNetwork:
 
     def backward(self, x, y, output):
         # Calculate the error
-        self.error = y - output
-        self.output_delta = self.error * sigmoid_derivative(output)
+        self.loss = y - output
+        self.output_delta = self.loss * sigmoid_derivative(output)
 
-        # How much did each hidden layer neuron contribute to the output error (according to the weights)?
+        # How much did each hidden layer neuron contribute to the output error?
         self.hidden_error = self.output_delta.dot(self.weights_hidden_output.T)
         self.hidden_delta = self.hidden_error * sigmoid_derivative(self.hidden_output)
 
@@ -46,13 +46,13 @@ class SimpleNeuralNetwork:
         self.weights_hidden_output += self.hidden_output.T.dot(self.output_delta)
         self.weights_input_hidden += x.T.dot(self.hidden_delta)
 
-    def train(self, x, y, epochs=10_000, learning_rate=1.0):
+    def train(self, x, y, epochs=10_000):
         for epoch in range(epochs):
             output = self.forward(x)
             self.backward(x, y, output)
             # Optional: adjust the learning rate or print the error every n epochs
             if epoch % 1000 == 0:
-                print(f"Epoch {epoch}, Error: {np.mean(np.abs(self.error))}")
+                print(f"Epoch {epoch:>4}, Error: {np.mean(np.abs(self.loss)):.5f}")
 
 
 def main():
