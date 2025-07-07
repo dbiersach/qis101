@@ -56,7 +56,7 @@ def main():
     b = bytearray(plaintext, encoding="utf-8")
     print("Plaintext as byte array = ", end="")
     print(*b, sep=", ")
-    plaintext_int = int.from_bytes(b, "big")  # Use big-endian representation
+    plaintext_int = int.from_bytes(b)
     print(f"Plaintext as an Integer = {plaintext_int:,}")
     print()
 
@@ -68,7 +68,7 @@ def main():
     print(f"Plaintext as an Integer = {plaintext_int:,}")
 
     plaintext_length = (plaintext_int.bit_length() + 7) // 8
-    b = bytearray(plaintext_int.to_bytes(plaintext_length, "big"))
+    b = bytearray(plaintext_int.to_bytes(plaintext_length))
     plaintext = b.decode(encoding="utf-8")
     print(f"Plaintext = {plaintext}")
 
