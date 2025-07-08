@@ -14,12 +14,12 @@ def plot_mandlebrot_set(ss):
         wy = ss.world_y(sy)
         for sx in range(ss.screen_width):
             wx = ss.world_x(sx)
-            zx, zy = wx, wy
-            zx_2, zy_2 = zx * zx, zy * zy
+            zx, zy = wx, wy  # Initialize z = C (real = wx, imag = wy)
+            zx_2, zy_2 = zx * zx, zy * zy  # Square real and imaginary components
             iter = 0
             while zx_2 + zy_2 < radius and iter < max_iter:
-                nx = zx_2 - zy_2 + wx
-                ny = 2 * zx * zy + wy
+                nx = zx_2 - zy_2 + wx  # real part
+                ny = 2 * zx * zy + wy  # imag part
                 zx = nx
                 zy = ny
                 zx_2 = zx * zx
