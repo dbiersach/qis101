@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 n = 10_000
-t = np.linspace(0, 2 * np.pi, n)
+t = np.random.rand(n) * 2 * np.pi
 r = np.random.rand(n)
 x = r * np.cos(t)
 y = r * np.sin(t)
