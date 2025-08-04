@@ -1,4 +1,7 @@
 Set-Location $HOME
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/msys2
 conda deactivate
 conda update -n base conda -y
 conda create -y -n qis101 python=3.12

@@ -1,19 +1,24 @@
 cd $HOME
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/msys2
 conda deactivate
 conda update -n base conda -y
 conda create -y -n qis101 python=3.12
 conda activate qis101
-conda install -c conda-forge -y mayavi sqlite
-conda install -c conda-forge -y matplotlib pyqt pygame
-conda install -c conda-forge -y sympy scipy scikit-learn pandas jupyter ipympl tqdm
-conda install -c conda-forge -y networkx pulp numexpr
-conda install -c conda-forge -y selenium webdriver-manager beautifulsoup4
-pip install numba numpy==1.26.4
+python.exe -m pip install --upgrade pip
+pip install numba matplotlib pyqt6 pygame
+pip install sympy scipy scikit-learn pandas jupyter ipympl tqdm
+pip install networkx pulp numexpr
+pip install selenium webdriver-manager beautifulsoup4
+pip install mayavi configobj vtk==9.4
 pip install 'jax[cpu]'
 pip install 'qiskit[all]' qiskit-aer qiskit-algorithms
 pip install qiskit-ibm-runtime qiskit-ibm-catalog qiskit-experiments
 pip install qiskit-dynamics qiskit-finance qiskit-nature
 pip install qiskit-machine-learning qiskit-optimization
+pip install numpy==2.2
+pip install certifi>=2025.4.26
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.cpptools-extension-pack
 code --install-extension ms-vscode.powershell
