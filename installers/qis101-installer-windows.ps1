@@ -13,12 +13,14 @@ pip install networkx pulp numexpr
 pip install selenium webdriver-manager beautifulsoup4
 pip install mayavi configobj vtk==9.4
 pip install 'jax[cpu]'
-pip install 'qiskit[all]' qiskit-aer qiskit-algorithms
-pip install qiskit-ibm-runtime qiskit-ibm-catalog qiskit-experiments
-pip install qiskit-dynamics qiskit-finance qiskit-nature
-pip install qiskit-machine-learning qiskit-optimization
-pip install numpy==2.2
-pip install certifi>=2025.4.26
+pip install 'qiskit[all]'
+pip install qiskit-aer
+pip install qiskit-algorithms
+pip install qiskit-ibm-runtime
+pip install qiskit-experiments
+#pip install qiskit-ibm-catalog 
+#pip install qiskit-dynamics qiskit-finance qiskit-nature
+#pip install qiskit-machine-learning qiskit-optimization
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-vscode.cpptools-extension-pack
 code --install-extension ms-vscode.powershell
