@@ -1,0 +1,79 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "workbench.colorCustomizations": {
+            "tab.activeBorder": "#3cff00",
+            "tab.unfocusedActiveBorder": "#000000",
+        },
+        "debug.terminal.clearBeforeReusing": false,
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.codeActionsOnSave": {
+             "source.organizeImports.ruff": "explicit"
+        },
+        "editor.unusualLineTerminators": "prompt",
+        "files.autoSave": "afterDelay",
+        "python.analysis.typeCheckingMode": "basic",
+        "python.analysis.autoImportCompletions": true,
+        "python.analysis.completeFunctionParens": true,
+        "python.analysis.diagnosticSeverityOverrides": {
+            "reportArgumentType": "none",
+            "reportAssignmentType" : "none",
+            "reportAttributeAccessIssue" : "none",
+            "reportCallIssue": "none",
+            "reportImplicitStringConcatenation": "none",
+            "reportIndexIssue": "none",
+            "reportMissingImports": "none",
+            "reportMissingModuleSource": "none",
+            "reportMissingParameterType": "none",
+            "reportMissingTypeStubs": "none",
+            "reportOptionalMemberAccess":"none",
+            "reportPrivateImportUsage": "none",    
+            "reportUnknownArgumentType": "none",
+            "reportUnknownMemberType": "none",
+            "reportUnknownParameterType": "none",
+            "reportUnknownVariableType": "none",
+            "reportUntypedFunctionDecorator": "none",
+            "reportUnusedVariable": "none",
+        },
+        "python.analysis.inlayHints.variableTypes": false,
+        "python.analysis.inlayHints.functionReturnTypes": false,
+        "python.analysis.stubPath": "",
+        "python.terminal.activateEnvInCurrentTerminal": false,
+        "python.terminal.activateEnvironment": false,
+        "output.smartScroll.enabled": false,
+        "notebook.formatOnSave.enabled": true,                
+        "notebook.formatOnCellExecution": true,        
+        "intellicodeApiExamples.python.enabled": false,
+        "intellicodeApiExamples.typescript.enabled": false,
+        "editor.fontSize": 18,        
+        "terminal.integrated.fontSize": 18,
+        "jupyter.widgetScriptSources": [
+            "jsdelivr.com",
+            "unpkg.com"
+        ],
+        "python.terminal.executeInFileDir": true,
+        "terminal.integrated.enablePersistentSessions": false,
+        "terminal.integrated.shellIntegration.enabled": false,
+      
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Python: Current File",
+                "type": "debugpy",
+                "request": "launch",
+                "program": "${file}",
+                "console": "integratedTerminal",
+                "cwd": "${fileDirname}",
+                "justMyCode": true
+            }
+        ]
+    }
+}
