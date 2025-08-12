@@ -1,7 +1,7 @@
 [project]
 name = "qis101"
 version = "0.1.0"
-description = "Add your description here"
+description = "Foundations of Quantum Information Science (QIS101)"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
