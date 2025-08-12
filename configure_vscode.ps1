@@ -1,0 +1,21 @@
+code --install-extension ms-vscode.cpptools
+code --install-extension ms-vscode.cpptools-extension-pack
+code --install-extension ms-vscode.powershell
+code --install-extension ms-python.python
+code --install-extension ms-python.vscode-pylance
+code --install-extension ms-toolsai.jupyter
+code --install-extension ms-toolsai.jupyter-renderers
+code --install-extension ms-python.isort
+code --install-extension visualstudioexptteam.vscodeintellicode
+code --install-extension visualstudioexptteam.intellicode-api-usage-examples
+code --install-extension streetsidesoftware.code-spell-checker
+code --install-extension ms-vscode.cmake-tools
+code --install-extension davidanson.vscode-markdownlint
+code --install-extension esbenp.prettier-vscode
+code --install-extension mechatroner.rainbow-csv
+code --install-extension emmanuelbeziat.vscode-great-icons
+code --install-extension james-yu.latex-workshop
+code --install-extension cschlosser.doxdocgen
+code --install-extension redhat.vscode-yaml
+code --install-extension charliermarsh.ruff
+
