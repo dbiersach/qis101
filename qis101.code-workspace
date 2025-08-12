@@ -18,7 +18,7 @@
         },
         "editor.unusualLineTerminators": "prompt",
         "files.autoSave": "afterDelay",
-        "python.analysis.typeCheckingMode": "basic",
+        "python.analysis.typeCheckingMode": "standard",
         "python.analysis.autoImportCompletions": true,
         "python.analysis.completeFunctionParens": true,
         "python.analysis.diagnosticSeverityOverrides": {
