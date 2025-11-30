@@ -6,8 +6,6 @@ code --install-extension ms-python.vscode-pylance
 code --install-extension ms-toolsai.jupyter
 code --install-extension ms-toolsai.jupyter-renderers
 code --install-extension ms-python.isort
-code --install-extension visualstudioexptteam.vscodeintellicode
-code --install-extension visualstudioexptteam.intellicode-api-usage-examples
 code --install-extension streetsidesoftware.code-spell-checker
 code --install-extension ms-vscode.cmake-tools
 code --install-extension davidanson.vscode-markdownlint
