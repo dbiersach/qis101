@@ -97,6 +97,7 @@
         "cstride",
         "cswap",
         "cumsum",
+        "cupy",
         "darkgoldenrod",
         "darkgray",
         "ddof",

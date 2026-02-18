@@ -4,58 +4,61 @@ version = "0.1.0"
 description = "Foundations of Quantum Information Science (QIS101)"
 readme = "README.md"
 
-requires-python = ">=3.11,<3.13"
+requires-python = ">=3.12,<3.13"
 
 dependencies = [
-    "apptools>=5.3.1",
-    "beautifulsoup4>=4.14.2",
-    "black>=25.9.0",
-    "configobj>=5.0.9",
-    "datasets>=4.5.0",
-    "ipympl>=0.9.8",
-    "ipython>=9.6.0",
-    "jax[cpu]>=0.8.0",
-    "joblib>=1.5.2",
-    "jupyter>=1.1.1",
-    "matplotlib>=3.10.7",
+    "apptools",
+    "beautifulsoup4",
+    "black",
+    "configobj",
+    "datasets",
+    "ipympl",
+    "ipython",
+    "jax[cpu]",
+    "joblib",
+    "jupyter",
+    "matplotlib",
     "mayavi==4.8.3",
-    "networkx>=3.5",
-    "numba>=0.62.1",
-    "numexpr>=2.14.1",
-    "numpy>=2.3.4",
-    "pandas>=2.3.3",
-    "pennylane>=0.43.0",
-    "pip>=25.2",
-    "pulp>=3.3.0",
-    "pyface>=8.0.0",
-    "pygame>=2.6.1",
-    "pyqt6>=6.9.1",
-    "pyside6>=6.10.0",
-    "pyside6-addons>=6.10.0",
-    "qiskit-aer>=0.17.2",
-    "qiskit-algorithms>=0.4.0",
-    "qiskit-experiments>=0.12.0",
-    "qiskit-ibm-catalog>=0.0.0",
-    "qiskit-ibm-runtime>=0.43.0",
-    "qiskit-machine-learning>=0.8.2",
-    "qiskit-nature>=0.7.2",
-    "qiskit-optimization>=0.7.0",
-    "qiskit[all,visualization]>=2.2.1",
-    "ray[data]<2.45.0",
-    "ruff>=0.14.0",
-    "scikit-learn>=1.7.2",
-    "scipy>=1.16.2",
-    "seaborn>=0.13.2",
-    "selenium>=4.36.0",
-    "setuptools>=80.9.0",
-    "sympy>=1.14.0",
-    "torch>=2.9.0",
-    "tqdm>=4.67.1",
-    "traitsui>=8.0.0",
-    "transformers>=4.57.5",
+    "networkx",
+    "numba",
+    "numexpr",
+    "numpy",
+    "pandas",
+    "pennylane",
+    "pip",
+    "pulp",
+    "pyface",
+    "pygame",
+    "pyqt6",
+    "pyside6",
+    "pyside6-addons",
+    "qiskit-aer",
+    "qiskit-algorithms",
+    "qiskit-experiments",
+    "qiskit-ibm-catalog",
+    "qiskit-ibm-runtime",
+    "qiskit-machine-learning",
+    "qiskit-nature",
+    "qiskit-optimization",
+    "qiskit[all,visualization]",
+    "ray[data]",
+    "ruff",
+    "scikit-learn",
+    "scipy",
+    "seaborn",
+    "selenium",
+    "setuptools",
+    "sympy",
+    "torch",
+    "tqdm",
+    "traitsui",
+    "transformers",
     "vtk>=9.4,<9.5",
-    "webdriver-manager>=4.0.2",
-    "wheel>=0.45.1",
+    "webdriver-manager",
+    "wheel",    
+    "torchvision",
+    "torchaudio",
+    "cupy-cuda12x",
 ]
 
 [tool.uv]
@@ -77,4 +80,14 @@ extend-include = ["*.ipynb"]
 lint.extend-select = ["I", "C4", "ISC", "SIM", "TCH"]
 lint.ignore = []
 show-fixes = true
-target-version = "py312"
+target-version = "py314"
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+torchvision = { index = "pytorch-cu124" }
+torchaudio = { index = "pytorch-cu124" }
