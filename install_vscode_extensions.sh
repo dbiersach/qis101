@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 code --install-extension ms-vscode.cpptools --force
 code --install-extension ms-vscode.cpptools-extension-pack --force
 code --install-extension ms-vscode.powershell --force
