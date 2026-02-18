@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """damped_pendulum.py"""
 
 from pathlib import Path

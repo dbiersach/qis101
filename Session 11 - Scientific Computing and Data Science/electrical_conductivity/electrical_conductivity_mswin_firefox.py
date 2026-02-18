@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """electrical_conductivity_mswin_firefox.py"""
 
 import shutil

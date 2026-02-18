@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """frobenius_serial.py"""
 
 a1, a2, a3 = 6, 9, 20

@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-'''big_sqrt.py'''
+#!/usr/bin/env -S uv run
+"""big_sqrt.py"""
 
 from mpmath import fabs, mp, mpf
 

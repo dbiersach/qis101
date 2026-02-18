@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """selmers_algorithm.py"""
 
 import numpy as np

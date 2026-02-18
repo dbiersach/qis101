@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """age_in_seconds_instructor.py"""
 
 age_years = 57

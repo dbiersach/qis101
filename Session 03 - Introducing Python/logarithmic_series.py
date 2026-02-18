@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-'''logarithmic_series.py'''
+#!/usr/bin/env -S uv run
+"""logarithmic_series.py"""
 
 import numpy as np
 

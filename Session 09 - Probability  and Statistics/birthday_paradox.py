@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """birthday_paradox.py"""
 
 from pathlib import Path

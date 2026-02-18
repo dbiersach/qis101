@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """plot_pca_3d.py"""
 
 from pathlib import Path

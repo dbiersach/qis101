@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """collatz_conjecture.py"""
 
 from pathlib import Path

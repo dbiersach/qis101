@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """spectrum_bohr.py"""
 
 print("Bohr Model for Hydrogen Spectral Lines")

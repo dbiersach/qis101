@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """ifs_square.py"""
 
 from ifs import IteratedFunctionSystem

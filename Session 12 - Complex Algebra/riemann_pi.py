@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """riemann_pi.py"""
 
 from sympy import primepi

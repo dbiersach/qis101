@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """circle_sampling.py"""
 
 from pathlib import Path

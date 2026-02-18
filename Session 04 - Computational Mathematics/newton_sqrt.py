@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """newton_sqrt.py"""
 
 import numpy as np

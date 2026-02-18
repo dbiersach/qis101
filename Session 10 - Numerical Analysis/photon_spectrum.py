@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """photon_spectrum.py"""
 
 from pathlib import Path

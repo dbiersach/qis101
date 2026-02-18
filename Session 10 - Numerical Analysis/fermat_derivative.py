@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """fermat_derivative.py"""
 
 from pathlib import Path

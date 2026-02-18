@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """nn_popcount_test.py"""
 
 import numpy as np

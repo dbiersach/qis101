@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """idw_min_rmsd.py"""
 
 from pathlib import Path

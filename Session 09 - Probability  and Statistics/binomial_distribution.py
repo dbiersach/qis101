@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """binomial_distribution.py"""
 
 from pathlib import Path

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """ladder_problem.py"""
 
 from pathlib import Path

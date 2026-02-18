@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """traveling_waves.py"""
 
 from pathlib import Path

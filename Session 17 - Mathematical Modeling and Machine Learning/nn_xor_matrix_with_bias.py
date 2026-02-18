@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """nn_xor_matrix_with_bias.py"""
 
 from enum import Enum, auto

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """neural_network.py"""
 
 import numpy as np
@@ -102,7 +102,6 @@ class SimpleNeuralNetwork:
             self.backward(x, y, output, learning_rate)
             if epoch % 1000 == 0:
                 print(f"Epoch {epoch:>4}, Error: {np.mean(np.abs(self.loss)):.5f}")
-
 
     def save_model(self, filename):
         np.savez_compressed(

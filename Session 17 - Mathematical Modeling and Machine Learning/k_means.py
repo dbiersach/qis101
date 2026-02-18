@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 """k_means.py"""
 
 from dataclasses import dataclass
