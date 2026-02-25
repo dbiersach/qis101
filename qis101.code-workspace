@@ -44,6 +44,7 @@
         "python.analysis.inlayHints.variableTypes": false,
         "python.analysis.inlayHints.functionReturnTypes": false,
         "python.analysis.stubPath": "",
+        "python.defaultInterpreterPath": "",  
         "python.terminal.activateEnvInCurrentTerminal": false,
         "python.terminal.activateEnvironment": false,
         "output.smartScroll.enabled": false,
