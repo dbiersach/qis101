@@ -58,7 +58,7 @@ dependencies = [
     "wheel",    
     "torchvision",
     "torchaudio",
-    "cupy-cuda12x",
+    "cupy-cuda12x ; sys_platform == 'linux'",
 ]
 
 [tool.uv]
