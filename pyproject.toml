@@ -55,19 +55,22 @@ dependencies = [
     "transformers",
     "vtk>=9.4,<9.5",
     "webdriver-manager",
-    "wheel",    
+    "wheel",
     "torchvision",
     "torchaudio",
-    "cupy-cuda12x ; sys_platform == 'linux'",
+    # CuPy: only available on Linux and Windows x64 with CUDA; not on macOS
+    "cupy-cuda12x ; sys_platform == 'linux' or (sys_platform == 'win32' and platform_machine == 'AMD64')",
 ]
 
 [tool.uv]
 # mayavi is built without build isolation so it can see the right numpy, etc.
 no-build-isolation-package = ["mayavi"]
 
-# Force resolver to include Windows compatibility
+# Resolve for all three target platforms
 required-environments = [
-  "sys_platform == 'win32' and platform_machine == 'AMD64'"
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'win32' and platform_machine == 'AMD64'",
 ]
 
 [[tool.uv.dependency-metadata]]
@@ -82,12 +85,30 @@ lint.ignore = []
 show-fixes = true
 target-version = "py314"
 
+# PyTorch index routing by platform:
+#   macOS (Apple Silicon) → pytorch-cpu wheel (includes MPS backend)
+#   Linux x86_64          → pytorch-cu124 wheel (CUDA 12.4)
+#   Windows AMD64         → pytorch-cu124 wheel (CUDA 12.4)
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },
+    { index = "pytorch-cu124", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+torchvision = [
+    { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },
+    { index = "pytorch-cu124", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+torchaudio = [
+    { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },
+    { index = "pytorch-cu124", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
 [[tool.uv.index]]
 name = "pytorch-cu124"
 url = "https://download.pytorch.org/whl/cu124"
 explicit = true
-
-[tool.uv.sources]
-torch = { index = "pytorch-cu124" }
-torchvision = { index = "pytorch-cu124" }
-torchaudio = { index = "pytorch-cu124" }
