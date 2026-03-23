@@ -906,6 +906,27 @@ wheels = [
 ]
 
 [[package]]
+name = "highspy"
+version = "1.13.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f3/17/74553587944f514142618c6d1b76551acf09fb0dd48abe9f4c37fb7d2bb8/highspy-1.13.1.tar.gz", hash = "sha256:7888873501c6ca3e0fa19fee960c8b3cb1c64132c5a9b514903cc7e259b5b0c7", size = 1597930, upload-time = "2026-02-11T16:39:55.185Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/98/9f/98a103b443e42755aa4e63800d6a517a928e32f28c40ff2ecce7d9c4e20a/highspy-1.13.1-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:31f9f7001b9a6afd1cb06e5f3ad24848aa0df78a32b004538f2630535a881e7d", size = 2240384, upload-time = "2026-02-11T16:38:24.765Z" },
+    { url = "https://files.pythonhosted.org/packages/8e/98/920115e7e451e20a2a84e3fec4f5ade6760561d96a001ee8c87886331b9a/highspy-1.13.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:ce77b3771c20715e4552b890b9a2f4eee33faf1bd86ab08c6a7b00424ebe12b3", size = 2051929, upload-time = "2026-02-11T16:38:26.235Z" },
+    { url = "https://files.pythonhosted.org/packages/f5/6b/9efc679003ff5d10cbf88e02deb47c7095b2e23d700eea895a4faecf1dcc/highspy-1.13.1-cp312-cp312-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:f469f0a340870e1f16324a096dead3775857470b7e9d552b08a878a945f34917", size = 2321820, upload-time = "2026-02-11T16:38:27.75Z" },
+    { url = "https://files.pythonhosted.org/packages/ee/ad/be6847577282389a5b8ab4ef6bee71c5ccb2383c84a123561b4e538449b7/highspy-1.13.1-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f00b426b09e28306b279645beec2f892dd652ad41ec1597b742865bb844dd38d", size = 2525364, upload-time = "2026-02-11T16:38:29.152Z" },
+    { url = "https://files.pythonhosted.org/packages/70/83/6c72c558c3bed2a06b3d850943621376116f374949bc77f2b353995cfba9/highspy-1.13.1-cp312-cp312-manylinux_2_26_i686.manylinux_2_28_i686.whl", hash = "sha256:dce26ba2926612847be6d3e01ee98df2af8472a99de8ad9dc562060f6c8e5d0a", size = 2696833, upload-time = "2026-02-11T16:38:30.65Z" },
+    { url = "https://files.pythonhosted.org/packages/1e/94/376940d949547d5bfdd68a86b0631d8c2fd86a7fd771c93a23c683be1293/highspy-1.13.1-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:506038db5c4732a4b65755aa63f580cef91e1a99a5d1399e311dc31d3300dadd", size = 3382720, upload-time = "2026-02-11T16:38:32.135Z" },
+    { url = "https://files.pythonhosted.org/packages/fd/8d/6ecee935e5f57df9fbe9fedfcac14e4ac76186335595bf201f86302a7379/highspy-1.13.1-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:eda07ca3ec5506d279679d775dedc447fbcc3711814c5f2e22d2d063598586af", size = 3943880, upload-time = "2026-02-11T16:38:33.544Z" },
+    { url = "https://files.pythonhosted.org/packages/a5/7b/524d977387e3ff3eba165feb81614ead36a7974c0f8d9948f8d9347f74ff/highspy-1.13.1-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:ce9481fb96771c3b74592e1a94cc8dc2748d18eafb0bad6a03ebca5f4cfaa8fd", size = 3610040, upload-time = "2026-02-11T16:38:35.582Z" },
+    { url = "https://files.pythonhosted.org/packages/99/89/3133cc87d13399f66250f9e2ff0592c72a42edae945d27ec1dfadf009ebd/highspy-1.13.1-cp312-cp312-win32.whl", hash = "sha256:0a10b8d7bc6a2a50226bc6821f21ed5f456479950271e742aff8bc97412c4591", size = 1888436, upload-time = "2026-02-11T16:38:37.327Z" },
+    { url = "https://files.pythonhosted.org/packages/2a/50/0c6986b87cc373dc9e9eb6254508f0f77bb4de897ae1d2a8c7e6ae70ef6c/highspy-1.13.1-cp312-cp312-win_amd64.whl", hash = "sha256:26f023093ed2fa2407f12a4a7dc9c1de253cd14228874e58e6719d78a74e2a9c", size = 2231427, upload-time = "2026-02-11T16:38:38.805Z" },
+]
+
+[[package]]
 name = "httpcore"
 version = "1.0.9"
 source = { registry = "https://pypi.org/simple" }
@@ -2245,7 +2266,7 @@ name = "pexpect"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess" },
+    { name = "ptyprocess", marker = "platform_machine != 'AMD64' or sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz", hash = "sha256:ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f", size = 166450, upload-time = "2023-11-25T09:07:26.339Z" }
 wheels = [
@@ -2816,6 +2837,7 @@ dependencies = [
     { name = "configobj" },
     { name = "cupy-cuda12x", marker = "(platform_machine == 'AMD64' and sys_platform == 'win32') or sys_platform == 'linux'" },
     { name = "datasets" },
+    { name = "highspy" },
     { name = "ipympl" },
     { name = "ipython" },
     { name = "jax" },
@@ -2880,6 +2902,7 @@ requires-dist = [
     { name = "configobj" },
     { name = "cupy-cuda12x", marker = "(platform_machine == 'AMD64' and sys_platform == 'win32') or sys_platform == 'linux'" },
     { name = "datasets" },
+    { name = "highspy", specifier = ">=1.13.1" },
     { name = "ipympl" },
     { name = "ipython" },
     { name = "jax", extras = ["cpu"] },
