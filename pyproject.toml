@@ -59,6 +59,7 @@ dependencies = [
     # CuPy: only available on Linux and Windows x64 with CUDA; not on macOS
     "cupy-cuda12x ; sys_platform == 'linux' or (sys_platform == 'win32' and platform_machine == 'AMD64')",
     "highspy>=1.13.1",
+    "pyvista[all]>=0.47.1",
 ]
 
 [tool.uv]
