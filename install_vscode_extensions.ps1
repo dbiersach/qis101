@@ -11,6 +11,7 @@ code --install-extension ms-python.isort --force
 code --install-extension ms-python.python --force
 code --install-extension ms-python.vscode-pylance --force
 code --install-extension ms-python.vscode-python-envs --force
+code --install-extension ms-toolsai.datawrangler --force
 code --install-extension ms-toolsai.jupyter --force
 code --install-extension ms-toolsai.jupyter-keymap --force
 code --install-extension ms-toolsai.jupyter-renderers --force
@@ -22,6 +23,9 @@ code --install-extension ms-vscode.cpptools --force
 code --install-extension ms-vscode.cpptools-extension-pack --force
 code --install-extension ms-vscode.cpptools-themes --force
 code --install-extension ms-vscode.powershell --force
+code --install-extension ms-vscode-remote.vscode-remote-extensionpack --force
+code --install-extension oderwat.indent-rainbow --force
 code --install-extension redhat.vscode-yaml --force
 code --install-extension rust-lang.rust-analyzer --force
 code --install-extension streetsidesoftware.code-spell-checker --force
+code --install-extension usernamehw.errorlens --force
