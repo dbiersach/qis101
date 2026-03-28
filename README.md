@@ -2,4 +2,4 @@
 
 ## Using VSCode, JupyterLab, and IBM Qiskit
 
-[QIS101 Slides](https://brookhavenlab.sharepoint.com/:f:/s/QIS101/Ek4MqMyWcMJIsUAXsVWszEsBuOohVOyE-M2arZyHHXa9nA)
+[QIS101 Slides](https://brookhavenlab.sharepoint.com/:f:/s/QIS101/IgBODKjMlnDCSLFAF7FVrMxLASDbYGwVHOfwfGlg_8bEIX4?e=HaMC2H)
