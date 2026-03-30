@@ -27,7 +27,7 @@ theta_uniform = np.interp(s_uniform, s, theta_fine)
 x = a * np.cos(theta_uniform)
 y = b * np.sin(theta_uniform)
 
-# Close the ellipse by appending the first point at the end
+# Step 5: Close the ellipse by appending the first point at the end
 x = np.append(x, x[0])
 y = np.append(y, y[0])
 
