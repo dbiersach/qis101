@@ -7,7 +7,7 @@ under Newtonian inverse-square gravity.
 - Uses **Yoshida 4th-order symplectic integrator** (composes three Velocity-Verlet
   substeps with w1/w0/w1 weights to cancel error terms through O(dt^3)).
 - Estimates orbital period using **unwrapped true anomaly** (robust for near-circular orbits).
-- Estimates eccentricity using the **eccentricity (Laplace–Runge–Lenz) vector**:
+- Estimates eccentricity using the **eccentricity (Laplace-Runge-Lenz) vector**:
     e_vec = (v × h)/mu - r_hat
   which is far less sensitive than r_min/r_max when e is small (e.g., Venus).
 

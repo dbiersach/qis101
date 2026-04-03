@@ -124,11 +124,11 @@ def main() -> None:
     v0 = np.zeros(N)  # velocities (m/s)
     u0[0] = 0.3  # pluck first mass forward from equilibrium
 
-    # ── Short run for time-domain plots (0–10s) ──────────────────────
+    # ── Short run for time-domain plots (0-10s) ──────────────────────
     tf_plot, ts_plot = 10.0, 100_000
     t_hist, u_hist = integrate(u0, v0, tf_plot, ts_plot, desc="Time Domain Integration")
 
-    # ── Long run for FFT (0–100s gives 0.01 Hz frequency resolution) ─
+    # ── Long run for FFT (0-100s gives 0.01 Hz frequency resolution) ─
     tf_fft, ts_fft = 100.0, 200_000
     _, u_hist_fft = integrate(
         u0, v0, tf_fft, ts_fft, desc="Frequency Domain Integration"

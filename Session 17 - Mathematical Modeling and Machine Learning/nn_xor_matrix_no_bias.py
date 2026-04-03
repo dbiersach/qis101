@@ -26,6 +26,7 @@ def sigmoid_derivative(x):
 
 def init_weights(topology, init_strategy):
     input_size, hidden_size, output_size = topology
+    W_ih, W_ho = None, None
 
     match init_strategy:
         case InitStrategy.RND_NORMAL:
@@ -54,6 +55,7 @@ def train(init_strategy, learning_rate=1.0):
 
     # Initialize weights
     W_ih, W_ho = init_weights(topology, init_strategy)
+    loss = None
 
     # Training loop
     for _ in range(EPOCHS):
