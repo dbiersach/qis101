@@ -50,7 +50,7 @@ def handle_events(ss, event):
 def main():
     ss = SimpleScreen(
         world_rect=((-2.2, -1.51), (1, 1.51)),
-        screen_size=(900, 900),
+        screen_size=(800, 800),
         draw_function=plot_mandlebrot_set,
         event_function=handle_events,
         title="Mandelbrot Set",

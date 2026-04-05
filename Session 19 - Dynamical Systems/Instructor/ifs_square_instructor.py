@@ -35,7 +35,7 @@ def main():
 
     ss = SimpleScreen(
         world_rect=((-2, -2), (6, 6)),
-        screen_size=(900, 900),
+        screen_size=(800, 800),
         draw_function=plot_ifs,
         title="IFS Square",
     )

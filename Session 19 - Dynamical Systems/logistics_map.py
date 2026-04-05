@@ -36,7 +36,7 @@ def main():
         world_rect=((2.5, 0), (4.0, 1)),
         draw_function=plot_logistics_map,
         event_function=handle_events,
-        screen_size=(900, 900),
+        screen_size=(800, 800),
         title="Logistics Map",
     )
     ss.show()

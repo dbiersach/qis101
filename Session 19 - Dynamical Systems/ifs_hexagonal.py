@@ -49,7 +49,7 @@ def main():
 
     ss = SimpleScreen(
         world_rect=((0, 0), (30, 30)),
-        screen_size=(900, 900),
+        screen_size=(800, 800),
         draw_function=plot_ifs,
         title="IFS Hexagonal",
     )

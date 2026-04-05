@@ -44,7 +44,7 @@ def main():
 
     ss = SimpleScreen(
         world_rect=((-5, -5), (55, 65)),
-        screen_size=(900, 900),
+        screen_size=(800, 800),
         draw_function=plot_ifs,
         event_function=handle_events,
         title="Barnsley Fern",
