@@ -35,6 +35,7 @@ def print_deck(deck):
 def main():
     np.random.seed(2016)
     total_deals = 10_000
+    deck = None
 
     start_time = time.perf_counter()
     for _ in range(total_deals):

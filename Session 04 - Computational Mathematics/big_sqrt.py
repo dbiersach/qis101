@@ -7,7 +7,7 @@ from mpmath import fabs, mp, mpf
 def sqrt(x):
     low, high = mpf("0.0"), x
     est = (high + low) / 2
-    epsilon = mpf(10 ** (-mp.dps / 2))
+    epsilon = mpf(10 ** (-mp.dps // 2))
     while fabs(est**2 - x) > epsilon:
         if est**2 > x:
             high = est
