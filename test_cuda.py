@@ -1,5 +1,5 @@
 #!/usr/bin/env -S uv run
-"""test_gpu.py"""
+"""test_cuda.py"""
 
 import time
 
