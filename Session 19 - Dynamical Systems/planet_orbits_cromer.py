@@ -80,7 +80,7 @@ for j in range(planet_count):
 print()
 
 # Plot planet orbits
-plt.figure(Path(__file__).name, figsize=(10, 10))
+plt.figure(Path(__file__).name, figsize=(8, 8))
 plt.gca().set_facecolor("black")
 for j in range(planet_count):
     name, color, _ = planets[j]

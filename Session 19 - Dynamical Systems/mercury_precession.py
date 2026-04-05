@@ -104,7 +104,7 @@ def main():
     peri_angles = np.degrees(np.unwrap((np.arctan2(y[peri_idx], x[peri_idx]))))
 
     # Plot orbit and perihelion precession
-    plt.figure(Path(__file__).name, figsize=(10, 10))
+    plt.figure(Path(__file__).name, figsize=(8, 8))
     plt.gca().set_facecolor("black")
     # Draw the Sun at the origin
     plt.scatter([0.0], [0.0], c="yellow", s=40, label="Sun", zorder=3)

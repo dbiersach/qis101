@@ -136,7 +136,7 @@ def main() -> None:
     dt_fft = tf_fft / ts_fft
 
     # ── Plotting ─────────────────────────────────────────────────────
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 11), num=Path(__file__).name)
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 8), num=Path(__file__).name)
     ax1.sharex(ax2)
     colors = ["crimson", "royalblue", "darkorange", "forestgreen", "mediumpurple"]
     ax1.tick_params(axis="x", labelbottom=True)
