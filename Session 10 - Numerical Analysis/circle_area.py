@@ -16,17 +16,21 @@ def F(x):
 
 
 def left_hand_rule(func, a, b, intervals):
-    dx, area = (b - a) / intervals, 0.0
-    for i in range(0, intervals):
-        area += func(a + i * dx)
-    return dx * area
+    dx = (b - a) / intervals
+    #  Note: np.arange(intervals) generates values from 0 to intervals-1,
+    #  which is what we want for the left-hand rule
+    area = np.sum(func(a + np.arange(intervals) * dx))
+    return area * dx
 
 
 def simpsons_rule(func, a, b, intervals):
-    dx, area = (b - a) / intervals, func(a) + func(b)
-    for i in range(1, intervals):
-        area += func(a + i * dx) * (2 * (i % 2 + 1))
-    return dx / 3 * area
+    dx = (b - a) / intervals
+    # Note: np.arange(1, intervals) generates values from 1 to intervals-1,
+    # which is what we want for Simpson's rule
+    i = np.arange(1, intervals)
+    area = np.sum(func(a + i * dx) * (2 * (i % 2 + 1)))
+    # Note: The left-hand and right-hand contributions are added in the return statement
+    return (func(a) + func(b) + area) * dx / 3
 
 
 def print_apre(observed, expected):

@@ -13,6 +13,8 @@ def F(x):
 
 
 def midpoint_fixed(a, b):
+    # Pedagogical implementation of the fixed-width midpoint rule.
+    # For production use, prefer scipy.integrate.quad(f, a, b).
     x, dx, area = a, (b - a) / 1e6, 0.0
     while x < b:
         area += f(x + dx / 2) * dx
@@ -21,12 +23,15 @@ def midpoint_fixed(a, b):
 
 
 def midpoint_adaptive(a, b):
+    # Pedagogical implementation of the adaptive-width midpoint rule.
+    # For production use, prefer scipy.integrate.quad(f, a, b).
     x, dx, area = a, 1, 0.0
     while x < b:
         f1 = f(x)
         f2 = f(x + dx)
-        # Keep halving dx if current delta is too great
-        while abs(((f2 - f1) / f1)) > 1e-3:
+        # Keep halving dx if current delta is too great;
+        # guard against ZeroDivisionError when f1 == 0
+        while f1 != 0 and abs((f2 - f1) / f1) > 1e-3:
             dx /= 2
             f2 = f(x + dx)
         # Use the midpoint rule

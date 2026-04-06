@@ -6,8 +6,11 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
+x = np.linspace(-1, 5, 1000)
+# Create a Boolean mask to exclude the points at
+# x=0 (singularity) and x=-1 (domain restriction)
+x = x[(x != -1) & (x != 0)]
 # Calculate (1+x)^(1/x)
-x = np.linspace(-1, 5, 1000)[1:]  # avoid x=-1
 y = (1 + x) ** (1 / x)
 
 # Plot the function

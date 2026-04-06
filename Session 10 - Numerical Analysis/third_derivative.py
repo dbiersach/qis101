@@ -9,7 +9,7 @@ from matplotlib.ticker import MultipleLocator
 
 
 def f(x):
-    return np.array(np.sin(x**2) / (1 + x**3))
+    return np.sin(x**2) / (1 + x**3)
 
 
 def main():
@@ -19,24 +19,27 @@ def main():
     x = np.linspace(a, b, n)
     y = f(x)
 
+    # Compute the first derivative using the central difference formula
     y_prime = np.zeros_like(y)
     for i in range(1, len(y) - 1):
         y_prime[i] = (y[i + 1] - y[i - 1]) / (2 * dx)
 
+    # Compute the second derivative using the central difference formula
     y_prime2 = np.zeros_like(y)
     for i in range(2, len(y_prime2) - 2):
         y_prime2[i] = (y_prime[i + 1] - y_prime[i - 1]) / (2 * dx)
 
+    # Compute the third derivative using the central difference formula
     y_prime3 = np.zeros_like(y)
     for i in range(3, len(y_prime3) - 3):
         y_prime3[i] = (y_prime2[i + 1] - y_prime2[i - 1]) / (2 * dx)
 
     plt.figure(Path(__file__).name)
-    plt.plot(x, 20 * y, label=r"$20\times\frac{\sin{x^2}}{1+x^3}$")
+    plt.plot(x, 20 * y, label=r"$\mathbf{20}\times\frac{\sin{x^2}}{1+x^3}$")
     plt.plot(
         x[1:-2],
         10 * y_prime[1:-2],
-        label=r"$10\times\frac{\partial}{\partial x}\;\frac{\sin{x^2}}{1+x^3}$",
+        label=r"$\mathbf{10}\times\frac{\partial}{\partial x}\;\frac{\sin{x^2}}{1+x^3}$",
     )
     plt.plot(
         x[2:-3],

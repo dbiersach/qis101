@@ -32,7 +32,7 @@ def main():
     a, b = -10.0, 12.0
     intervals = int(1e6)
 
-    print("\nIntegrating x^5 - 2x^4 - 120x^3 + 22x^2 + 2199x + 1980")
+    print("\nIntegrating x^5 - 2x^4 - 120x^3 + 22x^2 + 2119x + 1980")
     print(f" over [{a}, {b}] using {intervals:,} intervals\n")
 
     area_act = F(b) - F(a)
@@ -40,14 +40,18 @@ def main():
 
     area_lh = left_hand_rule(f, a, b, intervals)
     print(f"Left-hand Rule   : {area_lh:.14f}")
+    # fmt: off
     print(
-        f"Absolute % Relative Error : {abs(area_lh - area_act) / abs(area_act):.14%}\n"
+        f"Absolute % Relative Error : "
+        f"{abs(area_lh - area_act) / abs(area_act):.14%}\n"
     )
+    # fmt: on
 
     area_simpsons = simpsons_rule(f, a, b, intervals)
     print(f"Simpson's Rule   : {area_simpsons:.14f}")
     print(
-        f"Absolute % Relative Error : {abs(area_simpsons - area_act) / abs(area_act):.14%}\n"
+        f"Absolute % Relative Error : "
+        f"{abs(area_simpsons - area_act) / abs(area_act):.14%}\n"
     )
 
 

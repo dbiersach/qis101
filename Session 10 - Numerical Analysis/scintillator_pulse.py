@@ -5,33 +5,19 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
-from numba import njit
 from scipy.integrate import cumulative_simpson
 
 
-@njit
 def widest_span_with_greatest_slope(x, y, cutoff=0.5):
-    # Find the maximum slope between any adjacent points
-    max_slope = 0
-    for i in range(len(x)):
-        for j in range(i + 1, len(x) - 1):
-            slope = (y[j] - y[i]) / (x[j] - x[i])
-            if abs(slope) > max_slope:
-                max_slope = abs(slope)
-    min_i = len(x)
-    max_j = 0
-    threshold = max_slope * cutoff
-    # Find widest span having slope within the cutoff
-    for i in range(len(x)):
-        for j in range(i + 1, len(x) - 1):
-            slope = (y[j] - y[i]) / (x[j] - x[i])
-            if abs(slope) > threshold:
-                if i <= min_i:
-                    min_i = i
-                if j >= max_j:
-                    max_j = j
-    # Return array of indexes within region of interest
-    # using Numpy's Boolean Indexing
+    # Compute slopes between adjacent points only
+    slopes = np.abs(np.diff(y) / np.diff(x))
+    threshold = np.max(slopes) * cutoff
+
+    # Find widest span where adjacent slope exceeds threshold
+    indices = np.where(slopes > threshold)[0]
+    min_i, max_j = indices[0], indices[-1] + 1
+
+    # Use boolean indexing to create a mask for the region of interest
     roi = (x > x[min_i]) & (x < x[max_j])
     return roi
 
