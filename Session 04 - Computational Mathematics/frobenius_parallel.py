@@ -8,7 +8,8 @@ from numba import njit, prange
 @njit(parallel=True)
 def frobenius_number(coprime_triplet: tuple[int, int, int]) -> int:
     a, b, c = coprime_triplet
-    # Define the upper bound using the rule of thumb
+    # Use the smaller of two heuristic upper bounds to keep the
+    # search range manageable (not a proven exact bound in general)
     max_n = min(2 * a * b * c - a * b - a * c - b * c, (a * b * c) // 2)
     # Allocate array of Booleans to represent if an integer is representable
     representables = np.zeros(max_n + 1, dtype=np.bool_)
