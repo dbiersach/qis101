@@ -2,7 +2,6 @@
 """euler_line.py"""
 
 import random
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -279,8 +278,7 @@ def main():
     ax.legend(loc="upper right")
     ax.grid("on")
     ax.set_aspect("equal")
-    plt.show(block=True)
-    sys.exit()
+    plt.show()
 
 
 if __name__ == "__main__":

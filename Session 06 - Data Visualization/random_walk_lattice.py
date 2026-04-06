@@ -31,19 +31,6 @@ def get_avg_dist(dims, max_steps, num_walks):
     return avg_dist
 
 
-def fit_linear(x, y):
-    """
-    Returns the slope (m) and y-intercept (b) of the line
-    that passes through (x, y) data values with least error
-    """
-    n = len(x)
-    m = float(n * np.sum(x * y) - np.sum(x) * np.sum(y))
-    m /= float(n * np.sum(x**2) - np.sum(x) ** 2)
-    b = float(np.sum(y) - m * np.sum(x))
-    b /= n
-    return m, b
-
-
 def main():
     # Number of dimensions
     dims = 2
@@ -59,7 +46,7 @@ def main():
     distances = get_avg_dist(dims, max_steps, num_walks)
     distances_squared = distances**2
 
-    m, b = fit_linear(steps, distances_squared)
+    m, b = np.polyfit(steps, distances_squared, 1)
     print(f"Slope of line = {m:.4f}")
 
     plt.figure(Path(__file__).name, figsize=(12, 5))

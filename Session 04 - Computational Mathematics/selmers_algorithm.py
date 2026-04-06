@@ -34,7 +34,11 @@ def frobenius_number(triplet, limit):
 def main():
     triplet = (7919, 12553, 17389)  # g() = 2711658
     limit = 3_000_000
-    print(f"g{triplet} = {frobenius_number(triplet, limit)}")
+    n = frobenius_number(triplet, limit)
+    if n == -1:
+        print("Limit too low to find Frobenius number.")
+    else:
+        print(f"g{triplet} = {n}")
 
 
 if __name__ == "__main__":

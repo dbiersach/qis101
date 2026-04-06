@@ -15,11 +15,9 @@ ranks = ["Deuce", "Three", "Four", "Five", "Six", "Seven",
 
 def init_deck():
     deck = np.arange(52)
-    for card_pos in range(52):
-        new_card_pos = np.random.randint(52)
-        swap_card = deck[card_pos]
-        deck[card_pos] = deck[new_card_pos]
-        deck[new_card_pos] = swap_card
+    for pos in range(52):
+        new_pos = np.random.randint(52)
+        deck[pos], deck[new_pos] = deck[new_pos], deck[pos]
     return deck
 
 

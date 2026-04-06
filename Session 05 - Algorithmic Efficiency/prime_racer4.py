@@ -18,6 +18,8 @@ def init_primes(max_n):
 
 
 def is_prime(n, known_primes):
+    if n == 2:
+        return True
     if n % 2 == 0:
         return False
     else:

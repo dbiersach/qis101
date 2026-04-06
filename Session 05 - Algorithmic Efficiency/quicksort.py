@@ -8,6 +8,7 @@ import time
 def median_of_three(values, low, high):
     # Finds the index of the median value
     # between the low, high, and middle elements
+    # Avoids worst-case performance on already sorted lists
     mid = (low + high) // 2
     x = values[low]
     y = values[mid]
