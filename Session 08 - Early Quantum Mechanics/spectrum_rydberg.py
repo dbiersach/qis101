@@ -3,7 +3,7 @@
 
 print("Rydberg Formula for Hydrogen Spectral Lines")
 
-rydberg_constant = 1.0967757e7
+rydberg_constant = 1.0967757e7  # m^-1
 
 for k in range(1, 5):
     for j in range(k + 1, k + 6):

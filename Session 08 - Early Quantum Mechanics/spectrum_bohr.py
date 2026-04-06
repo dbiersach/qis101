@@ -3,11 +3,11 @@
 
 print("Bohr Model for Hydrogen Spectral Lines")
 
-e_charge = 1.602e-19
-e_mass = 9.109e-31
-permittivity = 8.854e-12
-h_plank = 6.626e-34
-speed_light = 2.998e8
+e_charge = 1.602e-19  # Coulombs
+e_mass = 9.109e-31  # kg
+permittivity = 8.854e-12  # F/m
+h_plank = 6.626e-34  # J·s
+speed_light = 2.998e8  # m/s
 
 # Bohr's formula for ground state energy
 e_0 = pow(e_charge, 4) * e_mass / (8 * pow(permittivity, 2) * pow(h_plank, 2))

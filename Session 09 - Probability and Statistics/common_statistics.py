@@ -4,21 +4,27 @@
 import collections
 import random
 
+# These functions are for demonstration purposes only.
+# In practice, you should use the built-in functions in the statistics module.
+
 
 def mean(s):
+    # See statistics.mean()
     return sum(s) / len(s)
 
 
 def median(s):
-    s.sort()
-    i = len(s) // 2
-    if len(s) % 2 == 1:
-        return s[i]
+    # See statistics.median()
+    t = sorted(s)
+    i = len(t) // 2
+    if len(t) % 2 == 1:
+        return t[i]
     else:
-        return (s[i - 1] + s[i]) / 2
+        return (t[i - 1] + t[i]) / 2
 
 
 def mode(s):
+    # See statistics.mode() and statistics.multimode()
     c = collections.Counter(s)
     max_c = max(c.values())
     if max_c == 1:

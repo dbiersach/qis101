@@ -5,8 +5,8 @@ import numpy as np
 from numba import njit
 
 
-@njit
-def lattice_points(r):
+@njit("int64(int64)")
+def lattice_points(r: int) -> int:
     c = 0
     for x in range(-r, r + 1):
         for y in range(-r, r + 1):
@@ -16,7 +16,7 @@ def lattice_points(r):
 
 
 def main():
-    for radius in np.linspace(1000, 10000, 10):
+    for radius in np.linspace(1000, 10000, 10, dtype=int):
         act = lattice_points(radius)
         est = int(np.pi * radius**2 + 2 * np.sqrt(2 * np.pi * radius))
         err = (est - act) / act

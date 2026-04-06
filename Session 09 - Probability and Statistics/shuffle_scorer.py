@@ -41,19 +41,19 @@ def wash_shuffle(deck):
 
 def riffle_shuffle(deck):
     # Cut the deck into two equal piles
-    left_pile, right_pile = deck[:26], deck[26:]
+    left_pile, right_pile = list(deck[:26]), list(deck[26:])
     # Prepare a new empty deck to hold the riffled halves
-    new_deck = np.zeros(0, dtype=int)
-    while len(new_deck) < 52:
+    new_deck = []
+    while left_pile or right_pile:
         # Riffle in a set of cards from the LEFT pile
         chunk = random.randint(1, 4)  # Take from 1 to 4 cards inclusive
-        new_deck = np.append(new_deck, left_pile[:chunk])
-        left_pile = left_pile[chunk:]  # Remove this chunk form the LEFT pile
+        new_deck.extend(left_pile[:chunk])
+        left_pile = left_pile[chunk:]  # Remove this chunk from the LEFT pile
         # Riffle in a set of cards from the RIGHT pile
         chunk = random.randint(1, 4)  # Take from 1 to 4 cards inclusive
-        new_deck = np.append(new_deck, right_pile[:chunk])
-        right_pile = right_pile[chunk:]  # Remove this chunk form the RIGHT pile
-    return new_deck
+        new_deck.extend(right_pile[:chunk])
+        right_pile = right_pile[chunk:]  # Remove this chunk from the RIGHT pile
+    return np.array(new_deck, dtype=int)
 
 
 def score_shuffle(shuffle_func, num_deals=10_000):

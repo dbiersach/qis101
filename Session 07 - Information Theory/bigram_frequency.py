@@ -4,17 +4,15 @@
 from collections import Counter
 from pathlib import Path
 
-file_name = "bigram_ciphertext.txt"
-print(f'Bigram analysis of file \n"{file_name}" :')
+FILE_NAME = "bigram_ciphertext.txt"
+print(f'Bigram analysis of file \n"{FILE_NAME}" :')
 
-file_path = Path(__file__).parent / file_name
+file_path = Path(__file__).parent / FILE_NAME
 with open(file_path, "rb") as f_in:
     f_bytes = bytearray(f_in.read())
 
 # Create Counter dictionary storing successive letter counts
-bigrams = Counter()
-for i in range(0, len(f_bytes) - 2):
-    bigrams[(f_bytes[i], f_bytes[i + 1])] += 1
+bigrams = Counter(zip(f_bytes, f_bytes[1:]))
 
 # Reverse sort bigrams tallied by Counter's dictionary item value,
 # so the bigrams with the highest frequency appear first

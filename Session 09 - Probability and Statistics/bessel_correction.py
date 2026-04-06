@@ -67,15 +67,15 @@ def plot_ratio(ax, results):
 
 def plot_ubsv(ax, results):
     x = [r[0] for r in results]  # 1st column in results table
-    y = [r[2] for r in results]  # 3rd column in results table
-    ax.plot(x, y, label="Pop Var")
+    y_pop = [r[2] for r in results]  # 3rd column in results table
+    ax.plot(x, y_pop, label="Pop Var")
 
-    y = [r[1] for r in results]
-    ax.plot(x, y, label="BSV")
+    y_bsv = [r[1] for r in results]  # 2nd column in results table
+    ax.plot(x, y_bsv, label="BSV")
 
-    for i, _ in enumerate(y):
-        y[i] = y[i] * x[i] / (x[i] - 1)
-    ax.plot(x, y, label="UBSV")
+    # Calculate the unbiased sample variance (UBSV) from the biased sample variance (BSV)
+    y_ubsv = [yv * xv / (xv - 1) for yv, xv in zip(y_bsv, x)]
+    ax.plot(x, y_ubsv, label="UBSV")
 
     ax.set_title("Variance: Population v. Biased Sample v. Unbiased Sample")
     ax.set_xlabel("Sample Size")
