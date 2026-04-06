@@ -1,11 +1,12 @@
 #!/usr/bin/env -S uv run
 """electrical_conductivity_macos_safari.py"""
 
-import time
-
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 # Set up Safari WebDriver
 driver = webdriver.Safari()
@@ -14,39 +15,43 @@ driver = webdriver.Safari()
 url = "https://www.schoolmykids.com/learn/periodic-table/electrical-conductivity-of-all-the-elements"
 driver.get(url)
 
-# Give the page time to load dynamic content (JavaScript-rendered)
-time.sleep(5)
+# Wait up to 10 seconds for JavaScript to load an HTML <table> on the page.
+WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
 
 # Use BeautifulSoup to parse the rendered HTML
 soup = BeautifulSoup(driver.page_source, "html.parser")
 driver.quit()
 
-# Find the table and extract headers + rows
+# Find and parse the table
 table = soup.find("table")
 rows = table.find_all("tr")
 
+# Separate the header row from the data rows
 headers = [th.get_text(strip=True) for th in rows[0].find_all("th")]
-data = [
-    [td.get_text(strip=True) for td in row.find_all("td")]
-    for row in rows[1:]
-    if row.find_all("td")
-]
+data = [[td.get_text(strip=True) for td in row.find_all("td")] for row in rows[1:]]
 
-# Create a DataFrame
+# Create and sort DataFrame
 df = pd.DataFrame(data, columns=headers)
 
-# Print column names to locate the conductivity column
-print("Available columns:", df.columns.tolist())
+# Convert the electrical conductivity to a number for proper sorting
+df["Element Electrical Conductivity (S/m)"] = pd.to_numeric(
+    df["Element Electrical Conductivity (S/m)"], errors="coerce"
+)
+# Drop rows without a number for electrical conductivity
+df = df.dropna(subset=["Element Electrical Conductivity (S/m)"])
 
-# Identify and process the conductivity column
-conductivity_col = [col for col in df.columns if "conductivity" in col.lower()]
-if conductivity_col:
-    col_name = conductivity_col[0]
-    df[col_name] = pd.to_numeric(df[col_name], errors="coerce")
-    df = df.dropna(subset=[col_name])
-    df_sorted = df.sort_values(col_name, ascending=False).head(10)
+# Sort by descending electrical conductivity, and select top 10
+df_top10 = df.sort_values(
+    "Element Electrical Conductivity (S/m)", ascending=False
+).head(10)
 
-    print("\nTop 10 Elements by Electrical Conductivity:")
-    print(df_sorted[["Element Name", "Element Symbol", col_name]])
-else:
-    print("No conductivity column found.")
+# Reset the index to remove the original row #s
+df_top10 = df_top10[
+    ["Element Name", "Element Electrical Conductivity (S/m)"]
+].reset_index(drop=True)
+
+# Insert ordinal integers 1-10 in the 1st column as "Rank"
+df_top10.insert(0, "Rank", range(1, len(df_top10) + 1))
+
+# Print the dataframe without any ID column
+print(df_top10.to_string(index=False))

@@ -45,7 +45,8 @@ def calc_idw_height(xi: int, yi: int, p: float):
     sum_height_weight = 0.0
     for si in range(num_samples):
         distance = np.hypot(
-            grid_x[xi, xi] - samples_x[si], grid_y[yi, yi] - samples_y[si]
+            grid_x[xi, yi] - samples_x[si],
+            grid_y[xi, yi] - samples_y[si],
         )
         if distance == 0:
             return float(samples_z[si])
@@ -120,7 +121,7 @@ def plot(idw_plot_type: int):
 def main():
     init_samples()
     # TODO: Adjust the p (power) value in the following line
-    est_height(p=2)
+    est_height(p=2.0)
     # TODO: Change the plot type (1,2,3) in the following line
     plot(idw_plot_type=1)
 

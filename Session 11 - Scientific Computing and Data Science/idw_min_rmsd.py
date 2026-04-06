@@ -47,7 +47,8 @@ def calc_idw_height(xi: int, yi: int, p: float) -> float:
     sum_height_weight = 0.0
     for si in range(num_samples):
         distance = np.hypot(
-            grid_x[xi, xi] - samples_x[si], grid_y[yi, yi] - samples_y[si]
+            grid_x[xi, yi] - samples_x[si],
+            grid_y[xi, yi] - samples_y[si],
         )
         if distance == 0:
             return float(samples_z[si])

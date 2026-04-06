@@ -16,14 +16,14 @@ driver = webdriver.Chrome(
     service=Service(ChromeDriverManager().install()), options=options
 )
 
-# Open the webpage
+# Load the webpage
 url = "https://www.schoolmykids.com/learn/periodic-table/electrical-conductivity-of-all-the-elements"
 driver.get(url)
 
 # Wait up to 10 seconds for JavaScript to load an HTML <table> on the page.
 WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "table")))
 
-# Get the rendered HTML
+# Use BeautifulSoup to parse the rendered HTML
 soup = BeautifulSoup(driver.page_source, "html.parser")
 driver.quit()
 
@@ -55,7 +55,7 @@ df_top10 = df_top10[
     ["Element Name", "Element Electrical Conductivity (S/m)"]
 ].reset_index(drop=True)
 
-# Insert ordinal integers 1-10 the 1st column as "Rank"
+# Insert ordinal integers 1-10 in the 1st column as "Rank"
 df_top10.insert(0, "Rank", range(1, len(df_top10) + 1))
 
 # Print the dataframe without any ID column
