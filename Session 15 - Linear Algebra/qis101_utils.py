@@ -55,9 +55,10 @@ def as_latex(
             matrix = matrix.T
 
     precision = 1 / 10**places
-    parts: list[str] = [r"\begin{bmatrix}"]
+    rows: list[str] = []
 
     for row in range(matrix.shape[0]):
+        cells: list[str] = []
         for col in range(matrix.shape[1]):
             cell = matrix[row, col]
             real_part = float(np.real(cell))
@@ -68,28 +69,25 @@ def as_latex(
             is_imag_zero = np.isclose(imag_part, 0, atol=precision)
             is_imag_one = np.isclose(abs(imag_part), 1, atol=precision)
 
+            cell_parts: list[str] = []
             if is_real_zero and is_imag_zero:
-                parts.append("0")
-            elif is_real_zero:
-                pass  # real part contributes nothing
-            else:
-                parts.append(_format_real(real_part, places))
+                cell_parts.append("0")
+            elif not is_real_zero:
+                cell_parts.append(_format_real(real_part, places))
 
             if not is_imag_zero:
                 if is_imag_one:
-                    parts.append(
+                    cell_parts.append(
                         "-i" if is_imag_neg else ("+" if not is_real_zero else "") + "i"
                     )
                 else:
                     if not is_real_zero and not is_imag_neg:
-                        parts.append(" + ")
-                    parts.append(_format_real(imag_part, places) + "i")
+                        cell_parts.append(" + ")
+                    cell_parts.append(_format_real(imag_part, places) + "i")
 
-            if col < matrix.shape[1] - 1:
-                parts.append(" &")
+            cells.append("".join(cell_parts))
 
-        terminator = r"\\" if row == matrix.shape[0] - 1 else r"\\[1em]"
-        parts.append(terminator)
+        rows.append(" & ".join(cells))
 
-    parts.append(r"\end{bmatrix}")
-    return Math(prefix + "".join(parts))
+    latex_body = r" \\[1em] ".join(rows)
+    return Math(prefix + r"\begin{bmatrix}" + latex_body + r"\\" + r"\end{bmatrix}")

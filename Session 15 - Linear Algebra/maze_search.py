@@ -72,46 +72,50 @@ def plot_maze(ax, maze, steps):
     plot_steps(ax, steps)
 
 
-def in_path(steps, y, x):
-    for step in reversed(steps):
-        sy, sx, _ = step
-        if sy == y and sx == x:
-            return True
-    return False
-
-
-def search_maze(maze, steps):
+def search_maze(maze, steps, visited):
     global total_steps
 
-    y, x, dir = steps.pop()
-    total_steps = total_steps + 1
+    y, x, direction = steps.pop()
+    # Keep visited in sync with the stack: discard rather than remove
+    # because the goal cell (9,9) is appended and returned without a pop
+    visited.discard((y, x))
+    total_steps += 1
 
     if x == 9 and y == 9:
         steps.append((9, 9, 0))
+        visited.add((9, 9))
         return True
 
-    if dir == 0:
+    if direction == 0:
         steps.append((y, x, 1))
-        if maze[y, x] & 1 != 1 and not in_path(steps, y - 1, x):
+        visited.add((y, x))
+        if maze[y, x] & 1 != 1 and (y - 1, x) not in visited:
             steps.append((y - 1, x, 0))
+            visited.add((y - 1, x))
         return False
 
-    if dir == 1:
+    if direction == 1:
         steps.append((y, x, 2))
-        if maze[y, x] & 2 != 2 and not in_path(steps, y, x + 1):
+        visited.add((y, x))
+        if maze[y, x] & 2 != 2 and (y, x + 1) not in visited:
             steps.append((y, x + 1, 0))
+            visited.add((y, x + 1))
         return False
 
-    if dir == 2:
+    if direction == 2:
         steps.append((y, x, 4))
-        if maze[y, x] & 4 != 4 and not in_path(steps, y + 1, x):
+        visited.add((y, x))
+        if maze[y, x] & 4 != 4 and (y + 1, x) not in visited:
             steps.append((y + 1, x, 0))
+            visited.add((y + 1, x))
         return False
 
-    if dir == 4:
+    if direction == 4:
         steps.append((y, x, 8))
-        if maze[y, x] & 8 != 8 and not in_path(steps, y, x - 1):
+        visited.add((y, x))
+        if maze[y, x] & 8 != 8 and (y, x - 1) not in visited:
             steps.append((y, x - 1, 0))
+            visited.add((y, x - 1))
         return False
 
     return False
@@ -122,11 +126,21 @@ def main(file_name):
     with open(file_path, "rb") as infile:
         m = pickle.load(infile)
 
-    # Steps is list of tuples, where each tuple contains the
-    # (y, x, last direction tried) for each step along current path
-    s = [(0, 0, 0)]
+    # steps is an ordered stack that records the full path
+    # including the direction-tried state (y, x, direction) at each cell.
+    # The direction component is essential because it's how the algorithm
+    # knows which of the four walls it has already attempted from a given cell.
+    # Without it, backtracking is impossible.
 
-    while not search_maze(m, s):
+    # visited is an unordered set of (y, x) pairs used purely for
+    # O(1) "have I been here?" lookups. It contains no direction state.
+
+    # Iterative DFS using a list as an explicit stack avoids Python's recursion
+    # limit, which could be exceeded for mazes larger than ~1000 cells.
+    # The code mirrors the cells on the stack for O(1) membership testing
+    s = [(0, 0, 0)]
+    visited = {(0, 0)}
+    while not search_maze(m, s, visited):
         pass
 
     plt.figure(f"{Path(__file__).name} ({file_name})")

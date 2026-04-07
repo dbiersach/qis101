@@ -19,17 +19,17 @@ def orientation(p, q, r):
     val = (ax * by) - (ay * bx)
 
     if val == 0:
-        # Points P, Q, and R are colinear
+        # Points P, Q, and R are collinear
         return 0
 
     if val < 0:
-        # Point R is to the left of Q
-        # as seen from point P
+        # Point R is to the right of Q
+        # as seen from point P (clockwise turn)
         return -1
 
-    if val > 0:
-        # Point R is to the right of Q
-        # as seen from point P
+    else:
+        # Point R is to the left of Q
+        # as seen from point P (counterclockwise turn)
         return 1
 
 
@@ -41,7 +41,8 @@ def convex_hull(points):
     while True:
         hull.append(p)
         q = points[0]
-
+        # Termination relies on tuple equality: since points are exact tuples
+        # and start is drawn directly from the list, p == start is reliable
         for r in points:
             if r == p:
                 continue
