@@ -130,7 +130,7 @@ def solve_yoshida4(
     p1, p2 : NDArray[np.float64], shape (n_steps,)
         Conjugate momenta at each time step
     """
-    # Yoshida coefficients — identical for any separable H = T(p) + V(q)
+    # Yoshida coefficients - identical for any separable H = T(p) + V(q)
     cbrt2 = 2.0 ** (1.0 / 3.0)
     w1 = 1.0 / (2.0 - cbrt2)
     w0 = -cbrt2 / (2.0 - cbrt2)
@@ -242,11 +242,11 @@ def main() -> None:
         desc = f"Traj {k + 1}/{n_traj} (q1\u2080={q1_0:.3f}, p1\u2080={p1_0:.3f})"
         trajs.append(solve_yoshida4(q1_0, q2_0, p1_0, p2_0, t_final, dt, desc))
 
-    # Figure 1: time series — first 200 s, fine stride for smooth curves
+    # Figure 1: time series - first 200 s, fine stride for smooth curves
     t, q1, q2, p1, p2 = trajs[3]
     show = (t <= 200.0) & (np.arange(len(t)) % stride_ts == 0)
 
-    plt.figure(f"{Path(__file__).name} — Time Series")
+    plt.figure(f"{Path(__file__).name} - Time Series")
     plt.plot(t[show], q1[show], color="crimson", lw=1.2, label=r"$q_1(t)$")
     plt.plot(t[show], p1[show], color="forestgreen", lw=1.2, label=r"$p_1(t)$")
     plt.title(r"Hénon-Heiles: Time Series  ($E = 1/12$, Yoshida 4th-Order)")
@@ -256,8 +256,8 @@ def main() -> None:
     plt.grid(True)
     plt.tight_layout()
 
-    # Figure 2: configuration space — scatter avoids false diagonals from striding
-    plt.figure(f"{Path(__file__).name} — Configuration Space")
+    # Figure 2: configuration space - scatter avoids false diagonals from striding
+    plt.figure(f"{Path(__file__).name} - Configuration Space")
     for k, (t, q1, q2, p1, p2) in enumerate(trajs):
         q1_0, _, p1_0, _ = ics[k]
         label = f"Traj {k + 1}: $q_1^0={q1_0:.3f}$, $p_1^0={p1_0:.3f}$"
@@ -285,8 +285,8 @@ def main() -> None:
     plt.grid(True)
     plt.tight_layout()
 
-    # Figure 3: Poincaré section — full resolution, every crossing recorded
-    plt.figure(f"{Path(__file__).name} — Poincaré Section")
+    # Figure 3: Poincaré section - full resolution, every crossing recorded
+    plt.figure(f"{Path(__file__).name} - Poincaré Section")
     for k, (t, q1, q2, p1, p2) in enumerate(trajs):
         sq2, sp2 = poincare_section(q1, q2, p1, p2)
         if len(sq2) == 0:
@@ -309,12 +309,12 @@ def main() -> None:
     plt.grid(True)
     plt.tight_layout()
 
-    # Figure 4: energy drift — 2 000 pts shows the oscillating envelope clearly
+    # Figure 4: energy drift - 2 000 pts shows the oscillating envelope clearly
     t, q1, q2, p1, p2 = trajs[3]
     e0 = hamiltonian(q1[0], q2[0], p1[0], p2[0])
     delta_e = np.abs(hamiltonian(q1, q2, p1, p2) - e0)
 
-    plt.figure(f"{Path(__file__).name} — Energy Conservation")
+    plt.figure(f"{Path(__file__).name} - Energy Conservation")
     plt.semilogy(t[::stride_energy], delta_e[::stride_energy], color="purple", lw=0.8)
     plt.title(r"Hénon-Heiles: Energy Drift  $|\Delta H(t)|$  (Yoshida 4th-Order)")
     plt.xlabel("Time (s)")

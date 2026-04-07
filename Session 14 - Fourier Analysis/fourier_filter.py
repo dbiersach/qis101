@@ -18,7 +18,7 @@ def dft(ts, fs):
     ct = np.zeros(num_terms, dtype=complex)
     for term in range(0, num_terms):
         for sample in range(0, num_samples):
-            ct[term] += fs[sample] * np.exp(complex(0, -(term * ts[sample])))
+            ct[term] += fs[sample] * np.exp(complex(0, (term * ts[sample])))
     ct = ct * 2 / num_samples
     ct[0] /= 2  # DC value should NOT be doubled
     return ct
@@ -30,7 +30,7 @@ def idft(ts, ct):
     fr = np.zeros(num_samples, dtype=complex)
     for sample in range(0, num_samples):
         for term in range(0, num_terms):
-            fr[sample] += ct[term] * np.exp(complex(0, (term * ts[sample])))
+            fr[sample] += ct[term] * np.exp(complex(0, -(term * ts[sample])))
     return fr
 
 
@@ -46,9 +46,11 @@ def plot_samples(ax, ts, fs):
 def plot_dft(ax, ct):
     num_terms = 50
     # fmt: off
-    ax.bar(range(0, num_terms), np.abs(ct.real[:num_terms]),
+    #ax.bar(range(0, num_terms), np.abs(ct.real[:num_terms]),
+    ax.bar(range(0, num_terms), ct.real[:num_terms],
         color="blue", label="cosine", zorder=2)
-    ax.bar(range(0, num_terms), np.abs(ct.imag[:num_terms]),
+    #ax.bar(range(0, num_terms), np.abs(ct.imag[:num_terms]),
+    ax.bar(range(0, num_terms), ct.imag[:num_terms],
         color="red",  label="sine", zorder=2)
     # fmt: on
     ax.grid(which="major", axis="x", color="black", linewidth=1)

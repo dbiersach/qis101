@@ -79,9 +79,9 @@ target-version = "py313"
 #   Windows AMD64         → pytorch-cu128 wheel (CUDA 12.8)
 #
 # CUDA version notes:
-#   cu128 = CUDA 12.8 — supports Volta (V100) and newer through current Blackwell
-#   cu126 = CUDA 12.6 — use instead if you need Maxwell/Pascal/older Volta support
-#   cu130 = CUDA 13.0 — Turing (RTX 20xx) and newer only; drops Volta/older
+#   cu128 = CUDA 12.8 - supports Volta (V100) and newer through current Blackwell
+#   cu126 = CUDA 12.6 - use instead if you need Maxwell/Pascal/older Volta support
+#   cu130 = CUDA 13.0 - Turing (RTX 20xx) and newer only; drops Volta/older
 [tool.uv.sources]
 torch = [
     { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },

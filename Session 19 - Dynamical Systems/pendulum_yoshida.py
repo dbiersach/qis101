@@ -95,7 +95,7 @@ def main():
     theta0 = np.deg2rad(45)  # initial angle (radians)
     omega0 = 0.0  # initial angular velocity (rad/s)
     tf = 10  # final time (s)
-    dt = tf / 500  # time step — 500 steps, updates every 20 ms
+    dt = tf / 500  # time step - 500 steps, updates every 20 ms
 
     t, theta, omega = solve_yoshida4(theta0, omega0, tf, dt)
 

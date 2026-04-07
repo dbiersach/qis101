@@ -4,7 +4,7 @@
 Five-mass spring chain between two fixed walls, integrated with the
 Yoshida 4th-order symplectic method.  Masses move longitudinally
 (along the chain axis) and obey Hooke's law with nearest-neighbor
-coupling — the same topology as the original Fermi-Pasta-Ulam problem,
+coupling - the same topology as the original Fermi-Pasta-Ulam problem,
 but linear (no nonlinear correction terms).
 
 Uses Yoshida's 4th-order symplectic integrator (1990), which composes
@@ -14,7 +14,7 @@ three Leapfrog substeps with weighted time increments:
     c2 = c3 = (1 - cbrt2) / (2 * (2 - cbrt2))   ≈ -0.1756
     d1 = d3 =  1 / (2 - cbrt2)                  ≈  1.3512
     d2      = -cbrt2 / (2 - cbrt2)               ≈ -1.7024
-Note: c2, c3, and d2 are negative — the integrator temporarily
+Note: c2, c3, and d2 are negative - the integrator temporarily
 steps backward in the middle substep to cancel lower-order errors.
 """
 
@@ -148,7 +148,7 @@ def main() -> None:
         ax1.plot(t_hist, u_hist[:, i], lw=1.5, color=colors[i], label=f"mass {i + 1}")
     ax1.set_ylabel("Displacement from equilibrium (m)")
     ax1.set_title(
-        rf"FPU Spring-Mass Chain — 4th-Order Symplectic (Yoshida)  $\alpha={ALPHA}$"
+        rf"FPU Spring-Mass Chain - 4th-Order Symplectic (Yoshida)  $\alpha={ALPHA}$"
     )
     ax1.legend(loc="upper right", fontsize=8, framealpha=1.0, facecolor="white")
     ax1.axhline(0, color="gray", lw=0.5)
@@ -193,7 +193,7 @@ def main() -> None:
         power_db = 20 * np.log10(np.maximum(spectrum, 1e-15))
         all_spectra_db.append(power_db[pos_mask])  # keep positive freqs only
 
-    # Find peaks from measured FFT data — works correctly for any alpha,
+    # Find peaks from measured FFT data - works correctly for any alpha,
     # since actual mode frequencies shift with nonlinearity
     all_spectra_array = np.array(all_spectra_db)
     ref_spectrum = all_spectra_array.max(axis=0)  # envelope across all masses

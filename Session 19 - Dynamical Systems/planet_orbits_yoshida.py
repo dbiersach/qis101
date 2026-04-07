@@ -151,7 +151,7 @@ def e_vector(
     return ex, ey, np.sqrt(ex * ex + ey * ey)
 
 
-print("\nPlanet Orbits — Kepler's Third Law - Yoshida 4th-Order Symplectic Integrator:")
+print("\nPlanet Orbits - Kepler's Third Law - Yoshida 4th-Order Symplectic Integrator:")
 for j in range(planet_count):
     name, _, a, e0 = planets[j]
 
@@ -194,7 +194,7 @@ for j in range(planet_count):
     name, color, _, _ = planets[j]
     plt.plot(x[:, j], y[:, j], c=color, label=name)
 plt.scatter([0.0], [0.0], s=20, marker="o", c="yellow", label="Sun")
-plt.title(f"Planet Orbits — Yoshida 4th-Order ({tf:g} Julian Earth Years)")
+plt.title(f"Planet Orbits - Yoshida 4th-Order ({tf:g} Julian Earth Years)")
 plt.xlabel("x (AU)")
 plt.ylabel("y (AU)")
 plt.gca().set_aspect("equal", adjustable="box")

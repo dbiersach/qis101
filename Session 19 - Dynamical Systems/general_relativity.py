@@ -76,7 +76,7 @@ def estimate_precession_slope(alpha):
     n = ceil(tf * 365.25 * 24)  # sample every hour
     dt = tf / n  # time step in Julian years
 
-    # Mercury semi-major axis (AU) — matched to alpha correction scaling
+    # Mercury semi-major axis (AU) - matched to alpha correction scaling
     a_merc = 0.47
 
     # Start at perihelion on +x axis

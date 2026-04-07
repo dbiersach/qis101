@@ -11,7 +11,7 @@ where du = u_{i+1} - u_i is the stretch of each spring.
 Integrated with the Yoshida 4th-order symplectic method.
 
 The upper panel tracks energy in each normal mode of the linear chain
-over time, showing the famous FPU recurrence — energy flows from the
+over time, showing the famous FPU recurrence - energy flows from the
 initially excited mode into other modes, then flows back instead of
 thermalizing as Fermi expected.
 
@@ -105,12 +105,12 @@ def mode_energies(u: np.ndarray, v: np.ndarray) -> np.ndarray:
 
 def main() -> None:
     # ── Simulation parameters ────────────────────────────────────────
-    tf = 2 * np.pi * 1000  # final time (s) — long enough to see recurrence
+    tf = 2 * np.pi * 1000  # final time (s) - long enough to see recurrence
     ts = 1_000_000  # number of time steps
     dt = tf / ts
 
     # ── Initial conditions ───────────────────────────────────────────
-    # Excite only normal mode 1 (lowest mode) — the classic FPU setup
+    # Excite only normal mode 1 (lowest mode) - the classic FPU setup
     mode = 1
     amplitude = 1.0
     indices = np.arange(1, N + 1)
@@ -170,7 +170,7 @@ def main() -> None:
     ax1.legend(loc="center right", fontsize=8, framealpha=1.0, facecolor="white")
     ax1.grid(True)
 
-    # Lower panel: total energy — should be flat (symplectic conservation check)
+    # Lower panel: total energy - should be flat (symplectic conservation check)
     total_energy = np.sum(energy_hist, axis=1)
     ax2.plot(t_hist, total_energy, lw=1.0, color="black")
     ax2.set_xlabel("Time (s)")

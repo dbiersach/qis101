@@ -62,7 +62,7 @@ for i in tqdm(range(1, n)):
     y[i, :] = y[i - 1, :] + vy[i, :] * dt  # Euler-Cromer update
 
 # Demonstrate Kepler's Third Law: T^2 proportional to a^3
-print("\nPlanet Orbits — Kepler's Third Law - Euler-Cromer Integrator:")
+print("\nPlanet Orbits - Kepler's Third Law - Euler-Cromer Integrator:")
 for j in range(planet_count):
     name, _, a = planets[j]
     # Detect successive outward crossings of r ≈ a (numerical radius oscillations)
@@ -86,7 +86,7 @@ for j in range(planet_count):
     name, color, _ = planets[j]
     plt.plot(x[:, j], y[:, j], c=color, label=name)
 plt.scatter([0.0], [0.0], s=20, marker="o", c="yellow", label="Sun")
-plt.title(f"Planet Orbits — Euler-Cromer ({tf} Julian Earth Years)")
+plt.title(f"Planet Orbits - Euler-Cromer ({tf} Julian Earth Years)")
 plt.xlabel("x (AU)")
 plt.ylabel("y (AU)")
 plt.gca().set_aspect("equal", adjustable="box")

@@ -5,10 +5,10 @@ Runs four integrators on an ideal pendulum for a long duration,
 then compares their energy error and FFT power spectra to show how
 spectral purity improves as the numerical method improves.
 
-  1. RK45 (solve_ivp)  — not symplectic, high-order adaptive
-  2. Euler-Cromer      — symplectic, 1st order
-  3. Velocity Verlet   — symplectic, 2nd order
-  4. Yoshida 4th-order — symplectic, 4th order
+  1. RK45 (solve_ivp)  - not symplectic, high-order adaptive
+  2. Euler-Cromer      - symplectic, 1st order
+  3. Velocity Verlet   - symplectic, 2nd order
+  4. Yoshida 4th-order - symplectic, 4th order
 
 Each method gets its own figure window with two subplots:
   Left:  |Relative energy error| over time (log scale)
@@ -362,7 +362,7 @@ def main():
     theta_initial = np.deg2rad(10)
     omega_initial = 0.0
     dt = 0.02  # 50 Hz sample rate
-    t_final = 10000  # seconds — long run for spectral resolution
+    t_final = 10000  # seconds - long run for spectral resolution
 
     E0 = total_energy(theta_initial, omega_initial)
 

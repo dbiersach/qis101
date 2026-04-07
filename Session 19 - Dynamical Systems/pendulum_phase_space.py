@@ -6,10 +6,10 @@ comparing four numerical integrators against the exact energy
 contour.
 
   Black dashed: Exact energy contour E(theta, omega) = E0
-  Red:          Forward Euler    — spirals outward (energy gain)
-  Orange:       Euler-Cromer     — wobbles around the contour
-  Green:        Velocity Verlet  — hugs the contour tightly
-  Blue:         Yoshida 4th-ord  — indistinguishable from exact
+  Red:          Forward Euler    - spirals outward (energy gain)
+  Orange:       Euler-Cromer     - wobbles around the contour
+  Green:        Velocity Verlet  - hugs the contour tightly
+  Blue:         Yoshida 4th-ord  - indistinguishable from exact
 
 The exact contour is computed from energy conservation:
   E = (1/2)omega^2 - (g/L)cos(theta)
@@ -340,7 +340,7 @@ def main():
             theta, omega, color=color, linewidth=LINE_WIDTH, alpha=alpha, label=name
         )
 
-    # Exact contour drawn last — always visible above numerical curves
+    # Exact contour drawn last - always visible above numerical curves
     ax.plot(theta_exact, omega_exact, "r--", lw=2, label="Exact contour")
 
     # Clip axes to focus on the contour region

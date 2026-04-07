@@ -1,4 +1,5 @@
-# fourier_discrete.py
+#!/usr/bin/env -S uv run
+"""fourier_discrete.py"""
 
 from pathlib import Path
 
