@@ -32,11 +32,11 @@ dependencies = [
     "pyside6",
     "pyside6-addons",
     "qiskit-aer",
-    "qiskit-experiments",    
+    "qiskit-experiments",
     "qiskit-ibm-runtime",
     "qiskit-machine-learning",
     "qiskit-optimization",
-    "qiskit[all,visualization]",    
+    "qiskit[all,visualization]",
     "ruff",
     "scikit-learn",
     "scipy",
@@ -58,7 +58,23 @@ dependencies = [
     "pyvista[all]>=0.47.1",
 ]
 
+[build-system]
+# Hatchling is uv's default build backend. It reads this pyproject.toml to
+# determine what source files to install when a user runs 'uv sync'.
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# Tell Hatchling to install qis101_utils.py from the project root into
+# site-packages, making it importable as 'from qis101_utils import as_latex'
+# from any notebook or script regardless of which session folder it lives in.
+include = ["qis101_utils.py"]
+
 [tool.uv]
+# Install the qis101 project itself in editable mode during 'uv sync',
+# so changes to qis101_utils.py at the root are reflected immediately
+# without needing to reinstall.
+package = true
 # Resolve for all three target platforms
 required-environments = [
     "sys_platform == 'linux' and platform_machine == 'x86_64'",
