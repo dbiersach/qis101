@@ -66,7 +66,7 @@ def main():
         eqn = binomial_expand(7, 2, 2, -2 / 3, t)
         print(f"{t:>5} = {expr_to_str(eqn[0], 5)}")
         # Evaluate the symbolic expression across the domain x=[0, 10]
-        plt.plot(x, np.array(list(map(eqn[1], x))), label=f"{t} terms")
+        plt.plot(x, eqn[1](x), label=f"{t} terms")
 
     plt.title(r"Binomial Expansion of $y=(2x^2+7)^{-2/3}$")
     plt.xlabel("x")

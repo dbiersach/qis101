@@ -1,11 +1,8 @@
 #!/usr/bin/env -S uv run
 """binomial_sqrt.py"""
 
-from math import pow
-from typing import Callable
+from collections.abc import Callable
 
-import numpy as np
-from numpy.typing import NDArray
 from sympy import Float, Integer, Number, Poly, lambdify, symbols
 
 
@@ -30,18 +27,18 @@ def calc_coeff(a: float, b: float, r: float, n: int) -> float:
     coeff = 1.0
     for m in range(n):
         coeff = coeff * (r - m) / (m + 1)
-    coeff = coeff * pow(a, r - n)
-    coeff = coeff * pow(b, n)
+    coeff = coeff * a ** (r - n)
+    coeff = coeff * b**n
     return coeff
 
 
 def binomial_expand(
     a: float, b: float, c: float, r: float, max_t: int
-) -> tuple[Poly, Callable[[NDArray[np.float64]], NDArray[np.float64]]]:
+) -> tuple[Poly, Callable]:
     """
     Returns a tuple containing the Binomial Expansion of (a+b*x^c)^r
-    to (max_t) terms as a Sympy Polynomial in x, along with
-    a callable Numpy expression for that expansion
+    to (max_t) terms as a Sympy Polynomial in x,
+    along with a callable Numpy expression for that expansion
     """
     x = symbols("x")
     poly = 0.0
