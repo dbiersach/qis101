@@ -11,8 +11,12 @@ num_odd_primes = 25
 primes = [int(prime(n)) for n in range(2, num_odd_primes + 2)]
 
 for p in primes:
-    for a in range(1, int(np.sqrt(p))):
+    # Check if the prime 'p' can be expressed as a sum of two squares
+    # As no prime is a perfect square, 'a' can be less than sqrt(p)
+    # The +1 is because the range is exclusive of the upper bound
+    for a in range(1, int(np.sqrt(p)) + 1):
         b = np.sqrt(p - a**2)
+        # If 'b' is an integer, then 'p' is the sum of two squares
         if b == np.floor(b):
             z1 = complex(a, b)
             z2 = complex(a, -b)

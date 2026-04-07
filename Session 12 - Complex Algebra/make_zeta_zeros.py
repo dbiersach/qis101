@@ -13,7 +13,7 @@ import numpy as np
 file_path = Path(__file__).parent / "zeta_zeros.txt"
 zeta_zeros = np.genfromtxt(file_path)
 
-# Write pickle file of 9-digit zeta zeros
+# Write pickle file of zeta zeros (9 significant digits of precision)
 file_path = Path(__file__).parent / "zeta_zeros.pickle.xz"
 with lzma.open(file_path, "wb") as file_out:
     pickle.dump(zeta_zeros, file_out, pickle.HIGHEST_PROTOCOL)

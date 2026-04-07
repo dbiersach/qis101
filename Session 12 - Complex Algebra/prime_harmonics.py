@@ -9,28 +9,32 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import MultipleLocator
 
-zeta_zeros = {}
 
-
-def H(x: float) -> float:
+def H(x: np.ndarray, zeta_zeros: np.ndarray) -> np.ndarray:
     """
     Returns the amplitudes of the frequencies of the Riemann Zeta function,
     which have spikes at all primes and their respective powers
+    The explicit formula connecting primes to zeta zeros involves terms
+    of the form x^(it), where x is a real number and t is a zeta zero
     """
-    return 1 + np.sum(np.cos(np.log(x) * zeta_zeros))
+    # np.outer() pairs every log(x[i]) with every zeta_zeros[j],
+    # producing an (N, M) matrix without needing to reshape x
+    cos_matrix = np.cos(np.outer(np.log(x), zeta_zeros))
+
+    # Sum across each row (axis=1): add all M cosine contributions for each x[i],
+    # producing one output value per x-value with final shape (N,)
+    return 1 + np.sum(cos_matrix, axis=1)
 
 
 def main():
     # Read pickle file containing the zeta zeros
     file_path = Path(__file__).parent / "zeta_zeros.pickle.xz"
     with lzma.open(file_path, "rb") as file_in:
-        global zeta_zeros
         zeta_zeros = pickle.load(file_in)
 
     # Sum the waves caused by each Zeta Zero
     x = np.linspace(1.1, 50, 10_000)
-    f = np.vectorize(H)
-    y = f(x)
+    y = H(x, zeta_zeros)
 
     # Read pickle file containing the prime powers dictionary
     file_path = Path(__file__).parent / "prime_powers.pickle"
@@ -48,23 +52,20 @@ def main():
     ax = plt.gca()
     ax.xaxis.set_major_locator(MultipleLocator(1))
 
-    # Plot "labelled" vertical lines at just the first prime
-    # and its first power to populate the legend
+    # Plot labelled vertical lines at just the first prime and its first
+    # higher power (square) to populate the legend
     prime, powers = next(iter(prime_dict.items()))
-    power = powers[1]
-    # fmt: off
-    plt.axvline(x=prime, ymax=0.95,
-        linestyle="--", color="red", label="Prime")
-    plt.axvline(x=power, ymax=0.95,
-        linestyle="--", color="green", label="Prime power")
-    # fmt: on
+    plt.axvline(x=prime, ymax=0.95, linestyle="--", color="red", label="Prime")
+    if len(powers) > 1:
+        plt.axvline(
+            x=powers[1], ymax=0.95, linestyle="--", color="green", label="Prime power"
+        )
 
     # Plot the remaining primes and their powers but without labels
     # so the legend is not overpopulated
-    for prime in prime_dict:
+    for prime, powers in prime_dict.items():
         plt.axvline(x=prime, ymax=0.95, linestyle="--", color="red")
-        powers = prime_dict[prime][1:]
-        for prime_power in powers:
+        for prime_power in powers[1:]:
             plt.axvline(x=prime_power, ymax=0.95, linestyle="--", color="green")
 
     plt.legend(loc="upper right")

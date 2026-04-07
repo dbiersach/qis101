@@ -17,11 +17,7 @@ def plot_exponential_curve(ax):
 def plot_euler_formula(ax):
     # Plot y = e^xi
     x = np.linspace(-10, 10, 1000)
-    z = np.zeros(len(x), dtype=complex)
-
-    for idx, val in enumerate(x):
-        z[idx] = np.exp(complex(0, val))
-
+    z = np.exp(1j * x)
     ax.plot(np.real(z), np.imag(z), color="blue", linewidth=2, label=r"$e^{i x}$")
 
 
@@ -52,9 +48,9 @@ def plot_complex_point1(ax):
 def plot_complex_point2(ax):
     # Plot -1-1.5j as complex exponential
     x, y = -1.0, -1.5
-    z = complex(x, y)
+    z = x + y * 1j  # = complex(x, y)
     hypot = np.hypot(np.real(z), np.imag(z))
-    theta = np.arctan(np.imag(z) / np.real(z)) - np.pi
+    theta = np.arctan2(np.imag(z), np.real(z))
     ax.scatter(-1, -1.5, color="purple")
     line_hypot = [(0, 0), (x, y)]
     line_opp = [(x, 0), (x, y)]

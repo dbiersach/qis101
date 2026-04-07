@@ -8,19 +8,19 @@ from pprint import pprint
 from sympy import primerange
 
 # Create a dictionary where the keys are all the primes < n and each
-# key's value is a *set* of all the powers of that prime that are also < n
+# key's value is a *list* of all the powers of that prime that are also < n
 n = 10_000
 primes: list[int] = [int(p) for p in primerange(2, n)]
 powers_dict: dict[int, list[int]] = {}
 for p in primes:
-    powers_set: set[int] = set()
+    powers: list[int] = []
     power = p
     while power < n:
-        powers_set.add(power)
+        powers.append(power)
         power *= p
-    powers_dict[p] = sorted(powers_set)
+    powers_dict[p] = powers
 
-# Pretty-print the fist 10 key/value pairs in the prime powers dictionary
+# Pretty-print the first 10 key/value pairs in the prime powers dictionary
 pprint(dict(list(powers_dict.items())[:10]))
 
 # Write pickle file of the prime powers dictionary

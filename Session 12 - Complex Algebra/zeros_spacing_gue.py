@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import MultipleLocator
 
-zeta_zeros = {}
-
 
 def generate_gue_eigenvalues(n):
     # Diagonal: real Gaussian entries
@@ -27,7 +25,7 @@ def generate_gue_eigenvalues(n):
     np.fill_diagonal(H, diag)  # set diagonal separately
 
     # Compute and return eigenvalues
-    eigenvalues = sorted(np.linalg.eigvalsh(H))
+    eigenvalues = np.linalg.eigvalsh(H)
     eigenvalues += eigenvalues[-1]
     eigenvalues /= 4 * np.sqrt(n)
     return eigenvalues
@@ -37,7 +35,6 @@ def main():
     # Read pickle file containing the zeta zeros
     file_path = Path(__file__).parent / "zeta_zeros.pickle.xz"
     with lzma.open(file_path, "rb") as file_in:
-        global zeta_zeros
         zeta_zeros = pickle.load(file_in)
         # Take only the first 1000 zeta zeros
         zeta_zeros = zeta_zeros[:1000]
@@ -49,31 +46,21 @@ def main():
     eigenvals_gue *= zeta_zeros[-1] - zeta_zeros[0]
 
     # Plot the Zeta Zeros in 10 lines of 100 values each
-    once = True
     plt.figure(Path(__file__).name)
     for i in range(10):
-        start = i * 100
-        stop = start + 99
-        x = zeta_zeros[start:stop]
+        x = zeta_zeros[i * 100 : i * 100 + 100]
         x = x - x[0]
         y = np.full_like(x, i * 10 + 2)
-        if once:
-            plt.scatter(x[0], y[0], c="b", s=3, label="Zeta Zeros")
-            once = False
-        plt.scatter(x, y, c="b", s=3)
+        label = "Zeta Zeros" if i == 0 else None
+        plt.scatter(x, y, c="b", s=3, label=label)
 
     # Plot the GUE eigenvalues in 10 lines of 100 values each
-    once = True
     for i in range(10):
-        start = i * 100
-        stop = start + 99
-        x = eigenvals_gue[start:stop]
+        x = eigenvals_gue[i * 100 : i * 100 + 100]
         x = x - x[0]
         y = np.full_like(x, i * 10 + 4)
-        if once:
-            plt.scatter(x[0], y[0], c="r", s=3, label="GUE Eigenvalues")
-            once = False
-        plt.scatter(x, y, c="r", s=3)
+        label = "GUE Eigenvalues" if i == 0 else None
+        plt.scatter(x, y, c="r", s=3, label=label)
 
     plt.title("Zeta Zero Spacing vs. GUE Eigenvalues")
     plt.xlabel("Imaginary Component of each Zeta Root")
