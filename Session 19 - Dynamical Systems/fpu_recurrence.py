@@ -127,6 +127,8 @@ def main() -> None:
     ds = [d1, d2, d1]
 
     # ── Storage (sample every sample_every steps to save memory) ─────
+    # Derive n_samples from sample_every so the two are always exactly
+    # aligned; ts % sample_every == 0 is guaranteed by construction
     sample_every = 5_000
     n_samples = ts // sample_every
     t_hist = np.zeros(n_samples)
@@ -135,7 +137,7 @@ def main() -> None:
 
     # ── Time integration (Yoshida 4th-order) ─────────────────────────
     for step in tqdm(range(ts), desc="Integrating"):
-        if step % sample_every == 0 and sample_idx < n_samples:
+        if step % sample_every == 0:
             t_hist[sample_idx] = step * dt
             energy_hist[sample_idx] = mode_energies(u, v)
             sample_idx += 1

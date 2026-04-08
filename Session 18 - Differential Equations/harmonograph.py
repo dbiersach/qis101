@@ -54,11 +54,11 @@ def main():
     )
     theta2 = sol.y[1]
 
-    # Ensure both vectors are same length
-    if len(theta1) > len(theta2):
-        theta1 = theta1[: len(theta2)]
-    else:
-        theta2 = theta2[: len(theta1)]
+    # Ensure both vectors are same length because solve_ivp()
+    # may produce slightly different numbers of time steps
+    # for each pendulum due to its adaptive internal step-size control
+    n = min(len(theta1), len(theta2))
+    theta1, theta2 = theta1[:n], theta2[:n]
 
     plt.figure(Path(__file__).name)
     plt.plot(theta1, theta2, color="blue", lw=2)

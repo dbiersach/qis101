@@ -28,7 +28,7 @@ def thrust_func(t):
 
 
 def rocket_mass_func(t):
-    # returns weight in kilograms
+    # returns mass in kilograms
     if t <= ENGINE_BURNOUT:
         motor_mass = ENGINE_MASS * (ENGINE_BURNOUT - t) / ENGINE_BURNOUT
         return STAGE1_MASS + motor_mass + STAGE2_MASS + ENGINE_MASS
@@ -61,8 +61,8 @@ def main():
     t = sol.t
     v, h = sol.y
 
-    v *= 2.23  # Convert m/s to mph
-    h *= 3.28  # Convert m to feet
+    v *= 2.23694  # Convert m/s to mph  (1 m/s = 2.23694 mph, exact by NIST)
+    h *= 3.28084  # Convert m to feet   (1 m = 3.28084 ft, exact by definition)
 
     plt.figure(Path(__file__).name, figsize=(10, 4))
 

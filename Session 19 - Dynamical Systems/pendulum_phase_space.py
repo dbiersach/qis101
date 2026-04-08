@@ -27,54 +27,17 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-# --- Physical constants ---
-LENGTH = 1.0  # pendulum length (m)
-G = 9.81  # gravity (m/s^2)
+from qis101_utils import (
+    PENDULUM_G,
+    PENDULUM_LENGTH,
+    pendulum_angular_acceleration,
+    pendulum_euler_cromer,
+    pendulum_total_energy,
+    pendulum_velocity_verlet,
+    pendulum_yoshida4,
+)
 
 LINE_WIDTH = 2  # uniform linewidth for all plots
-
-
-def angular_acceleration(theta):
-    """
-    Compute the angular acceleration of an ideal pendulum.
-
-    Applies the exact (nonlinear) equation of motion: α = -(g/L) sin(θ),
-    with no small-angle approximation.
-
-    Parameters
-    ----------
-    theta : float or ndarray
-        Angular displacement from vertical (radians)
-
-    Returns
-    -------
-    float or ndarray
-        Angular acceleration (rad/s²)
-    """
-    return -G / LENGTH * np.sin(theta)
-
-
-def total_energy(theta, omega):
-    """
-    Compute the total mechanical energy of the pendulum per unit mass.
-
-    Returns the sum of kinetic and potential energy in the form:
-    E = (1/2)ω² - (g/L)cos(θ), where potential energy is referenced
-    to the pivot point.
-
-    Parameters
-    ----------
-    theta : float or ndarray
-        Angular displacement from vertical (radians)
-    omega : float or ndarray
-        Angular velocity (rad/s)
-
-    Returns
-    -------
-    float or ndarray
-        Total mechanical energy per unit mass (J/kg)
-    """
-    return 0.5 * omega**2 - G / LENGTH * np.cos(theta)
 
 
 # ========================================================================
@@ -116,147 +79,9 @@ def solve_forward_euler(theta0, omega0, t_final, dt):
     omega = np.zeros(n_steps)
     theta[0], omega[0] = theta0, omega0
     for i in range(n_steps - 1):
-        alpha = angular_acceleration(theta[i])
+        alpha = pendulum_angular_acceleration(theta[i])
         omega[i + 1] = omega[i] + alpha * dt
         theta[i + 1] = theta[i] + omega[i] * dt
-    return t, theta, omega
-
-
-def solve_euler_cromer(theta0, omega0, t_final, dt):
-    """
-    Integrate the pendulum equations using the Euler-Cromer method.
-
-    A first-order symplectic integrator that updates velocity before position,
-    giving exact energy conservation on average. Superior to Forward Euler for
-    oscillatory systems; the phase-space trajectory orbits the exact contour
-    rather than spiraling away from it.
-
-    Parameters
-    ----------
-    theta0 : float
-        Initial angular displacement (radians)
-    omega0 : float
-        Initial angular velocity (rad/s)
-    t_final : float
-        Total integration time (s)
-    dt : float
-        Fixed time step size (s)
-
-    Returns
-    -------
-    t : ndarray
-        Time array (s)
-    theta : ndarray
-        Angular displacement at each time step (radians)
-    omega : ndarray
-        Angular velocity at each time step (rad/s)
-    """
-    n_steps = int(t_final / dt)
-    t = np.arange(n_steps) * dt
-    theta = np.zeros(n_steps)
-    omega = np.zeros(n_steps)
-    theta[0], omega[0] = theta0, omega0
-    for i in range(n_steps - 1):
-        alpha = angular_acceleration(theta[i])
-        omega[i + 1] = omega[i] + alpha * dt
-        theta[i + 1] = theta[i] + omega[i + 1] * dt
-    return t, theta, omega
-
-
-def solve_velocity_verlet(theta0, omega0, t_final, dt):
-    """
-    Integrate the pendulum equations using the Velocity Verlet method.
-
-    A second-order symplectic integrator that evaluates acceleration at both
-    the current and next positions, achieving better energy conservation and
-    phase accuracy than Euler-Cromer with the same step size.
-
-    Parameters
-    ----------
-    theta0 : float
-        Initial angular displacement (radians)
-    omega0 : float
-        Initial angular velocity (rad/s)
-    t_final : float
-        Total integration time (s)
-    dt : float
-        Fixed time step size (s)
-
-    Returns
-    -------
-    t : ndarray
-        Time array (s)
-    theta : ndarray
-        Angular displacement at each time step (radians)
-    omega : ndarray
-        Angular velocity at each time step (rad/s)
-    """
-    n_steps = int(t_final / dt)
-    t = np.arange(n_steps) * dt
-    theta = np.zeros(n_steps)
-    omega = np.zeros(n_steps)
-    theta[0], omega[0] = theta0, omega0
-    for i in range(n_steps - 1):
-        alpha = angular_acceleration(theta[i])
-        theta[i + 1] = theta[i] + omega[i] * dt + 0.5 * alpha * dt**2
-        alpha_new = angular_acceleration(theta[i + 1])
-        omega[i + 1] = omega[i] + 0.5 * (alpha + alpha_new) * dt
-    return t, theta, omega
-
-
-def solve_yoshida4(theta0, omega0, t_final, dt):
-    """
-    Integrate the pendulum equations using the Yoshida 4th-order symplectic method.
-
-    A fourth-order symplectic integrator constructed from three Verlet substeps
-    with carefully chosen coefficients (Forest & Ruth 1990 / Yoshida 1990).
-    Provides superior long-term energy conservation and phase accuracy compared
-    to lower-order symplectic methods; the phase-space trajectory is visually
-    indistinguishable from the exact energy contour.
-
-    Parameters
-    ----------
-    theta0 : float
-        Initial angular displacement (radians)
-    omega0 : float
-        Initial angular velocity (rad/s)
-    t_final : float
-        Total integration time (s)
-    dt : float
-        Fixed time step size (s)
-
-    Returns
-    -------
-    t : ndarray
-        Time array (s)
-    theta : ndarray
-        Angular displacement at each time step (radians)
-    omega : ndarray
-        Angular velocity at each time step (rad/s)
-    """
-    # ── Yoshida coefficients ──────────────────────────────────────────
-    w1 = 1.0 / (2.0 - 2.0 ** (1.0 / 3.0))
-    w0 = -(2.0 ** (1.0 / 3.0)) * w1
-    c = np.array([w1 / 2.0, (w1 + w0) / 2.0, (w0 + w1) / 2.0, w1 / 2.0])
-    d = np.array([w1, w0, w1])
-
-    n_steps = int(t_final / dt)
-    t = np.arange(n_steps) * dt
-    theta = np.zeros(n_steps)
-    omega = np.zeros(n_steps)
-    theta[0], omega[0] = theta0, omega0
-
-    for i in range(n_steps - 1):
-        th = theta[i]
-        om = omega[i]
-        # Three Verlet sub-steps
-        for j in range(3):
-            th += c[j] * dt * om
-            om += d[j] * dt * angular_acceleration(th)
-        th += c[3] * dt * om  # final half-position drift
-        theta[i + 1] = th
-        omega[i + 1] = om
-
     return t, theta, omega
 
 
@@ -288,10 +113,10 @@ def exact_contour(E0, n_points=1000):
         Angular velocity values forming the closed contour (rad/s)
     """
     # Exact turning angle: omega=0 when E0 + (g/L)cos(theta) = 0
-    theta_max = np.arccos(-E0 * LENGTH / G)
+    theta_max = np.arccos(-E0 * PENDULUM_LENGTH / PENDULUM_G)
 
     theta_valid = np.linspace(-theta_max, theta_max, n_points)
-    omega_sq = 2.0 * (E0 + (G / LENGTH) * np.cos(theta_valid))
+    omega_sq = 2.0 * (E0 + (PENDULUM_G / PENDULUM_LENGTH) * np.cos(theta_valid))
     omega_upper = np.sqrt(np.maximum(omega_sq, 0.0))
     omega_lower = -omega_upper
 
@@ -310,14 +135,14 @@ def main():
     t_symplectic = 500  # seconds for symplectic methods
     t_euler = 20  # shorter for Forward Euler (it blows up fast)
 
-    E0 = total_energy(theta_initial, omega_initial)
+    E0 = pendulum_total_energy(theta_initial, omega_initial)
 
     # --- Run integrators ---
     methods = {
         "Forward Euler": (solve_forward_euler, "purple", 0.7, t_euler),
-        "Euler-Cromer": (solve_euler_cromer, "orange", 0.7, t_symplectic),
-        "Velocity Verlet": (solve_velocity_verlet, "green", 0.9, t_symplectic),
-        "Yoshida 4th-order": (solve_yoshida4, "blue", 0.9, t_symplectic),
+        "Euler-Cromer": (pendulum_euler_cromer, "orange", 0.7, t_symplectic),
+        "Velocity Verlet": (pendulum_velocity_verlet, "green", 0.9, t_symplectic),
+        "Yoshida 4th-order": (pendulum_yoshida4, "blue", 0.9, t_symplectic),
     }
 
     results = {}
@@ -370,7 +195,7 @@ def main():
     print("-" * 70)
     for name in methods:
         t, theta, omega, color, alpha = results[name]
-        E_final = total_energy(theta[-1], omega[-1])
+        E_final = pendulum_total_energy(theta[-1], omega[-1])
         drift = E_final - E0
         drift_pct = 100 * drift / abs(E0)
         print(

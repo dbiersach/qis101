@@ -16,7 +16,7 @@ points = np.genfromtxt(file_path, delimiter=",")
 if not INCLUDE_OUTLIER:
     points = points[:-1]
 
-kmeans = KMeans(K_CLUSTERS)
+kmeans = KMeans(n_clusters=K_CLUSTERS, n_init="auto")
 kmeans.fit(points)
 clusters = kmeans.predict(points)
 centers = kmeans.cluster_centers_

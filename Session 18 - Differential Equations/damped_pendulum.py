@@ -22,9 +22,9 @@ def main():
     phase_constant = 9.81 / pendulum_length
 
     # Set damping_constants
-    underdamped_constant = 1.0
-    overdamped_constant = pow(phase_constant, 2) / 2.0
-    critically_damped_constant = pow(phase_constant, 2) / 4.0
+    critically_damped_constant = 2 * np.sqrt(phase_constant)
+    underdamped_constant = 0.25 * critically_damped_constant
+    overdamped_constant = 2.0 * critically_damped_constant
 
     # Set initial conditions
     omega_initial = 0
@@ -32,7 +32,7 @@ def main():
 
     # Set model duration (seconds)
     time_initial = 0
-    time_final = 15
+    time_final = 10
 
     # Calculate for an underdamped pendulum
     sol = solve_ivp(
@@ -66,17 +66,13 @@ def main():
     theta_critically_damped = sol.y[1]
 
     plt.figure(Path(__file__).name)
-    # fmt: on
-    plt.plot(time_steps, theta_underdamped, label="underdamped", c="r", lw=2, zorder=3)
-    plt.plot(time_steps, theta_overdamped, label="overdamped", c="b", lw=2, zorder=3)
-    plt.plot(
-        time_steps,
-        theta_critically_damped,
-        label="critically damped",
-        c="g",
-        lw=2,
-        zorder=3,
-    )
+    # fmt: off
+    plt.plot(time_steps, theta_underdamped, label="underdamped",
+        c="red", lw=2, zorder=3)
+    plt.plot(time_steps, theta_overdamped, label="overdamped",
+        c="blue", lw=2, zorder=3)
+    plt.plot(time_steps, theta_critically_damped, label="critically damped",
+        c="green", lw=2, zorder=3)
     # fmt: on
     plt.title("Damped Pendulums")
     plt.xlabel("Time (sec)")

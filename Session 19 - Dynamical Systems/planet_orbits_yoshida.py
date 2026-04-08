@@ -23,6 +23,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
 
+from qis101_utils import yoshida_coeffs
+
 # -----------------------------------------------------------------------------
 # Simulation settings
 # -----------------------------------------------------------------------------
@@ -89,17 +91,13 @@ def accel(xv: np.ndarray, yv: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
 
 
 # -----------------------------------------------------------------------------
-# Integrate using Yoshida 4th-order symplectic integrator
-#   Yoshida-4 is a symmetric composition of Velocity-Verlet substeps:
-#       VV(w1*dt) -> VV(w0*dt) -> VV(w1*dt)
-#   where:
-#       w1 = 1 / (2 - 2^(1/3))
-#       w0 = -2^(1/3) / (2 - 2^(1/3))
+# Yoshida 4th-order velocity weights: VV(w1*dt) -> VV(w0*dt) -> VV(w1*dt)
+# Coefficients sourced from pendulum_utils.yoshida_coeffs() to avoid
+# recomputing them here. Only the d (velocity) weights are needed since
+# vv_substep() handles the half-position drifts internally.
 # -----------------------------------------------------------------------------
-cbrt2 = 2.0 ** (1.0 / 3.0)
-w1 = 1.0 / (2.0 - cbrt2)
-w0 = -cbrt2 / (2.0 - cbrt2)
-y4_coeffs = (w1, w0, w1)
+_, _d = yoshida_coeffs()
+y4_coeffs = tuple(_d)  # (w1, w0, w1)
 
 
 def vv_substep(

@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import find_peaks
 
+from qis101_utils import yoshida_coeffs
+
 # Simulation settings
 # alpha = Modified gravity force exponent to induce precession (AU²)
 # tf = final time in Julian years
@@ -76,12 +78,8 @@ def main():
     vy[0] = 8.2  # AU/yr
     r[0] = np.hypot(x[0], y[0])
 
-    # Yoshida 4th-order symplectic integrator coefficients
-    cbrt2 = 2.0 ** (1.0 / 3.0)
-    w1 = 1.0 / (2.0 - cbrt2)
-    w0 = -cbrt2 / (2.0 - cbrt2)
-    c = np.array([w1 / 2.0, (w0 + w1) / 2.0, (w0 + w1) / 2.0, w1 / 2.0])
-    d = np.array([w1, w0, w1])
+    # Yoshida 4th-order symplectic integrator coefficients (from pendulum_utils)
+    c, d = yoshida_coeffs()
 
     # Time integration (Yoshida 4th-order symplectic)
     for i in range(1, n):

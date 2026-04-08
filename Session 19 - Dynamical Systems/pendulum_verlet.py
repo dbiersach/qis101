@@ -11,70 +11,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Physical constants
-LENGTH = 1.0  # pendulum length (m)
-G = 9.81  # gravity (m/s²)
-
-
-def angular_acceleration(theta):
-    """
-    Compute the angular acceleration of an ideal pendulum.
-
-    Applies the exact (nonlinear) equation of motion: α = -(g/L) sin(θ),
-    with no small-angle approximation.
-
-    Parameters
-    ----------
-    theta : float or ndarray
-        Angular displacement from vertical (radians)
-
-    Returns
-    -------
-    float or ndarray
-        Angular acceleration (rad/s²)
-    """
-    return -G / LENGTH * np.sin(theta)
-
-
-def solve_velocity_verlet(theta0, omega0, t_final, dt):
-    """
-    Integrate the pendulum equations using the Velocity Verlet method.
-
-    A second-order symplectic integrator that evaluates acceleration at both
-    the current and next positions, achieving better energy conservation and
-    phase accuracy than Euler-Cromer with the same step size.
-
-    Parameters
-    ----------
-    theta0 : float
-        Initial angular displacement (radians)
-    omega0 : float
-        Initial angular velocity (rad/s)
-    t_final : float
-        Total integration time (s)
-    dt : float
-        Fixed time step size (s)
-
-    Returns
-    -------
-    t : ndarray
-        Time array (s)
-    theta : ndarray
-        Angular displacement at each time step (radians)
-    omega : ndarray
-        Angular velocity at each time step (rad/s)
-    """
-    n_steps = int(t_final / dt)
-    t = np.arange(n_steps) * dt
-    theta = np.zeros(n_steps)
-    omega = np.zeros(n_steps)
-    theta[0], omega[0] = theta0, omega0
-    for i in range(n_steps - 1):
-        alpha = angular_acceleration(theta[i])
-        theta[i + 1] = theta[i] + omega[i] * dt + 0.5 * alpha * dt**2
-        alpha_new = angular_acceleration(theta[i + 1])
-        omega[i + 1] = omega[i] + 0.5 * (alpha + alpha_new) * dt
-    return t, theta, omega
+from qis101_utils import pendulum_velocity_verlet
 
 
 def main():
@@ -84,7 +21,7 @@ def main():
     tf = 10  # final time (s)
     dt = tf / 500  # time step - 500 steps, updates every 20 ms
 
-    t, theta, omega = solve_velocity_verlet(theta0, omega0, tf, dt)
+    t, theta, omega = pendulum_velocity_verlet(theta0, omega0, tf, dt)
 
     plt.figure(Path(__file__).name)
     (plot1,) = plt.plot(t, theta, lw=2)

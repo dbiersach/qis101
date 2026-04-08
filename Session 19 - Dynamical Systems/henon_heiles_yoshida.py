@@ -19,6 +19,8 @@ import numpy as np
 from numpy.typing import NDArray
 from tqdm import tqdm
 
+from qis101_utils import yoshida_coeffs
+
 LAMBDA = 1.0  # cubic coupling constant (canonical Hénon-Heiles value)
 
 
@@ -131,11 +133,8 @@ def solve_yoshida4(
         Conjugate momenta at each time step
     """
     # Yoshida coefficients - identical for any separable H = T(p) + V(q)
-    cbrt2 = 2.0 ** (1.0 / 3.0)
-    w1 = 1.0 / (2.0 - cbrt2)
-    w0 = -cbrt2 / (2.0 - cbrt2)
-    c = np.array([w1 / 2.0, (w0 + w1) / 2.0, (w0 + w1) / 2.0, w1 / 2.0])
-    d = np.array([w1, w0, w1])
+    # Yoshida 4th-order symplectic integrator coefficients (from pendulum_utils)
+    c, d = yoshida_coeffs()
 
     n_steps = int(t_final / dt)
     t = np.arange(n_steps, dtype=np.float64) * dt

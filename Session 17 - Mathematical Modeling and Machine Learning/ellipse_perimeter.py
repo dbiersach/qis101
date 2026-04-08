@@ -70,6 +70,8 @@ def plot_fix(ax, p, f):
 
 def main():
     a, b_max = 100, 21
+    # A generator expression inside tuple unpacking creates three arrays
+    # of zeros for perimeter, Ramanujan's estimate, and relative error
     peri, ram, err = (np.zeros(b_max) for _ in range(3))
 
     for b in range(0, b_max):

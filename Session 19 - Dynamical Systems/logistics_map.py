@@ -11,11 +11,16 @@ def plot_logistics_map(ss):
         x = ss.world_x(sx)
         y = np.random.random()
 
-        # Iterate (but don't draw) to reach a stable orbit
-        for i in range(500):
+        # Warmup phase: iterate the logistic map without plotting to allow
+        # transient behavior to die out and the trajectory to settle onto
+        # its long-term attractor (fixed point, cycle, or chaotic band)
+        for _ in range(500):
             y = x * y * (1 - y)
 
-        for i in range(500):
+        # Drawing phase: iterate again now that the orbit is stable and
+        # plot each point — this reveals the attractor's structure for
+        # this value of the growth parameter x
+        for _ in range(500):
             y = x * y * (1 - y)
             ss.set_world_pixel(x, y, "blue")
 
@@ -28,7 +33,6 @@ def handle_events(ss, event):
             f"({wr[0][0]:.4f}, {wr[0][1]:.4f}) - "
             f"({wr[1][0]:.4f}, {wr[1][1]:.4f})"
         )
-    return
 
 
 def main():

@@ -66,8 +66,8 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 # Tell Hatchling to install qis101_utils.py from the project root into
-# site-packages, making it importable as 'from qis101_utils import as_latex'
-# from any notebook or script regardless of which session folder it lives in.
+# site-packages, making it importable from any notebook or script regardless
+# of which session folder it lives in.
 include = ["qis101_utils.py"]
 
 [tool.uv]

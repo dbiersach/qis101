@@ -26,6 +26,8 @@ from numpy.fft import fft, fftfreq
 from scipy.signal import find_peaks
 from tqdm import tqdm
 
+from qis101_utils import yoshida_coeffs
+
 # ── Physical parameters ──────────────────────────────────────────────
 N = 5  # number of masses
 K = 50.0  # spring constant (N/m)
@@ -92,14 +94,10 @@ def integrate(
     """
     dt = tf / ts
 
-    # ── Yoshida 4th-order symplectic coefficients (1990) ─────────────
-    cbrt2 = 2.0 ** (1.0 / 3.0)
-    c1 = 1.0 / (2.0 * (2.0 - cbrt2))
-    c2 = (1.0 - cbrt2) / (2.0 * (2.0 - cbrt2))
-    cs = [c1, c2, c2, c1]
-    d1 = 1.0 / (2.0 - cbrt2)
-    d2 = -cbrt2 / (2.0 - cbrt2)
-    ds = [d1, d2, d1]
+    # ── Yoshida 4th-order symplectic coefficients (from pendulum_utils) ─
+    c, d = yoshida_coeffs()
+    cs = list(c)  # c has shape (4,): [c1, c2, c2, c1]
+    ds = list(d)  # d has shape (3,): [d1, d2, d1]
 
     t_hist = np.zeros(ts)
     u_hist = np.zeros((ts, N))

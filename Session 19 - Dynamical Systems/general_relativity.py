@@ -22,6 +22,33 @@ AU = 1.495978707e11
 GM = G * m_sun * year_s**2 / AU**3  # AU^3 / yr^2
 
 
+def _yoshida_coeffs():
+    """Compute the Yoshida 4th-order symplectic integrator coefficients.
+
+    Derives the position (c) and velocity (d) substep coefficients from
+    Yoshida (1990), "Construction of higher order symplectic integrators."
+    Called once at module level so the coefficients are computed only on
+    import rather than on every call to estimate_precession_slope().
+
+    Returns
+    -------
+    c : ndarray, shape (4,)
+        Position half-step coefficients
+    d : ndarray, shape (3,)
+        Velocity full-step coefficients
+    """
+    cbrt2 = 2.0 ** (1.0 / 3.0)
+    w1 = 1.0 / (2.0 - cbrt2)
+    w0 = -cbrt2 / (2.0 - cbrt2)
+    c = np.array([w1 / 2.0, (w0 + w1) / 2.0, (w0 + w1) / 2.0, w1 / 2.0])
+    d = np.array([w1, w0, w1])
+    return c, d
+
+
+# Precompute Yoshida coefficients at module level to avoid redundant computation
+YOSHIDA_C, YOSHIDA_D = _yoshida_coeffs()
+
+
 def accel(xv, yv, alpha):
     """
     Compute the GR-corrected gravitational acceleration on Mercury.
@@ -98,25 +125,18 @@ def estimate_precession_slope(alpha):
     vy[0] = v_p  # AU/yr (exact vis-viva at perihelion)
     r[0] = r_p
 
-    # Yoshida 4th-order coefficients
-    cbrt2 = 2.0 ** (1.0 / 3.0)
-    w1 = 1.0 / (2.0 - cbrt2)
-    w0 = -cbrt2 / (2.0 - cbrt2)
-    c = np.array([w1 / 2.0, (w0 + w1) / 2.0, (w0 + w1) / 2.0, w1 / 2.0])
-    d = np.array([w1, w0, w1])
-
     # Time integration (Yoshida 4th-order symplectic)
     for i in range(1, n):
         px, py = x[i - 1], y[i - 1]
         pvx, pvy = vx[i - 1], vy[i - 1]
         for j in range(3):
-            px += c[j] * pvx * dt
-            py += c[j] * pvy * dt
+            px += YOSHIDA_C[j] * pvx * dt
+            py += YOSHIDA_C[j] * pvy * dt
             ax, ay = accel(px, py, alpha)
-            pvx += d[j] * ax * dt
-            pvy += d[j] * ay * dt
-        px += c[3] * pvx * dt
-        py += c[3] * pvy * dt
+            pvx += YOSHIDA_D[j] * ax * dt
+            pvy += YOSHIDA_D[j] * ay * dt
+        px += YOSHIDA_C[3] * pvx * dt
+        py += YOSHIDA_C[3] * pvy * dt
         x[i], y[i] = px, py
         vx[i], vy[i] = pvx, pvy
         r[i] = np.hypot(x[i], y[i])
@@ -137,7 +157,6 @@ def main():
 
     # Sweep over alpha values to determine slope of perihelion angle vs time
     alpha_span = np.linspace(0.0001, 0.001, 11)
-    print(alpha_span)
     slopes = np.array([estimate_precession_slope(alpha) for alpha in tqdm(alpha_span)])
 
     # Fit line to slope vs alpha data
