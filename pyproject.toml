@@ -44,14 +44,11 @@ dependencies = [
     "selenium",
     "setuptools",
     "sympy",
-    "torch",
     "tqdm",
     "traitsui",
     "transformers",
     "webdriver-manager",
     "wheel",
-    "torchvision",
-    "torchaudio",
     # CuPy: only available on Linux and Windows x64 with CUDA; not on macOS
     "cupy-cuda12x ; sys_platform == 'linux' or (sys_platform == 'win32' and platform_machine == 'AMD64')",
     "highspy>=1.13.1",
@@ -88,36 +85,3 @@ lint.extend-select = ["I", "C4", "ISC", "SIM", "TCH"]
 lint.ignore = []
 show-fixes = true
 target-version = "py313"
-
-# PyTorch index routing by platform:
-#   macOS (Apple Silicon) → pytorch-cpu wheel (includes MPS backend)
-#   Linux x86_64          → pytorch-cu128 wheel (CUDA 12.8)
-#   Windows AMD64         → pytorch-cu128 wheel (CUDA 12.8)
-#
-# CUDA version notes:
-#   cu128 = CUDA 12.8 - supports Volta (V100) and newer through current Blackwell
-#   cu126 = CUDA 12.6 - use instead if you need Maxwell/Pascal/older Volta support
-#   cu130 = CUDA 13.0 - Turing (RTX 20xx) and newer only; drops Volta/older
-[tool.uv.sources]
-torch = [
-    { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },
-    { index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
-torchvision = [
-    { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },
-    { index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
-torchaudio = [
-    { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },
-    { index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
-
-[[tool.uv.index]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
-explicit = true
-
-[[tool.uv.index]]
-name = "pytorch-cu128"
-url = "https://download.pytorch.org/whl/cu128"
-explicit = true
