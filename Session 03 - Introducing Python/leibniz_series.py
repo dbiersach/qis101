@@ -1,2 +1,2 @@
 #!/usr/bin/env -S uv run
-"""leibniz_formula.py"""
+"""leibniz_series.py"""

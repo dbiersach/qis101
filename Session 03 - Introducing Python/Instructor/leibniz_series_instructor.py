@@ -1,5 +1,5 @@
 #!/usr/bin/env -S uv run
-"""leibniz_formula_instructor.py"""
+"""leibniz_series_instructor.py"""
 
 import numpy as np
 
