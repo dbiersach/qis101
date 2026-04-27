@@ -44,7 +44,7 @@ def main() -> None:
 
     plt.figure(Path(__file__).name)
     plt.plot(x, y1, label=r"$\sum_{n=1}^{N} n^{-n}$")
-    plt.plot(x, y2, label=r"$\int_0^1 x^{-x}\,dx$ (GL, $x=u^2$)")
+    plt.plot(x, y2, label=r"$\int_0^1 x^{-x}\,dx$")
     plt.title("Johann Bernoulli's Identity (1697)")
     plt.xlabel("Number of Terms / Quadrature Nodes")
     plt.ylabel("Approximate Sum")

@@ -14,6 +14,7 @@ def model(x, state_vector):
     # Express y'' + 4y = 0 as a first-order system
     d_y = dy
     d_dy = -4 * y
+    # Vertically stack derivatives into two *rows* for solve_bvp
     return np.vstack((d_y, d_dy))
 
 
@@ -28,18 +29,21 @@ def main():
     x_initial = 0.0
     x_final = np.pi / 4
 
-    # Build coarse initial mesh and a flat initial guess for [y, y']
-    # solve_bvp will refine the mesh adaptively
-    x_mesh = np.linspace(x_initial, x_final, 11)
+    # Build a coarse initial mesh that solve_bvp will refine adaptively
+    x_mesh = np.linspace(x_initial, x_final)
+    # Build a flat initial guess array (two rows) for [y, y']
     y_guess = np.zeros((2, x_mesh.size))
 
-    # Numerically solve the boundary value problem
+    # Numerically solve the boundary value problem (BVP)
     sol = solve_bvp(model, boundary_conditions, x_mesh, y_guess)
     if not sol.success:
         raise RuntimeError(f"solve_bvp failed: {sol.message}")
 
-    # Sample the numerical solution on a fine grid for plotting
+    # Sample the numerical solution on a *fine* grid for plotting
     x_plot = np.linspace(x_initial, x_final, 200)
+    # solve_bvp() uses a 4th-order Lobatto IIIa method
+    # This creates cubic splines, so the solution is a *piecewise*
+    # polynomial that can be evaluated at any point in the domain
     y_numeric = sol.sol(x_plot)[0]
 
     # Analytic solution y = -2 cos(2x) - 3 sin(2x) for comparison
