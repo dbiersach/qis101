@@ -21,6 +21,7 @@ The goal is clarity, consistency, and strong pedagogical value.
 - File names should be **descriptive and topic-based**.
 
 Examples:
+
 - `basel_series.ipynb`
 - `quantum_circuit_intro.ipynb`
 - `qis101_utils.py`
