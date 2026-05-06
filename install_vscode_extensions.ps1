@@ -7,7 +7,6 @@ code --install-extension github.copilot-chat --force
 code --install-extension james-yu.latex-workshop --force
 code --install-extension mechatroner.rainbow-csv --force
 code --install-extension ms-python.debugpy --force
-code --install-extension ms-python.isort --force
 code --install-extension ms-python.python --force
 code --install-extension ms-python.vscode-pylance --force
 code --install-extension ms-python.vscode-python-envs --force
