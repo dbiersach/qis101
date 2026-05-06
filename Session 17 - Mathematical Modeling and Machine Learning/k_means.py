@@ -129,17 +129,17 @@ def reassign(pts: list[DataPoint], cs: list[Cluster]) -> bool:
 
     Three phases are executed in sequence:
 
-    Phase I — Recompute centroids
+    Phase I: Recompute centroids
         Each centroid moves to the geometric mean of its currently assigned
         points.  NumPy array operations replace the previous nested loop,
         dropping the per-cluster cost from O(N) with Python overhead to a
         single vectorized pass.
 
-    Phase II — Reassign points
-        Every point is reassigned to its nearest centroid.  Only moves that
+    Phase II: Reassign points
+        Every point is reassigned to its nearest centroid. Only moves that
         keep all cluster populations ≥ 1 are applied.
 
-    Phase III — Evict outliers  (only when converged and MEAN_MULTIPLE > 0)
+    Phase III: Evict outliers (only when converged and MEAN_MULTIPLE > 0)
         Points whose distance to their centroid exceeds
         ``MEAN_MULTIPLE × cluster_mean_distance`` are removed entirely.
 

@@ -114,6 +114,39 @@ def square(x: float) -> float:
 
 ---
 
+### Main Guard
+
+- Use `if __name__ == "__main__":` only if the script contains user-defined functions (via `def` statements)
+- If a script contains only direct procedural code with no function definitions, the main guard is not required
+- When used, wrap all main logic in a `main()` function called from the guard
+
+Example (script with functions):
+
+```python
+def compute_value(x: float) -> float:
+    """Return computed result."""
+    return x ** 2
+
+def main() -> None:
+    result = compute_value(5)
+    print(f"Result: {result}")
+
+if __name__ == "__main__":
+    main()
+```
+
+Example (script without functions - no guard needed):
+
+```python
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+print(f"Mean: {np.mean(y)}")
+```
+
+---
+
 ## Imports
 
 Follow this order:

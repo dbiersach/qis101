@@ -18,7 +18,7 @@ def plot_logistics_map(ss):
             y = x * y * (1 - y)
 
         # Drawing phase: iterate again now that the orbit is stable and
-        # plot each point — this reveals the attractor's structure for
+        # plot each point. This reveals the attractor's structure for
         # this value of the growth parameter x
         for _ in range(500):
             y = x * y * (1 - y)

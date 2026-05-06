@@ -60,7 +60,9 @@
         ],
         "python.terminal.executeInFileDir": false,
         "terminal.integrated.enablePersistentSessions": true,
-        "terminal.integrated.shellIntegration.enabled": false
+        "terminal.integrated.shellIntegration.enabled": false,
+        "chat.fontSize": 14,
+        "chat.editor.fontSize": 14,        
     },
     "launch": {
         "version": "0.2.0",

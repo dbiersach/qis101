@@ -167,7 +167,7 @@ class IteratedFunctionSystem:
             sol = np.linalg.solve(coeffs, y_vals)
             t.m[0, 1], t.m[1, 1], t.m[2, 1] = sol
 
-            # Homogeneous row — always (0, 0, 1)
+            # Homogeneous row: always (0, 0, 1)
             t.m[0, 2] = 0.0
             t.m[1, 2] = 0.0
             t.m[2, 2] = 1.0
@@ -201,7 +201,7 @@ class IteratedFunctionSystem:
                 xt = x * t.m[0, 0] + y * t.m[1, 0] + t.m[2, 0]
                 yt = x * t.m[0, 1] + y * t.m[1, 1] + t.m[2, 1]
                 return xt, yt, t.color
-        # Probabilities did not sum to 1.0 — return a safe sentinel
+        # Probabilities did not sum to 1.0. Return a safe sentinel.
         return 0.0, 0.0, 0
 
 
