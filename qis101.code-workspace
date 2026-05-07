@@ -4,21 +4,40 @@
             "path": "."
         }
     ],
+    "launch": {
+        "configurations": [
+            {
+                "console": "integratedTerminal",
+                "cwd": "${workspaceFolder}",
+                "justMyCode": true,
+                "name": "Python: Current File",
+                "program": "${file}",
+                "request": "launch",
+                "type": "debugpy"
+            }
+        ],
+        "version": "0.2.0"
+    },
     "settings": {
-        "workbench.colorCustomizations": {
-            "tab.activeBorder": "#3cff00",
-            "tab.unfocusedActiveBorder": "#000000"
-        },
+        "chat.editor.fontSize": 18,
+        "chat.fontSize": 18,
         "debug.terminal.clearBeforeReusing": false,
-        "editor.defaultFormatter": "charliermarsh.ruff",
-        "editor.formatOnSave": true,
-        "editor.formatOnPaste": true,
         "editor.codeActionsOnSave": {
             "source.organizeImports.ruff": "explicit"
         },
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.fontSize": 18,
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": true,
         "editor.unusualLineTerminators": "prompt",
         "files.autoSave": "afterDelay",
-        "python.analysis.typeCheckingMode": "standard",
+        "jupyter.widgetScriptSources": [
+            "jsdelivr.com",
+            "unpkg.com"
+        ],
+        "notebook.formatOnCellExecution": true,
+        "notebook.formatOnSave.enabled": true,
+        "output.smartScroll.enabled": false,
         "python.analysis.autoImportCompletions": true,
         "python.analysis.completeFunctionParens": true,
         "python.analysis.diagnosticSeverityOverrides": {
@@ -41,42 +60,29 @@
             "reportUntypedFunctionDecorator": "none",
             "reportUnusedVariable": "none"
         },
-        "python.analysis.inlayHints.variableTypes": false,
         "python.analysis.inlayHints.functionReturnTypes": false,
+        "python.analysis.inlayHints.variableTypes": false,
         "python.analysis.stubPath": "",
+        "python.analysis.typeCheckingMode": "standard",
         "python.defaultInterpreterPath": "",
+        "python.experiments.optOutFrom": [
+            "pythonTerminalEnvVarActivation"
+        ],
         "python.terminal.activateEnvInCurrentTerminal": true,
         "python.terminal.activateEnvironment": true,
-        "output.smartScroll.enabled": false,
-        "notebook.formatOnSave.enabled": true,
-        "notebook.formatOnCellExecution": true,
-        "editor.fontSize": 18,
-        "terminal.integrated.fontSize": 18,
-        "jupyter.widgetScriptSources": [
-            "jsdelivr.com",
-            "unpkg.com"
-        ],
         "python.terminal.executeInFileDir": false,
+        "python.terminal.shellIntegration.enabled": false,
         "terminal.integrated.enablePersistentSessions": false,
-        "terminal.integrated.shellIntegration.enabled": false,
-        "chat.fontSize": 14,
-        "chat.editor.fontSize": 14,
         "terminal.integrated.env.linux": {
             "QT_QPA_PLATFORM": "xcb"
-        },     
-    },
-    "launch": {
-        "version": "0.2.0",
-        "configurations": [
-            {
-                "name": "Python: Current File",
-                "type": "debugpy",
-                "request": "launch",
-                "program": "${file}",
-                "console": "integratedTerminal",
-                "cwd": "${workspaceFolder}",
-                "justMyCode": true
-            }
-        ]
+        },
+        "terminal.integrated.fontSize": 18,
+        "terminal.integrated.hideOnStartup": "always",
+        "terminal.integrated.persistentSessionReviveProcess": "never",
+        "terminal.integrated.shellIntegration.enabled": false,
+        "workbench.colorCustomizations": {
+            "tab.activeBorder": "#3cff00",
+            "tab.unfocusedActiveBorder": "#000000"
+        }
     }
 }
