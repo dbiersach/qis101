@@ -57,7 +57,7 @@
             "unpkg.com"
         ],
         "python.terminal.executeInFileDir": false,
-        "terminal.integrated.enablePersistentSessions": true,
+        "terminal.integrated.enablePersistentSessions": false,
         "terminal.integrated.shellIntegration.enabled": false,
         "chat.fontSize": 14,
         "chat.editor.fontSize": 14,
