@@ -50,8 +50,6 @@
         "output.smartScroll.enabled": false,
         "notebook.formatOnSave.enabled": true,
         "notebook.formatOnCellExecution": true,
-        "intellicodeApiExamples.python.enabled": false,
-        "intellicodeApiExamples.typescript.enabled": false,
         "editor.fontSize": 18,
         "terminal.integrated.fontSize": 18,
         "jupyter.widgetScriptSources": [
@@ -62,7 +60,10 @@
         "terminal.integrated.enablePersistentSessions": true,
         "terminal.integrated.shellIntegration.enabled": false,
         "chat.fontSize": 14,
-        "chat.editor.fontSize": 14,        
+        "chat.editor.fontSize": 14,
+        "terminal.integrated.env.linux": {
+            "QT_QPA_PLATFORM": "xcb"
+        },     
     },
     "launch": {
         "version": "0.2.0",
