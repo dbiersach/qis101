@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run
 """age_in_seconds_instructor.py"""
 
-age_years = 57
+age_years = 59
 age_seconds = age_years * 365 * 24 * 60 * 60
 
 print(f"I am {age_years} years old", end=", ")
