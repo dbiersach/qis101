@@ -28,12 +28,14 @@ def newton_raphson(f, df, x0):
 
 
 def main():
-    x = 1234567890123456.78
+    x = 1234567890123456.789
 
     r0 = np.sqrt(x)
     r1 = bisection(x)
     r2 = newton_raphson(lambda v: v**2 - x, lambda v: 2 * v, x / 2)
 
+    print(f"            Iterations = {iterations}")
+    print(f"                     x = {x}")
     print(f"        Actual sqrt(X) = {r0:.12f}")
     print(f"     Bisection sqrt(x) = {r1:.12f}")
     print(f"Newton-Raphson sqrt(x) = {r2:.12f}")
