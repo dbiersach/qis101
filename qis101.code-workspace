@@ -83,6 +83,9 @@
         "workbench.colorCustomizations": {
             "tab.activeBorder": "#3cff00",
             "tab.unfocusedActiveBorder": "#000000"
-        }
+        },
+        "cSpell.words": [
+            "limaçon"
+        ]
     }
 }

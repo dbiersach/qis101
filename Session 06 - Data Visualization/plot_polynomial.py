@@ -48,17 +48,17 @@ def plot(ax):
     ax.scatter(fn_zeros, fn_lambda(fn_zeros), color="red")
     ax.scatter(fn_d1_zeros, fn_lambda(fn_d1_zeros), color="green")
 
+    # Set the x and y axis labels
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+
     # Set the graph title to the polynomial expressed in LaTeX format
     ax.set_title(f"$y = {sympy.latex(fn_expr)}$")
     ax.grid("on")
 
-    # Center x-axis so x = 0 is in the middle of the plot
-    x_lim = (abs(x_max) if abs(x_max) > abs(x_min) else abs(x_min)) * 1.1
-    ax.set_xlim(-x_lim, x_lim)
-
 
 def main():
-    plt.figure(Path(__file__).name)
+    plt.figure(Path(__file__).name, figsize=(9, 6))
     plot(plt.axes())
     plt.show()
 
