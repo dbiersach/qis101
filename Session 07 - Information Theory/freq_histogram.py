@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 FILE_NAME = "gettysburg.txt"
-FILE_NAME = "ciphertext1.txt"
+# FILE_NAME = "ciphertext1.txt"
 
 # Read the data file into a buffer
 file_path = Path(__file__).parent / FILE_NAME
