@@ -11,7 +11,8 @@ from numpy.typing import NDArray
 
 
 def integrand_substituted(u: NDArray) -> NDArray:
-    """Return 2u * u^(-2u^2), the integrand of x^(-x) from 0 to 1 after x = u^2.
+    """Return 2u * u^(-2u^2), the integrand of x^(-x)
+    from 0 to 1 after x = u^2.
 
     The substitution x = u^2 maps the vertical tangent of x^(-x) at x = 0
     into a smooth linear zero at u = 0, restoring effectively exponential
@@ -21,7 +22,8 @@ def integrand_substituted(u: NDArray) -> NDArray:
 
 
 def gauss_legendre_substituted(n: int) -> float:
-    """Approximate the integral of x^(-x) from 0 to 1 with n-point Gauss-Legendre after x = u^2."""
+    """Approximate the integral of x^(-x) from 0 to 1
+    with n-point Gauss-Legendre after x = u^2."""
 
     # n-point Gauss-Legendre rule on the reference interval [-1, 1]
     nodes, weights = leggauss(n)
@@ -46,24 +48,16 @@ def main() -> None:
     plt.plot(x, y1, label=r"$\sum_{n=1}^{N} n^{-n}$")
     plt.plot(x, y2, label=r"$\int_0^1 x^{-x}\,dx$")
     plt.title("Johann Bernoulli's Identity (1697)")
-    plt.xlabel("Number of Terms / Quadrature Nodes")
+    plt.xlabel("Number of Terms / Quadrature Nodes (N)")
     plt.ylabel("Approximate Sum")
-    plt.annotate(
-        f"{y1[-1]:.14f}",
-        (x[-1], y1[-1]),
-        xytext=(-5, -15),
-        textcoords="offset points",
-        ha="right",
-        color="C0",
-    )
-    plt.annotate(
-        f"{y2[-1]:.14f}",
-        xy=(x[-1], y2[-1]),
-        xytext=(-5, 10),
-        textcoords="offset points",
-        ha="right",
-        color="C1",
-    )
+    # fmt:off
+    plt.annotate(f"{y1[-1]:.14f}", xy=(x[-1], y1[-1]),
+        xytext=(-5, -15), textcoords="offset points",
+        ha="right", color="C0")
+    plt.annotate(f"{y2[-1]:.14f}", xy=(x[-1], y2[-1]),
+        xytext=(-5, 10), textcoords="offset points",
+        ha="right", color="C1")
+    # fmt:on
     plt.legend(loc="center right")
     plt.gca().xaxis.set_major_locator(MultipleLocator(1))
     plt.grid("on")

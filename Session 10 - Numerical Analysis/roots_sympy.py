@@ -18,15 +18,15 @@ np.set_printoptions(formatter={"complex_kind": complex_formatter})
 
 
 # Function to solve the equation
-def solve_equation(eqn, symbol, results_queue):
+def solve_equation(eqn, symbol, queue):
     solutions = sympy.solve(eqn, symbol)
-    results_queue.put(solutions)
+    queue.put(solutions)
 
 
 # Function to solve with a timeout
 def solve_with_timeout(eqn, symbol, timeout=5):  # 5 seconds
-    results_queue = Queue()
-    process = Process(target=solve_equation, args=(eqn, symbol, results_queue))
+    queue = Queue()
+    process = Process(target=solve_equation, args=(eqn, symbol, queue))
     process.start()
     process.join(timeout)
 
@@ -35,7 +35,7 @@ def solve_with_timeout(eqn, symbol, timeout=5):  # 5 seconds
         process.join()
         return None
     else:
-        return results_queue.get()
+        return queue.get()
 
 
 def find_roots(polynomial, x):
