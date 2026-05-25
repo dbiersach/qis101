@@ -89,7 +89,6 @@ def plot(idw_plot_type: int):
         plotter.add_mesh(
             sample_pts, color="red", point_size=6, render_points_as_spheres=True
         )
-
     elif idw_plot_type == 2:
         plotter.add_mesh(
             est_surf, scalars="elevation", cmap="Blues", show_scalar_bar=False
