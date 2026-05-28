@@ -25,10 +25,10 @@ def idft(ts, ct):
     num_samples = ts.size  # ts = sample time
     num_terms = ct.size
     # fr = reconstructed fs(t) values
-    fr = np.zeros(num_samples, dtype=complex)
+    fr = np.zeros(num_samples, dtype=float)
     for n in range(0, num_samples):  # n = sample number
         for k in range(0, num_terms):  # k = filter wave number
-            fr[n] += ct[k] * np.exp(complex(0, -(k * ts[n])))
+            fr[n] += np.real(ct[k] * np.exp(complex(0, -(k * ts[n]))))
     return fr
 
 
