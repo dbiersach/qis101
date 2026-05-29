@@ -25,10 +25,10 @@ def idft(ts, ct):
     num_samples = ts.size  # ts = sample time
     num_terms = ct.size
     # fr = reconstructed fs(t) values
-    fr = np.zeros(num_samples, dtype=complex)
+    fr = np.zeros(num_samples, dtype=float)
     for n in range(0, num_samples):  # n = sample number
         for k in range(0, num_terms):  # k = filter wave number
-            fr[n] += ct[k] * np.exp(complex(0, -(k * ts[n])))
+            fr[n] += np.real(ct[k] * np.exp(complex(0, -(k * ts[n]))))
     return fr
 
 
@@ -75,7 +75,11 @@ def plot_idft(ax, ts, fr):
 def plot_power_spectrum(ax, ct):
     num_terms = 40
     ax.bar(
-        range(0, num_terms), abs(ct[:num_terms]), color="green", label="sine", zorder=2
+        range(0, num_terms),
+        abs(ct[:num_terms]) ** 2,
+        color="green",
+        label="sine",
+        zorder=2,
     )
     ax.grid(which="major", axis="x", color="black", linewidth=1)
     ax.grid(which="minor", axis="x", color="lightgray", linewidth=1)
@@ -86,7 +90,7 @@ def plot_power_spectrum(ax, ct):
     ax.yaxis.set_minor_locator(AutoMinorLocator())
     ax.set_title("Power Spectrum")
     ax.set_xlabel("frequency", loc="right")
-    ax.set_ylabel(r"$\Vert amplitude \Vert$")
+    ax.set_ylabel(r"${|amplitude|}^2$")
 
 
 def main(file_name):

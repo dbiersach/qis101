@@ -52,7 +52,11 @@ def plot_idft(ax, ts, fr):
 def plot_power_spectrum(ax, ct):
     num_terms = 40
     ax.bar(
-        range(0, num_terms), abs(ct[:num_terms]), color="green", label="sine", zorder=2
+        range(0, num_terms),
+        abs(ct[:num_terms]) ** 2,
+        color="green",
+        label="sine",
+        zorder=2,
     )
     ax.grid(which="major", axis="x", color="black", linewidth=1)
     ax.grid(which="minor", axis="x", color="lightgray", linewidth=1)
@@ -63,16 +67,24 @@ def plot_power_spectrum(ax, ct):
     ax.yaxis.set_minor_locator(AutoMinorLocator())
     ax.set_title("Power Spectrum")
     ax.set_xlabel("frequency", loc="right")
-    ax.set_ylabel(r"$\Vert amplitude \Vert$")
+    ax.set_ylabel(r"${|amplitude|}^2$")
 
 
 def main(file_name):
     file_path = Path(__file__).parent / file_name
     ts, fs = np.genfromtxt(file_path, delimiter=",", unpack=True)
 
-    ct = 2 / len(fs) * fft(fs)
-    yr = len(fs) / 2 * ifft(ct)
-    ct[0] /= 2  # DC value should NOT be doubled
+    # Raw FFT coefficients for the full two-sided spectrum
+    fft_raw = fft(fs)
+
+    # Use the raw coefficients for exact reconstruction
+    yr = ifft(fft_raw).real
+
+    # Convert to one-sided amplitudes for plotting
+    ct = 2 / len(fs) * fft_raw
+
+    # DC has no negative-frequency partner, so do not double it
+    ct[0] /= 2
 
     plt.figure(
         Path(__file__).name + f" ({file_name})",
