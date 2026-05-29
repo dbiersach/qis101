@@ -109,7 +109,7 @@ def main(file_name):
     # subplot's 3 params: # of rows, # of cols, which subplot #
     plot_samples(plt.subplot(2, 2, 1), ts, fs)
     plot_dft(plt.subplot(2, 2, 2), ct)
-    plot_idft(plt.subplot(2, 2, 3), ts, np.real(fr))
+    plot_idft(plt.subplot(2, 2, 3), ts, fr)
     plot_power_spectrum(plt.subplot(2, 2, 4), ct)
 
     plt.tight_layout()

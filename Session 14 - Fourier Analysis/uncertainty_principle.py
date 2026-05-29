@@ -6,86 +6,154 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
+from numpy.typing import NDArray
 
 
-def f(x):
-    # The Gaussian standard normal probability density function
-    return (
-        1
-        / (sigma * np.sqrt(2 * np.pi))
-        * np.exp((-1 / 2) * np.power(x, 2) / (np.power(sigma, 2)))
+def gaussian_wavefunction(xs: NDArray, sigma: float) -> NDArray:
+    """Return a normalized Gaussian wavefunction psi(x)"""
+    psi = np.exp(-(xs**2) / (4 * sigma**2))
+
+    dx = xs[1] - xs[0]
+    norm = np.sqrt(np.sum(np.abs(psi) ** 2) * dx)
+
+    return psi / norm
+
+
+def position_probability_density(psi_x: NDArray) -> NDArray:
+    """Return the position probability density |psi(x)|^2"""
+    return np.abs(psi_x) ** 2
+
+
+def momentum_probability_density(psi_x: NDArray, dx: float) -> tuple[NDArray, NDArray]:
+    """Return wave numbers k and the probability density |phi(k)|^2"""
+
+    # Number of position-space samples in psi(x)
+    num_samples = psi_x.size
+
+    # Build the corresponding wave-number values k
+    # fftfreq gives cycles/unit length; multiply by 2π to get radians/unit length
+    # fftshift moves negative k values to the left and positive k values to the right
+    ks = 2 * np.pi * np.fft.fftshift(np.fft.fftfreq(num_samples, d=dx))
+
+    # Spacing between neighboring k values
+    dk = ks[1] - ks[0]
+
+    # Compute phi(k), the Fourier transform of psi(x)
+    # The dx factor makes the discrete sum approximate the continuous integral
+    # The 1/sqrt(2π) factor matches the symmetric Fourier transform convention
+    # fftshift centers the zero-frequency component in the plotted spectrum
+    phi_k = (
+        dx / np.sqrt(2 * np.pi) * np.fft.fftshift(np.fft.fft(np.fft.ifftshift(psi_x)))
     )
 
+    # Convert complex amplitudes phi(k) into probability density |phi(k)|^2
+    prob_k = np.abs(phi_k) ** 2
 
-def plot_samples(ts, ys, ax):
-    global wave_pdf
-    (wave_pdf,) = ax.plot(ts, ys, animated=True)
-    ax.set_title("Particle Location (Probability Density)")
-    ax.set_xlabel("Location", loc="right")
-    ax.set_ylabel("Probability Density")
-    ax.set_ylim(0, 25)
+    # Normalize so the total area under the momentum probability curve is 1
+    prob_k /= np.sum(prob_k) * dk
 
-
-def plot_powerspec(ps, ax):
-    global wave_ps
-    (wave_ps,) = ax.plot(range(len(ps)), ps, color="green", animated=True)
-    ax.set_title("Particle Frequencies")
-    ax.set_xlabel("Frequency", loc="right")
-    ax.set_ylabel(r"$\Vert Amplitude\Vert$")
-    ax.set_ylim(0, 1)
+    return ks, prob_k
 
 
-def anim_frame_counter():
-    global sigma
-    n = 1
-    while n < 1200:
-        sigma = 10 / n if n <= 600 else 10 / (1200 - n)
-        n += 1
-        yield n
+def build_distributions(xs: NDArray, sigma: float) -> tuple[NDArray, NDArray, NDArray]:
+    """Build normalized position and momentum probability densities"""
+    dx = xs[1] - xs[0]
+
+    psi_x = gaussian_wavefunction(xs, sigma)
+    prob_x = position_probability_density(psi_x)
+    ks, prob_k = momentum_probability_density(psi_x, dx)
+
+    return prob_x, ks, prob_k
 
 
-def anim_draw_frame(t):
-    global sigma
-    ys = f(ts)
-    wave_pdf.set_data(ts, ys)
+def sigma_generator():
+    """Shrink from the starting width, then return to it"""
+    sigma_start = 0.25
+    sigma_stop = 0.015
+    num_frames_each_way = 240
 
-    sigma /= 30
-    ys = f(ts)
-    ca = np.fft.rfft(ys) / 2
-    ps = np.abs(ca) / len(ca)
-
-    wave_ps.set_data(range(len(ps)), ps)
-
-    return (
-        wave_pdf,
-        wave_ps,
+    shrinking = np.linspace(
+        sigma_start,
+        sigma_stop,
+        num_frames_each_way,
+        endpoint=True,
     )
+
+    widening = np.linspace(
+        sigma_stop,
+        sigma_start,
+        num_frames_each_way,
+        endpoint=True,
+    )[1:]
+
+    yield from shrinking
+    yield from widening
+
+
+def plot_position(ax, xs: NDArray, prob_x: NDArray):
+    """Plot the initial position probability density"""
+    sigma_stop = 0.015
+    prob_x_max, _, _ = build_distributions(xs, sigma_stop)
+
+    (line,) = ax.plot(xs, prob_x, animated=True)
+
+    ax.set_title("Particle Location")
+    ax.set_xlabel("Position $x$", loc="right")
+    ax.set_ylabel(r"Probability Density $|\psi(x)|^2$")
+    ax.set_xlim(xs[0], xs[-1])
+    ax.set_ylim(0, 1.15 * np.max(prob_x_max))
+
+    return line
+
+
+def plot_momentum(ax, ks: NDArray, prob_k: NDArray):
+    """Plot the initial momentum probability density"""
+    (line,) = ax.plot(ks, prob_k, animated=True)
+
+    ax.set_title("Particle Frequency / Momentum")
+    ax.set_xlabel(r"Wave number $k$", loc="right")
+    ax.set_ylabel(r"Probability Density $|\phi(k)|^2$")
+    ax.set_xlim(-250, 250)
+    ax.set_ylim(0, 1.15 * np.max(prob_k))
+
+    return line
+
+
+def draw_frame(sigma: float):
+    """Update both probability distributions for the current sigma"""
+    prob_x, ks, prob_k = build_distributions(xs, sigma)
+
+    wave_position.set_data(xs, prob_x)
+    wave_momentum.set_data(ks, prob_k)
+
+    return wave_position, wave_momentum
 
 
 def main():
-    global ts, sigma, anim
+    global xs, wave_position, wave_momentum, anim
 
-    ts = np.linspace(-1, 1, 1000, endpoint=False)
+    xs = np.linspace(-1, 1, 1000, endpoint=False)
 
-    sigma = 1
-    ys = f(ts)
-
-    ca = np.fft.rfft(ys) / 2
-    ps = np.abs(ca) / len(ca)
+    sigma_start = 0.25
+    prob_x, ks, prob_k = build_distributions(xs, sigma_start)
 
     plt.figure(Path(__file__).name, figsize=(12, 4))
 
-    ax_pdf = plt.subplot(1, 2, 1)
-    ax_ps = plt.subplot(1, 2, 2)
+    ax_position = plt.subplot(1, 2, 1)
+    ax_momentum = plt.subplot(1, 2, 2)
 
-    plot_samples(ts, ys, ax_pdf)
-    plot_powerspec(ps, ax_ps)
+    wave_position = plot_position(ax_position, xs, prob_x)
+    wave_momentum = plot_momentum(ax_momentum, ks, prob_k)
 
-    # fmt: off
-    anim = FuncAnimation(ax_pdf.figure,
-        anim_draw_frame, anim_frame_counter, interval=25,
-        cache_frame_data=False, blit=True, repeat=False)
-    # fmt: on
+    anim = FuncAnimation(
+        ax_position.figure,
+        draw_frame,
+        frames=sigma_generator,
+        interval=25,
+        cache_frame_data=False,
+        blit=True,
+        repeat=False,
+    )
 
     plt.tight_layout()
     plt.show()

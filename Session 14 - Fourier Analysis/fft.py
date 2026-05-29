@@ -80,7 +80,8 @@ def main(file_name):
     # Use the raw coefficients for exact reconstruction
     yr = ifft(fft_raw).real
 
-    # Convert to one-sided amplitudes for plotting
+    # Scale FFT bins as one-sided amplitudes
+    # The plot will only display *positive* frequency bins
     ct = 2 / len(fs) * fft_raw
 
     # DC has no negative-frequency partner, so do not double it
@@ -93,7 +94,7 @@ def main(file_name):
 
     plot_samples(plt.subplot(2, 2, 1), ts, fs)
     plot_dft(plt.subplot(2, 2, 2), ct)
-    plot_idft(plt.subplot(2, 2, 3), ts, np.real(yr))
+    plot_idft(plt.subplot(2, 2, 3), ts, yr)
     plot_power_spectrum(plt.subplot(2, 2, 4), ct)
 
     plt.tight_layout()

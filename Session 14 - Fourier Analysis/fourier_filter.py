@@ -115,7 +115,7 @@ def main():
 
     fr = idft(ts, ct)
 
-    plot_idft(plt.subplot(2, 2, 3), ts, np.real(fr))
+    plot_idft(plt.subplot(2, 2, 3), ts, fr)
     plot_power_spectrum(plt.subplot(2, 2, 4), ct)
 
     plt.tight_layout()
