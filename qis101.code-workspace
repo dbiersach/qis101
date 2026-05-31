@@ -37,6 +37,7 @@
         ],
         "notebook.formatOnCellExecution": true,
         "notebook.formatOnSave.enabled": true,
+        "notebook.markup.fontSize": 18,
         "output.smartScroll.enabled": false,
         "python.analysis.autoImportCompletions": true,
         "python.analysis.completeFunctionParens": true,
@@ -84,8 +85,5 @@
             "tab.activeBorder": "#3cff00",
             "tab.unfocusedActiveBorder": "#000000"
         },
-        "cSpell.words": [
-            "limaçon"
-        ]
     }
 }
