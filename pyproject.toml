@@ -52,6 +52,7 @@ dependencies = [
     "highspy>=1.13.1",
     "pyvista[all]>=0.47.1",
     "ruff>=0.15.13",
+    "python-constraint2>=2.5.0",
 ]
 
 [build-system]
