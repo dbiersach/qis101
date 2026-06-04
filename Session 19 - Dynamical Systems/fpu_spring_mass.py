@@ -28,7 +28,7 @@ from tqdm import tqdm
 
 from qis101_utils import yoshida_coeffs
 
-# ── Physical parameters ──────────────────────────────────────────────
+# Physical parameters
 N = 5  # number of masses
 K = 50.0  # spring constant (N/m)
 M = 1.0  # mass of each particle (kg)
@@ -94,7 +94,7 @@ def integrate(
     """
     dt = tf / ts
 
-    # ── Yoshida 4th-order symplectic coefficients (from pendulum_utils) ─
+    # Yoshida 4th-order symplectic coefficients (from pendulum_utils)
     c, d = yoshida_coeffs()
     cs = list(c)  # c has shape (4,): [c1, c2, c2, c1]
     ds = list(d)  # d has shape (3,): [d1, d2, d1]
@@ -117,24 +117,23 @@ def integrate(
 
 
 def main() -> None:
-    # ── Initial conditions ───────────────────────────────────────────
+    # Initial conditions
     u0 = np.zeros(N)  # displacements from equilibrium (m)
     v0 = np.zeros(N)  # velocities (m/s)
     u0[0] = 0.3  # pluck first mass forward from equilibrium
 
-    # ── Short run for time-domain plots (0-10s) ──────────────────────
+    # Short run for time-domain plots (0-10s)
     tf_plot, ts_plot = 10.0, 100_000
     t_hist, u_hist = integrate(u0, v0, tf_plot, ts_plot, desc="Time Domain Integration")
 
-    # ── Long run for FFT (0-100s gives 0.01 Hz frequency resolution) ─
+    # Long run for FFT (0-100s gives 0.01 Hz frequency resolution)
     tf_fft, ts_fft = 100.0, 200_000
     _, u_hist_fft = integrate(
         u0, v0, tf_fft, ts_fft, desc="Frequency Domain Integration"
     )
     dt_fft = tf_fft / ts_fft
 
-    # ── Plotting ─────────────────────────────────────────────────────
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 8), num=Path(__file__).name)
+    _, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 8), num=Path(__file__).name)
     ax1.sharex(ax2)
     colors = ["crimson", "royalblue", "darkorange", "forestgreen", "mediumpurple"]
     ax1.tick_params(axis="x", labelbottom=True)

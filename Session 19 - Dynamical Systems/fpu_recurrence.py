@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
 
-# ── Physical parameters ──────────────────────────────────────────────
+# Physical parameters
 N = 32  # number of masses (more masses = cleaner recurrence)
 K = 1.0  # spring constant (N/m)
 M = 1.0  # mass of each particle (kg)
@@ -44,7 +44,7 @@ _u_ext = np.empty(N + 2)
 _u_ext[0] = 0.0  # left wall (fixed)
 _u_ext[-1] = 0.0  # right wall (fixed)
 
-# ── Precompute normal mode basis and frequencies ─────────────────────
+# Precompute normal mode basis and frequencies
 # mode_matrix[j, i] = sqrt(2/(N+1)) * sin((j+1) * pi * (i+1) / (N+1))
 _j_idx = np.arange(1, N + 1).reshape(N, 1)
 _i_idx = np.arange(1, N + 1).reshape(1, N)
@@ -104,12 +104,12 @@ def mode_energies(u: np.ndarray, v: np.ndarray) -> np.ndarray:
 
 
 def main() -> None:
-    # ── Simulation parameters ────────────────────────────────────────
+    # Simulation parameters
     tf = 2 * np.pi * 1000  # final time (s) - long enough to see recurrence
     ts = 1_000_000  # number of time steps
     dt = tf / ts
 
-    # ── Initial conditions ───────────────────────────────────────────
+    # Initial conditions
     # Excite only normal mode 1 (lowest mode) - the classic FPU setup
     mode = 1
     amplitude = 1.0
@@ -117,7 +117,7 @@ def main() -> None:
     u = amplitude * np.sin(mode * np.pi * indices / (N + 1))
     v = np.zeros(N)
 
-    # ── Yoshida 4th-order symplectic coefficients (1990) ─────────────
+    # Yoshida 4th-order symplectic coefficients (1990)
     cbrt2 = 2.0 ** (1.0 / 3.0)
     c1 = 1.0 / (2.0 * (2.0 - cbrt2))
     c2 = (1.0 - cbrt2) / (2.0 * (2.0 - cbrt2))
@@ -126,7 +126,7 @@ def main() -> None:
     d2 = -cbrt2 / (2.0 - cbrt2)
     ds = [d1, d2, d1]
 
-    # ── Storage (sample every sample_every steps to save memory) ─────
+    # Storage (sample every sample_every steps to save memory)
     # Derive n_samples from sample_every so the two are always exactly
     # aligned; ts % sample_every == 0 is guaranteed by construction
     sample_every = 5_000
@@ -135,7 +135,7 @@ def main() -> None:
     energy_hist = np.zeros((n_samples, N))
     sample_idx = 0
 
-    # ── Time integration (Yoshida 4th-order) ─────────────────────────
+    # Time integration (Yoshida 4th-order)
     for step in tqdm(range(ts), desc="Integrating"):
         if step % sample_every == 0:
             t_hist[sample_idx] = step * dt
@@ -147,8 +147,8 @@ def main() -> None:
             v = v + ds[j] * acceleration(u) * dt
             u = u + cs[j + 1] * v * dt
 
-    # ── Plotting ─────────────────────────────────────────────────────
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), num=Path(__file__).name)
+    # Plotting
+    _, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), num=Path(__file__).name)
 
     # Upper panel: energy in first several modes vs time
     n_modes_plot = 6

@@ -9,17 +9,13 @@ from scipy.integrate import solve_bvp
 
 
 def model(x, state_vector):
-    # Unpack current state vector (dependent variables)
     y, dy = state_vector
-    # Express y'' + 4y = 0 as a first-order system
-    d_y = dy
-    d_dy = -4 * y
-    # Vertically stack derivatives into two *rows* for solve_bvp
-    return np.vstack((d_y, d_dy))
+    return np.array([dy, -4 * y])
 
 
 def boundary_conditions(ya, yb):
-    # ya = state vector at x = x_initial, yb = state vector at x = x_final
+    # ya = state vector at x = x_initial
+    # yb = state vector at x = x_final
     # Residuals must vanish when y(0) = -2 and y(pi/4) = -3
     return np.array([ya[0] + 2, yb[0] + 3])
 
@@ -52,13 +48,10 @@ def main():
     plt.figure(Path(__file__).name)
     plt.plot(x_plot, y_exact, lw=6, color="lightgray", label="Analytic")
     plt.plot(x_plot, y_numeric, lw=2, color="crimson", label="solve_bvp")
-    plt.scatter(
-        [x_initial, x_final],
-        [-2, -3],
-        color="black",
-        zorder=5,
-        label="Boundary conditions",
-    )
+    # fmt: off
+    plt.scatter([x_initial, x_final], [-2, -3],
+        color="black", zorder=5, label="Boundary conditions")
+    # fmt: on
     plt.title(r"BVP: $y'' + 4y = 0,\ \ y(0) = -2,\ \ y(\pi/4) = -3$")
     plt.xlabel("x")
     plt.ylabel("y(x)")

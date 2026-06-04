@@ -10,7 +10,7 @@ import numpy as np
 x1 = np.linspace(-3, 3, 1000)
 y1 = (np.exp(x1) - 1) / x1
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), num=Path(__file__).name)
+_, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), num=Path(__file__).name)
 ax1.plot(x1, y1, "b-", linewidth=1.5, label=r"$f(x) = \dfrac{e^x - 1}{x}$")
 ax1.axhline(0, color="black", linewidth=0.5)
 ax1.axvline(0, color="black", linewidth=0.5)

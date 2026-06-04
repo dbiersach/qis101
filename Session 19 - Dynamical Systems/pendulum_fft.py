@@ -40,10 +40,6 @@ from qis101_utils import (
     pendulum_yoshida4,
 )
 
-# ========================================================================
-# Integrators (all return t, theta, omega arrays)
-# ========================================================================
-
 
 def _ode_model(time, state_vector):
     """State-space form for solve_ivp."""
@@ -90,11 +86,6 @@ def solve_rk45(theta0, omega0, t_final, dt):
     t = np.arange(0, t_final, dt)
     y = sol.sol(t)
     return t, y[1], y[0]  # t, theta, omega
-
-
-# ========================================================================
-# Plotting helpers
-# ========================================================================
 
 
 def plot_energy_error(ax, t, abs_energy_error, color):
@@ -220,7 +211,7 @@ def main():
         freqs, power, power_db = compute_spectrum(theta, dt)
         results[name] = (t, abs_energy_error, freqs, power, power_db, color)
 
-    # --- Create one figure per method ---
+    # Create one figure per method
     for name in reversed(list(methods.keys())):
         t, abs_energy_error, freqs, power, power_db, color = results[name]
 
@@ -243,7 +234,7 @@ def main():
 
         fig.tight_layout()
 
-    # --- Print summary ---
+    # Print summary
     print(f"\nExpected fundamental ≈ {f_natural:.4f} Hz (small-angle approx)")
     print(
         f"{'Method':<22} {'Peak (Hz)':>10} {'Peak (dB)':>10}"

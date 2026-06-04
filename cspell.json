@@ -298,6 +298,7 @@
         "kron",
         "Kutta",
         "labelbottom",
+        "labelcolor",
         "laguerre",
         "lambdify",
         "LASTEXITCODE",

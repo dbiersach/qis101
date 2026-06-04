@@ -42,18 +42,25 @@ def main():
     time_steps = sol.t
     omega, theta = sol.y  # Unpack order like initial state vector
 
-    plt.figure(Path(__file__).name)
-    (plot1,) = plt.plot(time_steps, theta, lw=2, label=r"$\theta$ (rads)")
-    (plot2,) = plt.plot(time_steps, omega, lw=2, label=r"$\omega$ (rads/sec)")
-    plt.title("Simple Pendulum (RKF45 Method)")
-    plt.xlabel("Time (sec)")
-    plt.ylabel(r"Angular Displacement $\theta$ (rad)")
-    plt.twinx()
-    plt.ylabel(r"Angular Velocity $\omega$ (rad/s)")
-    plt.legend(
-        [plot1, plot2], [r"$\theta$", r"$\omega$"], framealpha=1.0, facecolor="white"
+    _, ax_theta = plt.subplots(num=Path(__file__).name)
+    (plot1,) = ax_theta.plot(
+        time_steps, theta, lw=2, label=r"$\theta$ (rad)", color="C0"
     )
-    plt.grid("On")
+    ax_theta.set_title("Simple Pendulum (RKF45 Method)")
+    ax_theta.set_xlabel("Time (sec)")
+    ax_theta.set_ylabel(r"Angular Displacement $\theta$ (rad)", color="C0")
+    ax_theta.tick_params(axis="y", labelcolor="C0")
+    ax_theta.grid(True)
+    ax_omega = ax_theta.twinx()
+    (plot2,) = ax_omega.plot(
+        time_steps, omega, lw=2, label=r"$\omega$ (rad/s)", color="C1"
+    )
+    ax_omega.set_ylabel(r"Angular Velocity $\omega$ (rad/s)", color="C1")
+    ax_omega.tick_params(axis="y", labelcolor="C1")
+    # fmt: off
+    ax_theta.legend([plot1, plot2], [r"$\theta$", r"$\omega$"],
+        loc="upper right", framealpha=1.0, facecolor="white")
+    # fmt: on
     plt.show()
 
 
