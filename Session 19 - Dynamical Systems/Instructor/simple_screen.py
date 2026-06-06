@@ -86,8 +86,7 @@ class SimpleScreen:
             f"screen_size={self.screen_size})"
         )
 
-    # ── World / screen coordinate mapping ────────────────────────────────────
-
+    # World / screen coordinate mapping
     def calc_world_rect(self):
         """Recompute all world-to-screen scale factors from world_rects[-1]."""
         self.world_min, self.world_max = self.world_rects[-1]
@@ -117,7 +116,7 @@ class SimpleScreen:
         """Convert screen pixel row to world y-coordinate."""
         return self.wy1 + sy / self.rh
 
-    # ── Drawing helpers ───────────────────────────────────────────────────────
+    # Drawing helpers
 
     def set_background(self, clr):
         """Fill the entire surface with *clr* (a pygame color name or Color)."""
@@ -157,8 +156,7 @@ class SimpleScreen:
         del self.pixels
         pygame.display.flip()
 
-    # ── Zoom helpers ──────────────────────────────────────────────────────────
-
+    # Zoom helpers
     def create_zoom_rect(self, event) -> pygame.Rect:
         """Build a normalized, aspect-ratio-preserving zoom rectangle."""
         self.zoom_pos_stop = event.pos
@@ -170,8 +168,7 @@ class SimpleScreen:
         zoom_rect.width = round(self.screen_ratio * zoom_rect.height)
         return zoom_rect
 
-    # ── Main event loop ───────────────────────────────────────────────────────
-
+    # Main event loop
     def show(self):
         """Enter the pygame event loop.
 

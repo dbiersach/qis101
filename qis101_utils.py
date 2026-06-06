@@ -1,18 +1,18 @@
 """qis101_utils.py
 
-Shared utility functions for the QIS101 course.
+Shared utility functions for the QIS101 course
 
 Sections
 --------
-1. LaTeX rendering helpers for NumPy arrays in Jupyter notebooks.
+1. LaTeX rendering helpers for NumPy arrays in Jupyter notebooks
 2. Ideal-pendulum physics and symplectic integrators used across
-    Session 19 dynamical-systems scripts.
+    Session 19 dynamical-systems scripts
 """
 
 import numpy as np
 from IPython.display import Math
 
-# ── Section 1: LaTeX rendering ────────────────────────────────────────────────
+# Section 1: LaTeX rendering
 
 # (value, LaTeX string) pairs for recognizing common exact fractions.
 # Comparisons are made against abs(np.round(val, 5)).
@@ -27,7 +27,7 @@ _SPECIAL_VALUES: list[tuple[float, str]] = [
 
 
 def _format_real(val: float, places: int = 5) -> str:
-    """Return a LaTeX string for a real scalar, recognizing common fractions."""
+    """Return a LaTeX string for a real scalar, recognizing common fractions"""
     rounded = abs(np.round(val, 5))
     for threshold, latex in _SPECIAL_VALUES:
         if rounded == threshold:
@@ -44,16 +44,16 @@ def as_latex(
     column: bool = False,
     prefix: str = "",
 ) -> Math:
-    """Render a NumPy array as a LaTeX bmatrix for display in a Jupyter notebook.
+    """Render a NumPy array as a LaTeX bmatrix for display in a Jupyter notebook
 
     Args:
-        a:       1-D or 2-D array of real or complex values.
-        places:  Decimal places used when formatting non-special values.
-        column:  If True, treat a 1-D array as a column vector.
-        prefix:  Optional LaTeX string prepended before the bmatrix.
+        a:       1-D or 2-D array of real or complex values
+        places:  Decimal places used when formatting non-special values
+        column:  If True, treat a 1-D array as a column vector
+        prefix:  Optional LaTeX string prepended before the bmatrix
 
     Returns:
-        An IPython ``Math`` object ready for ``display()``.
+        An IPython ``Math`` object ready for ``display()``
     """
     matrix = np.copy(a)
     if matrix.ndim == 1:
@@ -100,7 +100,7 @@ def as_latex(
     return Math(prefix + r"\begin{bmatrix}" + latex_body + r"\\" + r"\end{bmatrix}")
 
 
-# ── Section 2: Pendulum physics and symplectic integrators ────────────────────
+# Section 2: Pendulum physics and symplectic integrators
 
 # Physical constants for an ideal simple pendulum
 PENDULUM_LENGTH = 1.0  # pendulum length (m)
@@ -108,10 +108,10 @@ PENDULUM_G = 9.81  # gravitational acceleration (m/s²)
 
 
 def pendulum_angular_acceleration(theta: float | np.ndarray) -> float | np.ndarray:
-    """Compute the angular acceleration of an ideal pendulum.
+    """Compute the angular acceleration of an ideal pendulum
 
     Applies the exact (nonlinear) equation of motion: α = -(g/L) sin(θ),
-    with no small-angle approximation.
+    with no small-angle approximation
 
     Parameters
     ----------
@@ -129,11 +129,11 @@ def pendulum_angular_acceleration(theta: float | np.ndarray) -> float | np.ndarr
 def pendulum_total_energy(
     theta: float | np.ndarray, omega: float | np.ndarray
 ) -> float | np.ndarray:
-    """Compute the total mechanical energy of the pendulum per unit mass.
+    """Compute the total mechanical energy of the pendulum per unit mass
 
     Returns the sum of kinetic and potential energy in the form:
     E = (1/2)ω² - (g/L)cos(θ), where potential energy is referenced
-    to the pivot point.
+    to the pivot point
 
     Parameters
     ----------
@@ -153,11 +153,11 @@ def pendulum_total_energy(
 def pendulum_euler_cromer(
     theta0: float, omega0: float, t_final: float, dt: float
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Integrate the pendulum equations using the Euler-Cromer method.
+    """Integrate the pendulum equations using the Euler-Cromer method
 
     A first-order symplectic integrator that updates velocity before position,
     giving exact energy conservation on average. Superior to standard Euler
-    for oscillatory systems despite being only first-order accurate.
+    for oscillatory systems despite being only first-order accurate
 
     Parameters
     ----------
@@ -194,11 +194,11 @@ def pendulum_euler_cromer(
 def pendulum_velocity_verlet(
     theta0: float, omega0: float, t_final: float, dt: float
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Integrate the pendulum equations using the Velocity Verlet method.
+    """Integrate the pendulum equations using the Velocity Verlet method
 
     A second-order symplectic integrator that evaluates acceleration at both
     the current and next positions, achieving better energy conservation and
-    phase accuracy than Euler-Cromer with the same step size.
+    phase accuracy than Euler-Cromer with the same step size
 
     Parameters
     ----------
@@ -234,11 +234,11 @@ def pendulum_velocity_verlet(
 
 
 def yoshida_coeffs() -> tuple[np.ndarray, np.ndarray]:
-    """Compute the Yoshida 4th-order symplectic integrator coefficients.
+    """Compute the Yoshida 4th-order symplectic integrator coefficients
 
     Derives the position (c) and velocity (d) substep coefficients from
     Yoshida (1990), "Construction of higher order symplectic integrators,"
-    Physics Letters A, 150(5-7), 262-268.
+    Physics Letters A, 150(5-7), 262-268
 
     Returns
     -------
@@ -258,12 +258,12 @@ def yoshida_coeffs() -> tuple[np.ndarray, np.ndarray]:
 def pendulum_yoshida4(
     theta0: float, omega0: float, t_final: float, dt: float
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Integrate the pendulum equations using the Yoshida 4th-order symplectic method.
+    """Integrate the pendulum equations using the Yoshida 4th-order symplectic method
 
     A fourth-order symplectic integrator constructed from three Verlet substeps
     with carefully chosen coefficients (Forest & Ruth 1990 / Yoshida 1990).
     Provides superior long-term energy conservation and spectral purity compared
-    to lower-order symplectic methods.
+    to lower-order symplectic methods
 
     Parameters
     ----------
