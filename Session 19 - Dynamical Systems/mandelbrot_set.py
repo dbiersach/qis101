@@ -31,11 +31,9 @@ def plot_mandelbrot_set(ss):
     max_iter = 100
     radius = 16  # squared escape radius (|z|² threshold)
 
-    # ------------------------------------------------------------------
     # Build a 2-D grid of complex constants C, one per pixel.
     # wx shape: (screen_width,)   wy shape: (screen_height,)
     # C shape:  (screen_height, screen_width)
-    # ------------------------------------------------------------------
     wx = np.array([ss.world_x(sx) for sx in range(ss.screen_width)])
     wy = np.array([ss.world_y(sy) for sy in range(ss.screen_height)])
     C = wx[np.newaxis, :] + 1j * wy[:, np.newaxis]
@@ -61,11 +59,9 @@ def plot_mandelbrot_set(ss):
         # Only increment the count for pixels still inside the set
         iter_count[active & ~newly_escaped] += 1
 
-    # ------------------------------------------------------------------
     # Map iteration counts to HSV colors and push pixels to the screen.
     # Pixels that never escaped (iter_count == max_iter) receive value=0
     # (black); all others are colored by hue derived from escape speed.
-    # ------------------------------------------------------------------
     hue_grid = (360 * iter_count / max_iter).astype(int)
 
     # Write all pixels into the off-screen buffer first, then flip once

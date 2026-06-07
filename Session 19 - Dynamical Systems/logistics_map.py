@@ -9,7 +9,7 @@ from simple_screen import SimpleScreen
 def plot_logistics_map(ss):
     for sx in range(ss.screen_width):
         x = ss.world_x(sx)
-        y = np.random.random()
+        y = 1.0 - np.random.random()
 
         # Warmup phase: iterate the logistic map without plotting to allow
         # transient behavior to die out and the trajectory to settle onto
