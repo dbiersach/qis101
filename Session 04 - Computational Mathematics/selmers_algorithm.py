@@ -5,40 +5,54 @@ import numpy as np
 from numba import njit, prange
 
 
+@njit
+def modular_inverse(value: int, n: int) -> int:
+    """Find inverse such that (value * inverse) = 1 mod n
+
+    Example: The inverse of 3 mod 7 is 5 because (3 * 5) mod 7 = 1
+    """
+    old_r = value % n
+    r = n
+    old_s = 1
+    s = 0
+    while r != 0:
+        quotient = old_r // r
+        old_r, r = r, old_r - quotient * r
+        old_s, s = s, old_s - quotient * s
+    if old_r != 1:
+        return -1
+    return old_s % n
+
+
 @njit(parallel=True)
-def frobenius_number(triplet, limit):
-    """
-    Uses Selmer-style dynamic marking to find the Frobenius number.
-    All combinations ax + by + cz are marked as representable.
-    """
+def apery_set_mod_a(a: int, b: int, c: int) -> np.ndarray:
+    """Return the Apery set with respect to a for the pair (b, c)"""
+    initial_best = np.iinfo(np.int64).max
+    inverse_c = modular_inverse(c, a)
+    apery = np.empty(a, dtype=np.int64)
+    for residue in prange(a):
+        best = initial_best
+        for y in range(a):
+            remaining = (residue - b * y) % a
+            z = (remaining * inverse_c) % a
+            value = b * y + c * z
+            if value < best:
+                best = value
+        apery[residue] = best
+    return apery
+
+
+def frobenius_number(triplet: tuple[int, int, int]) -> int:
+    """Return the Frobenius number of a pairwise-coprime triplet"""
     a, b, c = triplet
-    reachable = np.zeros(limit + 1, dtype=np.uint8)
-
-    # Parallel loop for performance
-    for x in prange(limit // a + 1):
-        ax = x * a
-        for y in range((limit - ax) // b + 1):
-            axy = ax + y * b
-            for z in range((limit - axy) // c + 1):
-                val = axy + z * c
-                if val <= limit:
-                    reachable[val] = 1
-
-    # Find the largest number that is not reachable
-    for i in range(limit, -1, -1):
-        if reachable[i] == 0:
-            return i
-    return -1  # This should never happen if limit is high enough
+    apery = apery_set_mod_a(a, b, c)
+    return int(np.max(apery) - a)
 
 
-def main():
+def main() -> None:
+    # a must be the smallest #, and gcd(a,b,c) must be = 1
     triplet = (7919, 12553, 17389)  # g() = 2711658
-    limit = 3_000_000
-    n = frobenius_number(triplet, limit)
-    if n == -1:
-        print("Limit too low to find Frobenius number.")
-    else:
-        print(f"g{triplet} = {n}")
+    print(f"g{triplet} = {frobenius_number(triplet)}")
 
 
 if __name__ == "__main__":

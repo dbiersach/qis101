@@ -255,6 +255,7 @@
         "ifft",
         "ifftshift",
         "IIIZ",
+        "iinfo",
         "IIZI",
         "IIZZ",
         "imag",
