@@ -14,8 +14,8 @@ from IPython.display import Math
 
 # Section 1: LaTeX rendering
 
-# (value, LaTeX string) pairs for recognizing common exact fractions.
-# Comparisons are made against abs(np.round(val, 5)).
+# (value, LaTeX string) pairs for recognizing common exact fractions
+# Comparisons are made against abs(np.round(val, 5))
 _SPECIAL_VALUES: list[tuple[float, str]] = [
     (0.25000, r"\frac{1}{4}"),
     (0.50000, r"\frac{1}{2}"),
@@ -247,7 +247,7 @@ def yoshida_coeffs() -> tuple[np.ndarray, np.ndarray]:
     d : ndarray, shape (3,)
         Velocity full-step coefficients
     """
-    cbrt2 = 2.0 ** (1.0 / 3.0)
+    cbrt2 = 2.0 ** (1.0 / 3.0)  # cube root of 2, precalculate for efficiency
     w1 = 1.0 / (2.0 - cbrt2)
     w0 = -cbrt2 / (2.0 - cbrt2)
     c = np.array([w1 / 2.0, (w0 + w1) / 2.0, (w0 + w1) / 2.0, w1 / 2.0])
