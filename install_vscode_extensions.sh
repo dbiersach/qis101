@@ -1,9 +1,9 @@
+export NODE_NO_WARNINGS=1
 code --install-extension charliermarsh.ruff --force
 code --install-extension cschlosser.doxdocgen --force
 code --install-extension davidanson.vscode-markdownlint --force
 code --install-extension emmanuelbeziat.vscode-great-icons --force
 code --install-extension esbenp.prettier-vscode --force
-code --install-extension github.copilot-chat --force
 code --install-extension james-yu.latex-workshop --force
 code --install-extension mechatroner.rainbow-csv --force
 code --install-extension ms-python.debugpy --force
