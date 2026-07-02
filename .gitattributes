@@ -1,0 +1,32 @@
+# Normalize line endings across all platforms. Git auto-detects text vs
+# binary; text files are stored as LF in the repo and checked out as LF
+# everywhere, so notebooks and scripts never show phantom CRLF diffs.
+* text=auto eol=lf
+
+# Be explicit for the file types in this courseware.
+*.py    text eol=lf
+*.ipynb text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+*.toml  text eol=lf
+*.cfg   text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# Common binaries — never touch these.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.pdf   binary
+*.zip   binary
+*.gz    binary
+*.npy   binary
+*.npz   binary
+*.parquet binary
+*.wav   binary
+*.mp3   binary
+*.ttf   binary
+*.otf   binary
