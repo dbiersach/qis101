@@ -29,7 +29,7 @@ print(f"Path to config file: {matplotlib.matplotlib_fname()}", end="\n\n")
 all_backends = sorted(matplotlib.backends.backend_registry.list_builtin())
 print(f"All backends: {all_backends}", sep=",", end="\n\n")
 
-# To use QtAgg with PyQt6, must set before importing pyplot
+# To use QtAgg (backed by PySide6 in this env), must set before importing pyplot
 matplotlib.use("QtAgg")
 print(f"Active Backend: {matplotlib.get_backend()}", end="\n\n")
 

@@ -7,9 +7,7 @@ readme = "README.md"
 requires-python = ">=3.13,<3.14"
 
 dependencies = [
-    "apptools",
     "beautifulsoup4",
-    "black",
     "configobj",
     "datasets",
     "ipympl",
@@ -23,11 +21,8 @@ dependencies = [
     "numexpr",
     "numpy",
     "pandas",
-    "pip",
     "pulp",
-    "pyface",
     "pygame",
-    "pyqt6",
     "pyside6",
     "pyside6-addons",
     "qiskit",
@@ -44,10 +39,8 @@ dependencies = [
     "setuptools",
     "sympy",
     "tqdm",
-    "traitsui",
     "transformers",
     "webdriver-manager",
-    "wheel",
     # CuPy: only available on Linux and Windows x64 with CUDA; not on macOS
     "cupy-cuda12x ; sys_platform == 'linux' or (sys_platform == 'win32' and platform_machine == 'AMD64')",
     "highspy>=1.13.1",
