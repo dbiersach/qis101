@@ -10,6 +10,10 @@ dependencies = [
     "beautifulsoup4",
     "configobj",
     "datasets",
+    # Pin to the stable 6.x line: ipykernel 7's subshell/control-channel
+    # rewrite drops execute_reply/idle messages on Windows, leaving VS Code
+    # cells stuck spinning even though the kernel finished (vscode-jupyter #17228).
+    "ipykernel<7",
     "ipympl",
     "ipython",
     "jax[cpu]",
