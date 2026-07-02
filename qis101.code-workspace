@@ -31,6 +31,9 @@
         "editor.formatOnSave": true,
         "editor.unusualLineTerminators": "prompt",
         "files.autoSave": "afterDelay",
+        "jupyter.runStartupCommands": [
+            "%matplotlib inline"
+        ],
         "jupyter.widgetScriptSources": [
             "jsdelivr.com",
             "unpkg.com"
