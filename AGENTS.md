@@ -51,8 +51,34 @@ Each code cell should be labeled with a structured comment:
 ```
 
 Guidelines:
+
 - Use two-digit numbering (`01`, `02`, etc.)
 - Keep descriptions short and meaningful
+
+---
+
+### Every Code Cell Must Display Output
+
+Never write a code cell that produces no visible output. A cell containing
+only imports, constants, or function definitions gives the student no feedback
+that they ran it. It is easy to skip a silent cell and then hit a `NameError`
+in the next one.
+
+When a cell exists mainly to define things, end it with a short check that
+exercises what was just defined. Call the new functions on a simple case and
+`print()` or `display()` the result next to the expected answer:
+
+```python
+# Quick check that circuit works as expected
+out = circuit(t, t, t, t)
+print(f"circuit(1, 1, 1, 1) = {out[1, 0]}  (expected 0)")
+```
+
+This doubles as a worked example and as proof the cell ran.
+
+Stale saved output is the related hazard. A cell whose code was edited but
+never rerun still shows its old result, which reads as if it passed. Rerun
+the notebook after editing it.
 
 ---
 
@@ -146,6 +172,7 @@ import matplotlib.pyplot as plt
 - Em dashes or long dashes
 
 Instead:
+
 - Use normal hyphens `-`
 - Or rewrite the sentence for clarity
 
