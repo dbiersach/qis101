@@ -214,6 +214,68 @@ Good pattern:
 
 ---
 
+## LaTeX for PowerPoint / Word Equation Editor
+
+When I ask for LaTeX to paste into the **Microsoft 365 Equation Editor**
+(PowerPoint or Word: Insert -> Equation -> type LaTeX -> Convert to Math /
+"build up"), produce **Office-compatible** LaTeX, not general LaTeX. The
+Office build-up engine has stricter delimiter rules than a normal LaTeX
+compiler, and expressions that render fine in LaTeX can "fail miserably" here.
+
+### Core rule: delimiters must be balanced by count
+
+Office pairs every opening delimiter (`(`, `[`, `|`, `\langle`, `\lfloor`, ...)
+with a matching closer, then builds one auto-sizing bracket object between them.
+An **unmatched opener escapes its group** and swallows surrounding content
+(e.g. it eats across a fraction bar), producing a mangled result.
+
+- Bad: `\frac{\lvert 1}{2}` - lone `\lvert` has no closer; the bar escapes the
+  numerator and wraps the whole fraction.
+- Good: `\frac{|1|}{2}` or `\frac{\left|1\right|}{2}` - balanced.
+
+Office does **not** require the two sides to be the *same glyph* - only that
+they form one matched `\left ... \right` pair. That is what makes
+mixed-delimiter brackets (kets, bras, floors) possible.
+
+### Use `\left ... \right`, not the fixed `\lvert/\rvert` pairs
+
+`\lvert`/`\rvert` (and `\lfloor/\rfloor`, etc.) are **dedicated fixed pairs**:
+`\lvert` is hard-wired to seek a matching `\rvert` and will *not* mate with a
+different closer. So `\lvert\psi\rangle` fails - `\lvert` wants `\rvert`,
+`\rangle` wants `\langle`, and neither finds its partner.
+
+Any bracket whose two sides differ in shape **must** use the generic
+`\left ... \right` mechanism, where `\left`/`\right` open/close with whatever
+glyph follows and only the count has to balance.
+
+### Dirac (bra-ket) notation
+
+| Notation | Office-compatible LaTeX | Renders |
+|---|---|---|
+| Ket | `\left|\psi\right\rangle` | \|psi> |
+| Bra | `\left\langle\psi\right|` | <psi\| |
+| Braket / inner product | `\left\langle\phi\middle|\psi\right\rangle` | <phi\|psi> |
+| Matrix element | `\left\langle\phi\right|A\left|\psi\right\rangle` | <phi\|A\|psi> |
+| Ket in a fraction | `\frac{\left|\psi\right\rangle}{\sqrt{2}}` | |
+
+Never write a ket with `\lvert` - always `\left|`.
+
+### Other Office gotchas
+
+- Absolute value: `\left|x\right|` (stretchy) or `|x|` (fixed size, fine for
+  short contents).
+- Unsupported LaTeX keywords in Office: `\eqarray`, `\Middle`, `\ldiv`,
+  `\dsmash`. Note capital `\Middle` is unsupported; lowercase `\middle` usually
+  works but if it misbehaves, fall back to a plain separator, e.g.
+  `\langle\phi|\psi\rangle` (fixed-size brackets are fine for single symbols).
+- Prefer fixed-size brackets (`\langle...|...\rangle`) for single letters;
+  reach for `\left...\right` when contents are tall (fractions, sums, big
+  operators) and the brackets need to grow.
+- Recommended reference: Microsoft's "Linear format equations using UnicodeMath
+  and LaTeX in Word" support page.
+
+---
+
 ## Summary
 
 All code in this repository should:
