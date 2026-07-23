@@ -51,6 +51,7 @@ dependencies = [
     "pyvista[all]>=0.47.1",
     "ruff>=0.15.13",
     "python-constraint2>=2.5.0",
+    "pymupdf>=1.28.0",
 ]
 
 [build-system]
