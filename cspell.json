@@ -181,6 +181,7 @@
         "eigvals",
         "eigvalsh",
         "eigvecs",
+        "elementwise",
         "elinewidth",
         "emax",
         "emin",
