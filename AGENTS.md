@@ -274,7 +274,7 @@ Write every bracket out longhand with `\left` and `\right` instead.
 ### Dirac (bra-ket) notation
 
 | Notation | Office-compatible LaTeX |
-|---|---|
+| --- | --- |
 | Ket | `\left\|\psi\right\rangle` |
 | Bra | `\left\langle\psi\right\|` |
 | Inner product | `\left\langle\phi\middle\|\psi\right\rangle` |
