@@ -1,6 +1,8 @@
 #!/usr/bin/env -S uv run
 """nn_primes_test.py"""
 
+from pathlib import Path
+
 import numpy as np
 from neural_network import SimpleNeuralNetwork
 
@@ -43,8 +45,17 @@ def main():
     # Generate training data
     x = generate_data()
 
+    # The weights are not stored in the repository, so they have to be
+    # trained locally before this script has anything to load
+    weights_path = Path(__file__).parent / "nn_primes_weights.npz"
+    if not weights_path.exists():
+        print(f"Cannot find {weights_path.name}")
+        print("Run nn_primes_learn.py first to train the network")
+        print("and save its weights, then run this script again.")
+        return
+
     nn = SimpleNeuralNetwork(input_size=8, hidden_size=256, output_size=4)
-    nn.load_model("nn_primes_weights.npz")
+    nn.load_model(weights_path)
     print_model(nn)
 
     # Evaluate the quality of the trained network

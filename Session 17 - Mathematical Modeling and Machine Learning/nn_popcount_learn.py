@@ -1,6 +1,8 @@
 #!/usr/bin/env -S uv run
 """nn_popcount_learn.py"""
 
+from pathlib import Path
+
 import numpy as np
 from neural_network import SimpleNeuralNetwork
 
@@ -40,8 +42,9 @@ def main():
     # Train the network with a specified learning rate
     nn.train(x, y, epochs=10000, learning_rate=0.01)
 
-    # Save the weights as a Numpy NPZ file
-    nn.save_model("nn_popcount_weights.npz")
+    # Save the weights as a Numpy NPZ file next to this script, so the
+    # matching test script finds them no matter what folder you run from
+    nn.save_model(Path(__file__).parent / "nn_popcount_weights.npz")
 
 
 if __name__ == "__main__":
