@@ -56,7 +56,7 @@ class Cluster:
     index : int
         Zero-based identifier used to cross-reference with DataPoint.cluster.
     color : str
-        Matplotlib colour string used for all scatter plots.
+        Matplotlib color string used for all scatter plots.
     x : float
         Current centroid x-coordinate.
     y : float
@@ -224,7 +224,7 @@ def plot(pts: list[DataPoint], cs: list[Cluster]) -> None:
     Parameters
     ----------
     pts : list[DataPoint]
-        Points to scatter; each is coloured by its cluster assignment.
+        Points to scatter; each is colored by its cluster assignment.
     cs : list[Cluster]
         Centroids drawn as filled squares.
     """
@@ -261,7 +261,7 @@ def on_key_press(event, pts: list[DataPoint], cs: list[Cluster]) -> None:
 
 
 def main() -> None:
-    """Entry point: load data, initialise clusters, and open the plot window."""
+    """Entry point: load data, initialize clusters, and open the plot window."""
     points = init_points()
     clusters = init_clusters()
     init_assign(points, clusters)

@@ -52,7 +52,7 @@ def main():
     ax = plt.gca()
     ax.xaxis.set_major_locator(MultipleLocator(1))
 
-    # Plot labelled vertical lines at just the first prime and its first
+    # Plot labeled vertical lines at just the first prime and its first
     # higher power (square) to populate the legend
     prime, powers = next(iter(prime_dict.items()))
     plt.axvline(x=prime, ymax=0.95, linestyle="--", color="red", label="Prime")

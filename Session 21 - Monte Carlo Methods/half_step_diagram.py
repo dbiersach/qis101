@@ -69,7 +69,7 @@ ax_bad.annotate(
 ax_bad.text(
     0.0,
     -0.52,
-    "grey ticks = true cell centers;  red segments = the drift",
+    "gray ticks = true cell centers;  red segments = the drift",
     ha="center",
     fontsize=8.5,
     color="0.35",
