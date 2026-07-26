@@ -31,8 +31,10 @@ facets[5] = (vertices[2], vertices[3], vertices[7], vertices[6])  # Back
 
 p = Poly3DCollection(facets, linewidth=3, edgecolors=["Blue"], facecolors=["None"])
 
-plt.figure(Path(__file__).name)
-ax = plt.axes(projection="3d")
+# add_subplot() is used instead of plt.axes() because it is the call that
+# actually hands back a 3D axes object, with methods such as set_zlabel()
+fig = plt.figure(Path(__file__).name)
+ax = fig.add_subplot(projection="3d")
 ax.view_init(azim=-45)
 ax.add_collection3d(p)
 ax.set_xlabel("x")

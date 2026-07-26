@@ -15,8 +15,10 @@ x = np.outer(u, v)
 y = np.outer(u, v)
 z = np.outer(u, v)
 
-plt.figure(Path(__file__).name)
-ax = plt.axes(projection="3d")
+# add_subplot() is used instead of plt.axes() because it is the call that
+# actually hands back a 3D axes object, with methods such as set_zlabel()
+fig = plt.figure(Path(__file__).name)
+ax = fig.add_subplot(projection="3d")
 ax.plot_surface(x, y, z, color="red")
 ax.set_xlabel("x")
 ax.set_ylabel("y")

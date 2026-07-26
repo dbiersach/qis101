@@ -18,8 +18,11 @@ def main():
     x, y = np.meshgrid(x, y)
     z = f(x, y)
 
-    plt.figure(Path(__file__).name)
-    ax = plt.axes(projection="3d")
+    # add_subplot() is used instead of plt.axes() because it is the call
+    # that actually hands back a 3D axes object, with methods such as
+    # set_zlabel()
+    fig = plt.figure(Path(__file__).name)
+    ax = fig.add_subplot(projection="3d")
 
     surf = ax.plot_surface(x, y, z, cmap="coolwarm", lw=0, antialiased=False)
     plt.colorbar(surf, ax=ax, shrink=0.5)

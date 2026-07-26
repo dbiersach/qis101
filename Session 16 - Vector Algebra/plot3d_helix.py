@@ -11,8 +11,10 @@ x = theta * np.cos(theta)
 y = theta * np.sin(theta)
 z = theta
 
-plt.figure(Path(__file__).name)
-ax = plt.axes(projection="3d")
+# add_subplot() is used instead of plt.axes() because it is the call that
+# actually hands back a 3D axes object, with methods such as set_zlabel()
+fig = plt.figure(Path(__file__).name)
+ax = fig.add_subplot(projection="3d")
 ax.view_init(azim=-45)
 ax.plot(x, y, z)
 ax.set_xlabel("x")
