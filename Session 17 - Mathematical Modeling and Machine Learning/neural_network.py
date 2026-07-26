@@ -1,7 +1,26 @@
 #!/usr/bin/env -S uv run
-"""neural_network.py"""
+"""neural_network.py
+
+A small feed-forward network with three hidden layers, shared by the
+nn_popcount, nn_primes, and nn_collatz labs.
+
+Also provides make_split(), so a lab can train on part of its data and
+hold the rest back. A network that scores well on data it trained on has
+only memorized; the held-out score is the one that shows whether it
+learned anything general.
+"""
 
 import numpy as np
+
+# Keys that describe the architecture or the weights themselves. Anything
+# else found in a saved file is extra data the caller stored alongside it.
+ARCH_KEYS = ("input_size", "hidden_size", "output_size")
+WEIGHT_KEYS = (
+    "weights_input_hidden1",
+    "weights_hidden1_hidden2",
+    "weights_hidden2_hidden3",
+    "weights_hidden3_output",
+)
 
 
 # Activation functions and their derivatives
@@ -15,7 +34,23 @@ def relu_derivative(x):
 
 
 def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
+    """Logistic sigmoid, evaluated so that exp() cannot overflow.
+
+    The direct form 1 / (1 + exp(-x)) overflows once x is about -710,
+    because exp(-x) then exceeds the largest float64. For negative x the
+    algebraically identical form exp(x) / (1 + exp(x)) is used instead,
+    where the exponent stays negative and exp(x) never exceeds 1.
+    """
+    x = np.asarray(x, dtype=float)
+    result = np.empty_like(x)
+
+    positive = x >= 0
+    result[positive] = 1 / (1 + np.exp(-x[positive]))
+
+    exp_x = np.exp(x[~positive])
+    result[~positive] = exp_x / (1 + exp_x)
+
+    return result
 
 
 def sigmoid_derivative(x):
@@ -23,13 +58,36 @@ def sigmoid_derivative(x):
     return x * (1 - x)
 
 
+def make_split(sample_count, train_count, seed):
+    """Split sample_count items into a training set and a held-out set.
+
+    Parameters
+    ----------
+    sample_count : int
+        Total number of samples available.
+    train_count : int
+        How many to train on. The remainder are held out. Pass
+        sample_count to train on everything and hold nothing back.
+    seed : int
+        Fixes which samples land in which set, so the learn and test
+        scripts of a lab always agree on the split.
+
+    Returns
+    -------
+    tuple[np.ndarray, np.ndarray]
+        Indices of the training samples and of the held-out samples.
+    """
+    if not 0 < train_count <= sample_count:
+        raise ValueError(f"train_count must be in 1..{sample_count}, got {train_count}")
+    order = np.random.default_rng(seed).permutation(sample_count)
+    return order[:train_count], order[train_count:]
+
+
 # Neural network with 3 hidden layers
 class SimpleNeuralNetwork:
     def __init__(self, input_size, hidden_size, output_size):
         self.input_size = input_size
-        self.hidden_size = (
-            hidden_size  # Each hidden layer will have hidden_size neurons
-        )
+        self.hidden_size = hidden_size  # Each hidden layer has hidden_size neurons
         self.output_size = output_size
 
         # He initialization for layers with ReLU activation
@@ -47,6 +105,15 @@ class SimpleNeuralNetwork:
         self.weights_hidden3_output = np.random.randn(
             self.hidden_size, self.output_size
         ) * np.sqrt(1.0 / self.hidden_size)
+
+    def parameter_count(self):
+        """Return how many weights the network holds."""
+        return (
+            self.weights_input_hidden1.size
+            + self.weights_hidden1_hidden2.size
+            + self.weights_hidden2_hidden3.size
+            + self.weights_hidden3_output.size
+        )
 
     def forward(self, x):
         # First hidden layer with ReLU activation
@@ -101,29 +168,63 @@ class SimpleNeuralNetwork:
             output = self.forward(x)
             self.backward(x, y, output, learning_rate)
             if epoch % 1000 == 0:
-                print(f"Epoch {epoch:>4}, Error: {np.mean(np.abs(self.loss)):.5f}")
+                print(f"Epoch {epoch:>5}, Error: {np.mean(np.abs(self.loss)):.5f}")
 
-    def save_model(self, filename):
+    def save_model(self, filename, **extra):
+        """Save the weights, the layer sizes, and any extra arrays given.
+
+        The layer sizes are stored so that load_network() can rebuild a
+        network of the right shape. The labs use **extra to record which
+        samples were trained on and which were held out.
+        """
         np.savez_compressed(
             filename,
+            input_size=self.input_size,
+            hidden_size=self.hidden_size,
+            output_size=self.output_size,
             weights_input_hidden1=self.weights_input_hidden1,
             weights_hidden1_hidden2=self.weights_hidden1_hidden2,
             weights_hidden2_hidden3=self.weights_hidden2_hidden3,
             weights_hidden3_output=self.weights_hidden3_output,
+            **extra,
         )
         print(f"Model weights saved to {filename}")
 
     def load_model(self, filename):
+        """Load the weights and return whatever extra arrays were saved."""
         data = np.load(filename)
         self.weights_input_hidden1 = data["weights_input_hidden1"]
         self.weights_hidden1_hidden2 = data["weights_hidden1_hidden2"]
         self.weights_hidden2_hidden3 = data["weights_hidden2_hidden3"]
         self.weights_hidden3_output = data["weights_hidden3_output"]
         print(f"Model weights loaded from {filename}")
+        return {k: data[k] for k in data.files if k not in ARCH_KEYS + WEIGHT_KEYS}
+
+
+def load_network(filename):
+    """Rebuild a saved network, sized to match the file.
+
+    Returns the network and a dict of whatever extra arrays were stored
+    with it. Using this rather than constructing the network by hand
+    means a test script cannot disagree with its learn script about the
+    hidden layer size.
+    """
+    data = np.load(filename)
+    network = SimpleNeuralNetwork(
+        input_size=int(data["input_size"]),
+        hidden_size=int(data["hidden_size"]),
+        output_size=int(data["output_size"]),
+    )
+    return network, network.load_model(filename)
 
 
 def main():
     print("This module is intended to be imported, not executed directly")
+
+    # Quick check that the stable sigmoid handles what the plain form cannot
+    extreme = np.array([-800.0, -1.0, 0.0, 1.0, 800.0])
+    print(f"sigmoid({extreme}) =\n  {sigmoid(extreme)}")
+    print("The plain 1 / (1 + exp(-x)) form overflows at x = -800")
 
 
 if __name__ == "__main__":

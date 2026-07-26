@@ -1,10 +1,20 @@
 #!/usr/bin/env -S uv run
-"""nn_primes_test.py"""
+"""nn_primes_test.py
+
+Scores the trained network twice: once on the integers it was trained on
+and once on the integers held back. The first number says whether it
+memorized, the second whether it learned.
+"""
 
 from pathlib import Path
 
 import numpy as np
-from neural_network import SimpleNeuralNetwork
+from neural_network import load_network
+
+OUTPUT_BITS = 4
+
+# The network is trained to emit 9 for prime and 6 for composite
+PRIME_CODE = 9
 
 
 def is_prime(n):
@@ -27,23 +37,33 @@ def generate_data():
     return np.array(x)
 
 
-def print_model(nn):
-    print(f"\n{nn.weights_input_hidden1.shape = }")
-    print(f"{nn.weights_input_hidden1[:4, :4]}\n")
+def decode(rows):
+    """Read each row of sigmoid outputs back as True for prime."""
+    place_value = 2 ** np.arange(OUTPUT_BITS - 1, -1, -1)
+    return (np.round(rows) * place_value).sum(axis=1).astype(int) == PRIME_CODE
 
-    print(f"{nn.weights_hidden1_hidden2.shape = }")
-    print(f"{nn.weights_hidden1_hidden2[:4, :4]}\n")
 
-    print(f"{nn.weights_hidden2_hidden3.shape = }")
-    print(f"{nn.weights_hidden2_hidden3[:4, :4]}\n")
-
-    print(f"{nn.weights_hidden3_output.shape = }")
-    print(f"{nn.weights_hidden3_output[:4, :4]}\n")
+def score(name, nn, x, indices, actual):
+    """Print how many of the given integers the network gets right."""
+    if len(indices) == 0:
+        print(f"{name:<12} (none held back)")
+        return
+    predicted = decode(nn.forward(x[indices]))
+    correct = predicted == actual[indices]
+    print(
+        f"{name:<12} {correct.sum():>3}/{len(indices):<3} correct"
+        f"  ({100 * correct.mean():>5.1f}%)"
+    )
+    for i in np.array(indices)[~correct][:10]:
+        print(
+            f"    n={i:>3}  predicted prime={decode(nn.forward(x[[i]]))[0]!s:<5}"
+            f"  actual prime={actual[i]}"
+        )
 
 
 def main():
-    # Generate training data
     x = generate_data()
+    actual = np.array([is_prime(i) for i in range(256)])
 
     # The weights are not stored in the repository, so they have to be
     # trained locally before this script has anything to load
@@ -54,26 +74,19 @@ def main():
         print("and save its weights, then run this script again.")
         return
 
-    nn = SimpleNeuralNetwork(input_size=8, hidden_size=256, output_size=4)
-    nn.load_model(weights_path)
-    print_model(nn)
+    nn, saved = load_network(weights_path)
+    print(
+        f"Hidden layers of {nn.hidden_size} neurons, {nn.parameter_count():,} weights"
+    )
 
-    # Evaluate the quality of the trained network
-    final = nn.forward(x)
-    no_errors = True
-    for i in range(256):
-        v = 0
-        for j in range(4):
-            v += int(round(final[i, j], 0) * 2 ** (3 - j))
-        predicted_is_prime = v == 9
-        actual_is_prime = is_prime(i)
-        if predicted_is_prime != actual_is_prime:
-            print(f"Error with {i}:", end=" ")
-            print(f"Predicted 'Is Prime'= {predicted_is_prime}", end=", ")
-            print(f"Actual 'Is Prime'= {actual_is_prime}")
-            no_errors = False
-    if no_errors:
-        print("The model identified all primes")
+    # Guessing "composite" every time already scores this well, so read the
+    # held-out number against this baseline rather than against zero
+    baseline = 100 * (1 - actual[saved["test_idx"]].mean())
+
+    print("\nPrimality")
+    score("trained on", nn, x, saved["train_idx"], actual)
+    score("held out", nn, x, saved["test_idx"], actual)
+    print(f"{'baseline':<12} {baseline:>5.1f}%  by answering composite every time")
 
 
 if __name__ == "__main__":

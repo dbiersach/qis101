@@ -1,10 +1,28 @@
 #!/usr/bin/env -S uv run
-"""nn_primes_learn.py"""
+"""nn_primes_learn.py
+
+Trains the network to decide whether an 8-bit integer is prime.
+
+The target is encoded as 9 (binary 1001) for prime and 6 (binary 0110)
+for composite, so the network has to drive four outputs rather than one.
+
+TRAIN_COUNT controls how many of the 256 integers the network sees. The
+rest are held back for nn_primes_test.py to score separately. See
+nn_popcount_learn.py for the knobs worth experimenting with.
+"""
 
 from pathlib import Path
 
 import numpy as np
-from neural_network import SimpleNeuralNetwork
+from neural_network import SimpleNeuralNetwork, make_split
+
+HIDDEN_SIZE = 16
+TRAIN_COUNT = 240
+EPOCHS = 10000
+LEARNING_RATE = 0.01
+SPLIT_SEED = 2024
+
+OUTPUT_BITS = 4
 
 
 def is_prime(n):
@@ -36,20 +54,25 @@ def generate_data():
 def main():
     np.random.seed(2024)
 
-    # Generate training data
     x, y = generate_data()
     for i in range(10):
         print(i, x[i], y[i])
 
-    # Create the neural network: 8 inputs, three hidden layers of 256 neurons, 4 outputs
-    nn = SimpleNeuralNetwork(input_size=8, hidden_size=256, output_size=4)
+    train_idx, test_idx = make_split(len(x), TRAIN_COUNT, SPLIT_SEED)
+    print(f"\nTraining on {len(train_idx)} integers, holding back {len(test_idx)}")
 
-    # Train the network with a specified learning rate
-    nn.train(x, y, epochs=10000, learning_rate=0.01)
+    nn = SimpleNeuralNetwork(
+        input_size=8, hidden_size=HIDDEN_SIZE, output_size=OUTPUT_BITS
+    )
+    print(f"Network has {nn.parameter_count():,} weights\n")
 
-    # Save the weights as a Numpy NPZ file next to this script, so the
-    # matching test script finds them no matter what folder you run from
-    nn.save_model(Path(__file__).parent / "nn_primes_weights.npz")
+    nn.train(x[train_idx], y[train_idx], epochs=EPOCHS, learning_rate=LEARNING_RATE)
+
+    nn.save_model(
+        Path(__file__).parent / "nn_primes_weights.npz",
+        train_idx=train_idx,
+        test_idx=test_idx,
+    )
 
 
 if __name__ == "__main__":
