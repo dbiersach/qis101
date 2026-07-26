@@ -73,8 +73,7 @@ def solve_laplace(ax, boundary_func):
         ax.set_title("Insulator Walls")
 
     ax.get_figure().suptitle(
-        "Electrostatic Field Potential\n"  # noqa
-        "Surrounding a Parallel Plate Capacitor"
+        "Electrostatic Field Potential\nSurrounding a Parallel Plate Capacitor"
     )
     ax.set_aspect("equal")
 

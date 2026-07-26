@@ -1,9 +1,9 @@
 #!/usr/bin/env -S uv run
 """newton_binomial.py"""
 
+from collections.abc import Callable
 from math import pow
 from pathlib import Path
-from typing import Callable
 
 import matplotlib.pyplot as plt
 import numpy as np

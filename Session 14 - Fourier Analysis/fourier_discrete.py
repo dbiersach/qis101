@@ -13,8 +13,8 @@ def dft(ts, fs):
     num_terms = int(num_samples / 2)  # Nyquist limit
     # ct = complex terms of the DFT
     ct = np.zeros(num_terms, dtype=complex)
-    for k in range(0, num_terms):  # k = filter wave number
-        for n in range(0, num_samples):  # n = sample number
+    for k in range(num_terms):  # k = filter wave number
+        for n in range(num_samples):  # n = sample number
             ct[k] += fs[n] * np.exp(complex(0, (k * ts[n])))
     ct = ct * 2 / num_samples
     ct[0] /= 2  # DC value should NOT be doubled
@@ -26,8 +26,8 @@ def idft(ts, ct):
     num_terms = ct.size
     # fr = reconstructed fs(t) values
     fr = np.zeros(num_samples, dtype=float)
-    for n in range(0, num_samples):  # n = sample number
-        for k in range(0, num_terms):  # k = filter wave number
+    for n in range(num_samples):  # n = sample number
+        for k in range(num_terms):  # k = filter wave number
             fr[n] += np.real(ct[k] * np.exp(complex(0, -(k * ts[n]))))
     return fr
 
@@ -45,9 +45,9 @@ def plot_dft(ax, ct):
     num_terms = 40
 
     # fmt: off
-    ax.bar(range(0, num_terms), ct.real[:num_terms],
+    ax.bar(range(num_terms), ct.real[:num_terms],
         color="blue", label="cosine", zorder=2)
-    ax.bar(range(0, num_terms), ct.imag[:num_terms],
+    ax.bar(range(num_terms), ct.imag[:num_terms],
         color="red",  label="sine", zorder=2)
     # fmt: on
 
@@ -75,7 +75,7 @@ def plot_idft(ax, ts, fr):
 def plot_power_spectrum(ax, ct):
     num_terms = 40
     ax.bar(
-        range(0, num_terms),
+        range(num_terms),
         abs(ct[:num_terms]) ** 2,
         color="green",
         label="sine",

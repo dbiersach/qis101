@@ -8,7 +8,9 @@ from scipy.integrate import solve_ivp
 
 
 def model(time, state_vector, beta, delta):
-    s, i, r = state_vector
+    # The recovered count r is unpacked to mirror the SIR state vector,
+    # even though the derivatives below depend only on s and i
+    s, i, r = state_vector  # noqa: RUF059
     d_s = -beta * s * i
     d_i = beta * s * i - delta * i
     d_r = delta * i

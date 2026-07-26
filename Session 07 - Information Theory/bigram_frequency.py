@@ -2,6 +2,7 @@
 """bigram_frequency.py"""
 
 from collections import Counter
+from itertools import pairwise
 from pathlib import Path
 
 FILE_NAME = "bigram_ciphertext.txt"
@@ -12,7 +13,7 @@ with open(file_path, "rb") as f_in:
     f_bytes = bytearray(f_in.read())
 
 # Create Counter dictionary storing successive letter counts
-bigrams = Counter(zip(f_bytes, f_bytes[1:]))
+bigrams = Counter(pairwise(f_bytes))
 
 # Reverse sort bigrams tallied by Counter's dictionary item value,
 # so the bigrams with the highest frequency appear first

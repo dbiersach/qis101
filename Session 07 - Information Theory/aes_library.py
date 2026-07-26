@@ -5,6 +5,7 @@ import sys
 from hashlib import pbkdf2_hmac
 from hmac import compare_digest
 from hmac import new as new_hmac
+from typing import ClassVar
 
 # fmt: off
 s_box = (
@@ -154,7 +155,7 @@ def bytes2matrix(text):
 
 def matrix2bytes(matrix):
     """Converts a 4x4 matrix into a 16-byte array."""
-    return bytes(sum(matrix, []))
+    return bytes(value for row in matrix for value in row)
 
 
 def xor_bytes(a, b):
@@ -210,7 +211,7 @@ class AES:
     management. Unless you need that, please use `encrypt` and `decrypt`.
     """
 
-    rounds_by_key_size = {16: 10, 24: 12, 32: 14}
+    rounds_by_key_size: ClassVar[dict[int, int]] = {16: 10, 24: 12, 32: 14}
 
     def __init__(self, master_key):
         """

@@ -22,9 +22,9 @@ def plot_dft(ax, ct):
     num_terms = 40
 
     # fmt: off
-    ax.bar(range(0, num_terms), ct.real[:num_terms],
+    ax.bar(range(num_terms), ct.real[:num_terms],
         color="blue", label="cosine", zorder=2)
-    ax.bar(range(0, num_terms), -ct.imag[:num_terms],
+    ax.bar(range(num_terms), -ct.imag[:num_terms],
         color="red",  label="sine", zorder=2)    
     # fmt: on
 
@@ -52,7 +52,7 @@ def plot_idft(ax, ts, fr):
 def plot_power_spectrum(ax, ct):
     num_terms = 40
     ax.bar(
-        range(0, num_terms),
+        range(num_terms),
         abs(ct[:num_terms]) ** 2,
         color="green",
         label="sine",

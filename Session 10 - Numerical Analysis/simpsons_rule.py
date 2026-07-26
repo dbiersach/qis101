@@ -16,7 +16,7 @@ def F(x):
 def left_hand_rule(func, a, b, intervals):
     dx = (b - a) / intervals
     area = 0.0
-    for i in range(0, intervals):
+    for i in range(intervals):
         area += func(a + i * dx)
     return dx * area
 

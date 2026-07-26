@@ -43,7 +43,9 @@ def anim_frame_counter():
 
 
 def anim_draw_frame(t):
-    global ya_prior, ya_current, ya_next
+    # ya_next is not listed here: it is only ever written element by
+    # element, never rebound, so it needs no global declaration
+    global ya_prior, ya_current
 
     ya_prior[0], ya_prior[-1] = 0, 0
     ya_current[0], ya_current[-1] = 0, 0

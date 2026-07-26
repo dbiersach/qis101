@@ -15,7 +15,7 @@ def main():
     plaintext = b"Attack at dawn"
     print(f"{plaintext.decode('ascii')}")
     print("plaintext = ")
-    print([f"0x{b:02x}" for b in bytearray(plaintext)], sep=", ")
+    print([f"0x{b:02x}" for b in bytearray(plaintext)])
 
     # The random initialization vector (iv) ensures the same value
     # encrypted multiple times, even with the same secret key,
@@ -25,11 +25,11 @@ def main():
 
     ciphertext = AES(secret_key).encrypt_ctr(plaintext, iv)
     print("ciphertext =")
-    print([f"0x{b:02x}" for b in bytearray(ciphertext)], sep=", ")
+    print([f"0x{b:02x}" for b in bytearray(ciphertext)])
 
     plaintext = AES(secret_key).decrypt_ctr(ciphertext, iv)
     print("plaintext = ")
-    print([f"0x{b:02x}" for b in bytearray(plaintext)], sep=", ")
+    print([f"0x{b:02x}" for b in bytearray(plaintext)])
     print(f"{plaintext.decode('ascii')}")
 
 

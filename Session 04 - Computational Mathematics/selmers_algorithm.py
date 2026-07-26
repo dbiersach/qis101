@@ -36,8 +36,7 @@ def apery_set_mod_a(a: int, b: int, c: int) -> np.ndarray:
             remaining = (residue - b * y) % a
             z = (remaining * inverse_c) % a
             value = b * y + c * z
-            if value < best:
-                best = value
+            best = min(best, value)
         apery[residue] = best
     return apery
 

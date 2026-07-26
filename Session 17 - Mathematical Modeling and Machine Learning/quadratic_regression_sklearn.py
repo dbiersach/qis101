@@ -53,12 +53,7 @@ def main():
     stop_count = a * stop_time**2 + b * stop_time + c
     plt.scatter(stop_time, stop_count, marker="s", s=50, c="g", zorder=2)
 
-    plt.title(
-        (
-            "Tape Counter Per Minute\n"  # noqa
-            f"({stop_time} min = Counter {stop_count:,.0f})"
-        )
-    )
+    plt.title(f"Tape Counter Per Minute\n({stop_time} min = Counter {stop_count:,.0f})")
     plt.xlabel("Elapsed Time (min)")
     plt.ylabel("Tape Counter")
     plt.gca().xaxis.set_major_locator(MultipleLocator(5))

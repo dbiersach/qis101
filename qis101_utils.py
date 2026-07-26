@@ -8,7 +8,6 @@ Provides LaTeX rendering helpers for displaying NumPy arrays in Jupyter notebook
 import numpy as np
 from IPython.display import Math
 
-
 # (value, LaTeX string) pairs for recognizing common exact fractions
 # Comparisons are made against abs(np.round(val, 5))
 _SPECIAL_VALUES: list[tuple[float, str]] = [

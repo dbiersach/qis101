@@ -74,7 +74,7 @@ def main():
     # of zeros for perimeter, Ramanujan's estimate, and relative error
     peri, ram, err = (np.zeros(b_max) for _ in range(3))
 
-    for b in range(0, b_max):
+    for b in range(b_max):
         peri[b] = quad(d_s, 0, 2 * np.pi, args=(a, b))[0]
         ram[b] = ramanujan_estimate(a, b)
         err[b] = (ram[b] - peri[b]) / ram[b]

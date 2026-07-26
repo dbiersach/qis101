@@ -35,7 +35,7 @@ def simpsons_rule(func, a, b, intervals):
 
 def print_apre(observed, expected):
     print(
-        "Absolute % Relative Error :"  # noqa
+        "Absolute % Relative Error :"
         # Note: The % formatter automatically multiples value by 100
         f"{abs((observed - expected) / expected):.14%}\n"
     )

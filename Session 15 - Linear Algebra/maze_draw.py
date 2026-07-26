@@ -38,10 +38,8 @@ def validate_maze(maze):
                     cell & 1 != 1 and cell2 & 4 == 4
                 ):
                     print(
-                        (
-                            f"Cell {y, x}={cell} and cell {y - 1, x}={cell2}"
-                            " do not agree between NORTH/SOUTH"
-                        )
+                        f"Cell {y, x}={cell} and cell {y - 1, x}={cell2}"
+                        " do not agree between NORTH/SOUTH"
                     )
                     return False
             # Check every cell agrees with its SOUTH cell
@@ -51,10 +49,8 @@ def validate_maze(maze):
                     cell & 4 != 4 and cell2 & 1 == 1
                 ):
                     print(
-                        (
-                            f"Cell {y, x}={cell} and cell {y + 1, x}={cell2}"
-                            " do not agree between NORTH/SOUTH"
-                        )
+                        f"Cell {y, x}={cell} and cell {y + 1, x}={cell2}"
+                        " do not agree between NORTH/SOUTH"
                     )
                     return False
             # Check every cell agrees with its EAST cell
@@ -64,10 +60,8 @@ def validate_maze(maze):
                     cell & 2 != 2 and cell2 & 8 == 8
                 ):
                     print(
-                        (
-                            f"Cell {y, x}={cell} and cell {y, x + 1}={cell2}"
-                            " do not agree between EAST/WEST"
-                        )
+                        f"Cell {y, x}={cell} and cell {y, x + 1}={cell2}"
+                        " do not agree between EAST/WEST"
                     )
                     return False
             # Check every cell agrees with its WEST cell
@@ -77,10 +71,8 @@ def validate_maze(maze):
                     cell & 8 != 8 and cell2 & 2 == 2
                 ):
                     print(
-                        (
-                            f"Cell {y, x}={cell} and cell {y, x - 1}={cell2}"
-                            " do not agree between EAST/WEST"
-                        )
+                        f"Cell {y, x}={cell} and cell {y, x - 1}={cell2}"
+                        " do not agree between EAST/WEST"
                     )
                     return False
     return True

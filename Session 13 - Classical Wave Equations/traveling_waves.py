@@ -48,7 +48,8 @@ def anim_frame_counter():
 
 
 def anim_draw_frame(t):
-    global wave1, wave2, wave3
+    # No global declaration needed: this function only calls set_data on
+    # the three Line2D objects, it never rebinds the names
     y1 = amp1 * np.sin(k1 * x + w1 * t)
     y2 = amp2 * np.sin(k2 * x + w2 * t)
     y3 = (y1 + y2) / 2  # Average of y1 and y2

@@ -27,13 +27,13 @@ import matplotlib
 print(f"Path to config file: {matplotlib.matplotlib_fname()}", end="\n\n")
 
 all_backends = sorted(matplotlib.backends.backend_registry.list_builtin())
-print(f"All backends: {all_backends}", sep=",", end="\n\n")
+print(f"All backends: {all_backends}", end="\n\n")
 
 # To use QtAgg (backed by PySide6 in this env), must set before importing pyplot
 matplotlib.use("QtAgg")
 print(f"Active Backend: {matplotlib.get_backend()}", end="\n\n")
 
-import matplotlib.pyplot as plt  # noqa: E402
+import matplotlib.pyplot as plt
 
 print("After importing pyplot...\n")
 
@@ -42,11 +42,12 @@ for backend in all_backends:
     try:
         matplotlib.use(backend, force=True)
         available_backends.append(backend)
-    except Exception as error:
+    # Any backend can fail in any way on any machine, so catch broadly
+    except Exception as error:  # noqa: BLE001
         print(f"Error occurred while trying backend '{backend}': {error}")
 
 print()
-print(f"Available backends: {available_backends}", sep=",", end="\n\n")
+print(f"Available backends: {available_backends}", end="\n\n")
 
 matplotlib.use("TkAgg")
 print(f"Active Backend: {plt.get_backend()}")

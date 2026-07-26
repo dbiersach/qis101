@@ -37,11 +37,9 @@ def main():
     plt.scatter(vec_x, vec_y, color="red")
 
     plt.title(
-        (
-            "Newtonian Kinematics\n"  # noqa
-            rf"$a={a * 2:.4f}\,\frac{{m}}{{s^2}}\quad$"
-            rf"$v_0={b:.4f}\,\frac{{m}}{{s}}$"
-        )
+        "Newtonian Kinematics\n"
+        rf"$a={a * 2:.4f}\,\frac{{m}}{{s^2}}\quad$"
+        rf"$v_0={b:.4f}\,\frac{{m}}{{s}}$"
     )
 
     plt.xlabel("Time (sec)")

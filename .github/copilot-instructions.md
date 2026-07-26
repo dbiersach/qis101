@@ -125,11 +125,13 @@ Example (script with functions):
 ```python
 def compute_value(x: float) -> float:
     """Return computed result."""
-    return x ** 2
+    return x**2
+
 
 def main() -> None:
     result = compute_value(5)
     print(f"Result: {result}")
+
 
 if __name__ == "__main__":
     main()

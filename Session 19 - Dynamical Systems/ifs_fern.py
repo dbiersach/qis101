@@ -16,7 +16,6 @@ def handle_events(ss, event):
             f"({wr[0][0]:.4f}, {wr[0][1]:.4f}) - "
             f"({wr[1][0]:.4f}, {wr[1][1]:.4f})"
         )
-    return
 
 
 def plot_ifs(ss):

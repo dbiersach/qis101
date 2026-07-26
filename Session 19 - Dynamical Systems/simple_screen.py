@@ -201,9 +201,7 @@ class SimpleScreen:
                             pygame.display.flip()
 
                 if event.type == pygame.MOUSEBUTTONUP:
-                    if (
-                        event.button == 1 and self.is_zooming
-                    ):  # left button released  # noqa: SIM102
+                    if event.button == 1 and self.is_zooming:  # left button released
                         self.is_zooming = False
                         self.surface.blit(self.zoom_surface, (0, 0))
                         zoom_rect = self.create_zoom_rect(event)

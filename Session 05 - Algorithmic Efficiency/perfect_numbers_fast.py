@@ -40,13 +40,13 @@ def main():
     start_time = time.perf_counter()
     found = perfect_numbers_slow(limit)
     elapsed_time_slow = time.perf_counter() - start_time
-    print(f"{found}", sep=", ")
+    print(f"{found}")
     print(f"Slow method run time (sec): {elapsed_time_slow:.3f}")
 
     start_time = time.perf_counter()
     found = perfect_numbers_fast(limit)
     elapsed_time_fast = time.perf_counter() - start_time
-    print(f"{found}", sep=", ")
+    print(f"{found}")
     print(f"Fast method run time (sec): {elapsed_time_fast:.3f}")
 
 
