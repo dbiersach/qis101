@@ -2,7 +2,20 @@
   "permissions": {
     "allow": [
       "Bash(git merge *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(uv run ruff *)",
+      "Grep",
+      "PowerShell(Compare-Object *)",
+      "PowerShell(Copy-Item *)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(Get-Content *)",
+      "PowerShell(Get-FileHash *)",
+      "PowerShell(Get-Item *)",
+      "PowerShell(Measure-Object *)",
+      "PowerShell(Select-String *)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(uv run ruff *)",
+      "PowerShell(uv sync)"
     ]
   }
 }

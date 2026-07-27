@@ -51,8 +51,34 @@ Each code cell should be labeled with a structured comment:
 ```
 
 Guidelines:
+
 - Use two-digit numbering (`01`, `02`, etc.)
 - Keep descriptions short and meaningful
+
+---
+
+### Every Code Cell Must Display Output
+
+Never write a code cell that produces no visible output. A cell containing
+only imports, constants, or function definitions gives the student no feedback
+that they ran it. It is easy to skip a silent cell and then hit a `NameError`
+in the next one.
+
+When a cell exists mainly to define things, end it with a short check that
+exercises what was just defined. Call the new functions on a simple case and
+`print()` or `display()` the result next to the expected answer:
+
+```python
+# Quick check that circuit works as expected
+out = circuit(t, t, t, t)
+print(f"circuit(1, 1, 1, 1) = {out[1, 0]}  (expected 0)")
+```
+
+This doubles as a worked example and as proof the cell ran.
+
+Stale saved output is the related hazard. A cell whose code was edited but
+never rerun still shows its old result, which reads as if it passed. Rerun
+the notebook after editing it.
 
 ---
 
@@ -114,41 +140,6 @@ def square(x: float) -> float:
 
 ---
 
-### Main Guard
-
-- Use `if __name__ == "__main__":` only if the script contains user-defined functions (via `def` statements)
-- If a script contains only direct procedural code with no function definitions, the main guard is not required
-- When used, wrap all main logic in a `main()` function called from the guard
-
-Example (script with functions):
-
-```python
-def compute_value(x: float) -> float:
-    """Return computed result."""
-    return x**2
-
-
-def main() -> None:
-    result = compute_value(5)
-    print(f"Result: {result}")
-
-
-if __name__ == "__main__":
-    main()
-```
-
-Example (script without functions - no guard needed):
-
-```python
-import numpy as np
-
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
-print(f"Mean: {np.mean(y)}")
-```
-
----
-
 ## Imports
 
 Follow this order:
@@ -181,6 +172,7 @@ import matplotlib.pyplot as plt
 - Em dashes or long dashes
 
 Instead:
+
 - Use normal hyphens `-`
 - Or rewrite the sentence for clarity
 
