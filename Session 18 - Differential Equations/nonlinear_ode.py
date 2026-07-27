@@ -32,10 +32,13 @@ def main():
         y1[i + 1] = y1[i] + dy(x[i], y1[i]) * dx
 
         # 4th Order Runge-Kutta Method
+        # Each stage samples the slope at a different place in the step: at the
+        # start, twice at the midpoint, then at the end. Because dy/dx depends
+        # on x as well as y, x must be advanced for those later stages too.
         k1 = dy(x[i], y2[i])
-        k2 = dy(x[i], y2[i] + k1 / 2 * dx)
-        k3 = dy(x[i], y2[i] + k2 / 2 * dx)
-        k4 = dy(x[i], y2[i] + k3 * dx)
+        k2 = dy(x[i] + dx / 2, y2[i] + k1 / 2 * dx)
+        k3 = dy(x[i] + dx / 2, y2[i] + k2 / 2 * dx)
+        k4 = dy(x[i] + dx, y2[i] + k3 * dx)
         y2[i + 1] = y2[i] + (k1 + 2 * k2 + 2 * k3 + k4) / 6 * dx
 
     plt.figure(Path(__file__).name)
