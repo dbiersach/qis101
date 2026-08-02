@@ -173,17 +173,6 @@ def square(x: float) -> float:
 
 ---
 
-## Imports
-
-Use standard aliases:
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-```
-
----
-
 ## Comments and Writing Style
 
 - Comments must be **functional and explanatory**
@@ -205,35 +194,14 @@ Instead:
 
 ---
 
-## Notebook Teaching Style
-
-When writing notebooks:
-
-- Break work into logical steps
-- Explain transitions between steps
-- Clearly interpret results
-
-Good pattern:
-
-1. Introduce concept
-2. Show implementation
-3. Run code
-4. Interpret output
-
----
-
 ## Environment Notes
 
 These are properties of the development machine, not style rules.
 
 ### Force the inline matplotlib backend in notebooks
 
-The venv's default backend is `qtagg`, because PySide6 is installed so that
-standalone `.py` scripts can open an interactive plot window. That default is
-wrong inside a Jupyter kernel: `plt.show()` opens a Qt window that blocks the
-kernel, and the cell never returns.
-
-Two layers guard against this, and both should stay in place:
+The venv's default backend is `qtagg`, which hangs a Jupyter kernel. Two
+layers guard against this, and both should stay in place:
 
 - Every notebook that imports matplotlib puts `%matplotlib inline` in its
   first code cell, right after the docstring and cell-label comment. This
@@ -241,9 +209,10 @@ Two layers guard against this, and both should stay in place:
 - The workspace file sets `"jupyter.runStartupCommands": ["%matplotlib inline"]`
   as a backstop for kernels started outside a notebook that carries the magic.
 
-Standalone scripts are unaffected and keep their interactive Qt window. A
-notebook that genuinely needs a live animation uses `%matplotlib widget`
-instead, never the Qt backend.
+A notebook that needs a live animation uses `%matplotlib widget`, never the Qt
+backend. Standalone `.py` scripts are unaffected and keep their interactive Qt
+window. See `.claude/skills/machine-environment-notes/SKILL.md` for why the Qt
+backend blocks the kernel and how to diagnose a cell that never finishes.
 
 ---
 
