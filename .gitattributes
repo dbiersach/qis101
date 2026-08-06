@@ -1,32 +1,69 @@
-# Normalize line endings across all platforms. Git auto-detects text vs
-# binary; text files are stored as LF in the repo and checked out as LF
-# everywhere, so notebooks and scripts never show phantom CRLF diffs.
+# Standardize line endings across every machine that touches this
+# repository. Text files are stored and checked out with LF, so notebooks
+# and scripts never show phantom CRLF diffs. It matters most for the shell
+# installer: a CRLF shebang line breaks execution on Linux with a
+# misleading "bad interpreter" error.
 * text=auto eol=lf
 
-# Be explicit for the file types in this courseware.
-*.py    text eol=lf
+# Python sources and notebooks. The diff=python driver makes `git diff`
+# show the enclosing function in the hunk header instead of a bare line
+# number.
+*.py    text eol=lf diff=python
 *.ipynb text eol=lf
-*.md    text eol=lf
-*.txt   text eol=lf
-*.toml  text eol=lf
-*.cfg   text eol=lf
-*.json  text eol=lf
-*.yml   text eol=lf
-*.yaml  text eol=lf
 
-# Common binaries - never touch these.
-*.png   binary
-*.jpg   binary
-*.jpeg  binary
-*.gif   binary
-*.ico   binary
-*.pdf   binary
-*.zip   binary
-*.gz    binary
-*.npy   binary
-*.npz   binary
+# Shell scripts must be LF or Linux refuses to run them.
+*.sh text eol=lf
+
+# PowerShell reads LF fine on both Windows PowerShell and PowerShell 7.
+*.ps1 text eol=lf
+
+# Windows batch files are the one exception: cmd.exe mis-parses labels and
+# multi-line blocks when the file uses LF, so force CRLF on checkout.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Project configuration.
+*.code-workspace text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.cfg  text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.lock text eol=lf
+
+# Documentation and data.
+*.md  text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+
+# Circuit files written by the Digital logic simulator are XML.
+*.dig text eol=lf
+
+# Dotfiles that carry no extension for `text=auto` to key on.
+.gitignore      text eol=lf
+.gitattributes  text eol=lf
+.python-version text eol=lf
+
+# Binary assets. Never run line-ending or diff conversion on these.
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.gif     binary
+*.ico     binary
+*.pdf     binary
+*.pptx    binary
+*.docx    binary
+*.zip     binary
+*.gz      binary
+*.wav     binary
+*.mp3     binary
+*.ttf     binary
+*.otf     binary
+*.npy     binary
+*.npz     binary
 *.parquet binary
-*.wav   binary
-*.mp3   binary
-*.ttf   binary
-*.otf   binary
+*.joblib  binary
+
+# Collapse the generated lockfile in GitHub diffs and exclude it from the
+# repository language statistics.
+uv.lock linguist-generated=true
