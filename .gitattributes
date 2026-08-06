@@ -14,7 +14,7 @@
 *.yml   text eol=lf
 *.yaml  text eol=lf
 
-# Common binaries — never touch these.
+# Common binaries - never touch these.
 *.png   binary
 *.jpg   binary
 *.jpeg  binary
