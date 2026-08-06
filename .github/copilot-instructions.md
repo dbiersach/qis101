@@ -57,6 +57,39 @@ Guidelines:
 
 ---
 
+### Markdown Cell Structure
+
+Every markdown cell after the first one in a notebook must begin with a
+horizontal rule on its own line, followed by a `###` header:
+
+```markdown
+---
+### Setup: simulation parameters
+
+The simulation runs from ...
+```
+
+The rule draws a visible line between the cell and the output of the code cell
+above it, which otherwise run together in the notebook view.
+
+Header rules:
+
+- Start at `###`. Never use `#` or `##`, which render so large that a short
+  heading eats a disproportionate amount of vertical space.
+- `###` is the only level used for section headers. Sub-points inside a section
+  are made with bold lead-ins or lists, not `####`.
+- The very first cell of the notebook is the only exception to the rule: it
+  opens directly with its `###` title, since there is no output above it to
+  separate.
+- A markdown cell that follows another markdown cell still takes the rule. The
+  separator doubles as a section break, so it stays even where there is no code
+  output above it.
+
+Do not open a markdown cell with a bolded run-in sentence such as
+`**Simulation parameters.**`. Write a real `###` header instead.
+
+---
+
 ### Every Code Cell Must Display Output
 
 Never write a code cell that produces no visible output. A cell containing
@@ -140,23 +173,6 @@ def square(x: float) -> float:
 
 ---
 
-## Imports
-
-Follow this order:
-
-1. Standard library
-2. Third-party packages
-3. Local modules
-
-Use standard aliases:
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-```
-
----
-
 ## Comments and Writing Style
 
 - Comments must be **functional and explanatory**
@@ -178,47 +194,38 @@ Instead:
 
 ---
 
-## Variable Naming
+## Environment Notes
 
-- Use **clear, descriptive names**
-- Avoid overly short or cryptic variables unless standard (e.g., `x`, `t`)
-- Prefer readability over brevity
+These are properties of the development machine, not style rules.
 
----
+### Force the inline matplotlib backend in notebooks
 
-## Notebook Teaching Style
+The venv's default backend is `qtagg`, which hangs a Jupyter kernel. Two
+layers guard against this, and both should stay in place:
 
-When writing notebooks:
+- Every notebook that imports matplotlib puts `%matplotlib inline` in its
+  first code cell, right after the docstring and cell-label comment. This
+  travels with the `.ipynb` file, so it works for students on any machine.
+- The workspace file sets `"jupyter.runStartupCommands": ["%matplotlib inline"]`
+  as a backstop for kernels started outside a notebook that carries the magic.
 
-- Break work into logical steps
-- Explain transitions between steps
-- Clearly interpret results
-
-Good pattern:
-
-1. Introduce concept
-2. Show implementation
-3. Run code
-4. Interpret output
+A notebook that needs a live animation uses `%matplotlib widget`, never the Qt
+backend. Standalone `.py` scripts are unaffected and keep their interactive Qt
+window. See `.claude/skills/machine-environment-notes/SKILL.md` for why the Qt
+backend blocks the kernel and how to diagnose a cell that never finishes.
 
 ---
 
-## Formatting
+## Reference Material Loaded On Demand
 
-- Code must be compatible with:
-  - Ruff
-  - Black
+Two longer references used to live in this file. They are now skills under
+`.claude/skills/`, so Claude Code loads them only when the task calls for
+them instead of on every session. Other tools should read the files directly.
 
-- Follow consistent spacing and formatting
-- Avoid overly dense code blocks
-
----
-
-## Summary
-
-All code in this repository should:
-
-- Be easy to read
-- Be easy to teach from
-- Clearly explain both **how** and **why**
-- Follow consistent structure across notebooks and scripts
+- `.claude/skills/office-latex/SKILL.md` - Office-compatible LaTeX for the
+  Microsoft 365 Equation Editor (PowerPoint and Word), including Dirac
+  bra-ket notation.
+- `.claude/skills/machine-environment-notes/SKILL.md` - diagnosing a notebook
+  cell that hangs or never finishes, clearing orphaned kernel processes,
+  reloading VS Code after a `uv sync`, and why quantum chemistry packages
+  cannot be installed on this machine.
