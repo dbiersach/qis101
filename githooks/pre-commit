@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# Block a commit that adds a notebook using matplotlib without an inline
+# backend. Such a notebook looks fine until a student runs it, at which
+# point plt.show() opens a Qt window that blocks the kernel and the cell
+# never returns.
+#
+# Git will not run a hook directory a clone has not registered. Enable it
+# once per clone:
+#
+#     git config core.hooksPath githooks
+#
+# To commit anyway, for instance while a notebook is still a work in
+# progress, pass --no-verify.
+
+# Added, copied, modified, or renamed notebooks. Deletions are excluded so
+# the check never runs against a path that is no longer on disk.
+staged=$(git diff --cached --name-only --diff-filter=ACMR -z -- '*.ipynb' | tr '\0' '\n')
+
+[ -z "$staged" ] && exit 0
+
+# --no-project keeps the check running even mid-sync, when the project
+# venv may be in an inconsistent state.
+echo "$staged" | xargs uv run --quiet --no-project python nb_check.py

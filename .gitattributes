@@ -14,6 +14,10 @@
 # Shell scripts must be LF or Linux refuses to run them.
 *.sh text eol=lf
 
+# The git hooks carry no extension for `text=auto` to key on, and a CRLF
+# shebang line breaks them with a misleading "bad interpreter" error.
+githooks/* text eol=lf
+
 # PowerShell reads LF fine on both Windows PowerShell and PowerShell 7.
 *.ps1 text eol=lf
 

@@ -9,6 +9,26 @@ Keep all style and formatting rules in `AGENTS.md` so that every AI tool used
 with this repository follows the same guide. Add rules here only if they are
 specific to Claude Code and meaningless to other tools.
 
+## Notebook Backend Check
+
+`.claude/settings.json` registers a `PostToolUse` hook on `Write`, `Edit`,
+and `NotebookEdit`. It runs `nb_check.py --hook`, which inspects whichever
+file the tool just wrote. When a notebook imports matplotlib without
+`%matplotlib inline` in its first code cell, the hook exits 2 and the
+explanation comes straight back here, so the notebook gets fixed before the
+turn ends rather than at commit time.
+
+The rule itself lives in the First Code Cell section of `AGENTS.md`, because
+it applies to every tool. Only the hook wiring is Claude Code specific.
+
+Two things follow from that:
+
+- Do not treat a hook message as a mysterious failure. It names the file and
+  the missing line. Add the magic and move on.
+- `githooks/pre-commit` runs the same check, so a notebook written by hand in
+  VS Code is caught too. The hook here is the earlier of the two nets, not a
+  replacement for it.
+
 ## Chat Responses
 
 Responses are read in the Claude Code panel inside VS Code, which has no

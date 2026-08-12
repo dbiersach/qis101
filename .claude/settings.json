@@ -17,5 +17,21 @@
       "PowerShell(uv run ruff *)",
       "PowerShell(uv sync)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "uv run --quiet --no-project python \"${CLAUDE_PROJECT_DIR:-.}/nb_check.py\" --hook",
+            "statusMessage": "Checking notebook backend",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
   }
 }

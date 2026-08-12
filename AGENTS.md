@@ -38,6 +38,26 @@ The first code cell must begin with a short docstring containing the notebook fi
 """example_notebook.ipynb"""
 ```
 
+If the notebook imports matplotlib anywhere, an inline backend must be
+selected after the docstring and the cell-label comment, before any import:
+
+```python
+"""example_notebook.ipynb"""
+
+# Cell 01 - Import packages
+
+%matplotlib inline
+
+import matplotlib.pyplot as plt
+```
+
+This is required, not optional, and it must be in the **first** code cell so
+that it runs before any plot is made. Without it the kernel inherits the
+venv's `qtagg` backend, `plt.show()` opens a window that blocks the kernel,
+and the cell spins forever. A notebook that needs a live animation uses
+`%matplotlib widget` instead. `nb_check.py` enforces this, and
+`githooks/pre-commit` refuses a commit that violates it.
+
 ---
 
 ### Cell Labeling
@@ -206,8 +226,20 @@ layers guard against this, and both should stay in place:
 - Every notebook that imports matplotlib puts `%matplotlib inline` in its
   first code cell, right after the docstring and cell-label comment. This
   travels with the `.ipynb` file, so it works for students on any machine.
-- The workspace file sets `"jupyter.runStartupCommands": ["%matplotlib inline"]`
-  as a backstop for kernels started outside a notebook that carries the magic.
+- `nb_check.py` enforces that rule, so a notebook cannot quietly ship
+  without it. `githooks/pre-commit` runs the check against staged
+  notebooks and refuses the commit if one is missing the magic. Register
+  the hook directory once per clone:
+
+      git config core.hooksPath githooks
+
+  Run the same check over the whole repository at any time with
+  `uv run --no-project python nb_check.py`.
+
+A VS Code setting cannot serve as the backstop here. `jupyter.runStartupCommands`
+is declared by the Jupyter extension with `"scope": "application"`, which means
+VS Code reads it only from user settings and ignores it in a workspace or folder
+file, where it renders grayed out.
 
 A notebook that needs a live animation uses `%matplotlib widget`, never the Qt
 backend. Standalone `.py` scripts are unaffected and keep their interactive Qt
