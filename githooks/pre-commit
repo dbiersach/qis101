@@ -1,24 +1,38 @@
 #!/bin/sh
 #
-# Block a commit that adds a notebook using matplotlib without an inline
-# backend. Such a notebook looks fine until a student runs it, at which
-# point plt.show() opens a Qt window that blocks the kernel and the cell
-# never returns.
+# Block a commit that breaks either of the rules nb_check.py enforces:
+#
+#   - A notebook that uses matplotlib without an inline backend. Such a
+#     notebook looks fine until a student runs it, at which point
+#     plt.show() opens a Qt window that blocks the kernel and the cell
+#     never returns.
+#
+#   - A script that names a data file relative to the working directory
+#     instead of to itself. Such a script writes its output wherever it
+#     happened to be launched from, and the partner script that reads the
+#     file then cannot find it.
 #
 # Git will not run a hook directory a clone has not registered. Enable it
 # once per clone:
 #
 #     git config core.hooksPath githooks
 #
-# To commit anyway, for instance while a notebook is still a work in
-# progress, pass --no-verify.
+# To commit anyway, for instance while a lab is still a work in progress,
+# pass --no-verify.
 
-# Added, copied, modified, or renamed notebooks. Deletions are excluded so
-# the check never runs against a path that is no longer on disk.
-staged=$(git diff --cached --name-only --diff-filter=ACMR -z -- '*.ipynb' | tr '\0' '\n')
-
-[ -z "$staged" ] && exit 0
-
-# --no-project keeps the check running even mid-sync, when the project
-# venv may be in an inconsistent state.
-echo "$staged" | xargs uv run --quiet --no-project python nb_check.py
+# Added, copied, modified, or renamed notebooks and scripts. Deletions are
+# excluded so the check never runs against a path that is no longer on disk.
+#
+# Every session folder in this repository has spaces in its name, so the
+# list has to stay NUL separated all the way into the checker. Splitting it
+# on whitespace hands "Session 25 - Computational Chemistry/read_json.py" to
+# nb_check.py as five separate arguments, none of which is a real file, and
+# the check then passes everything without ever opening a single one.
+if git diff --cached --name-only --diff-filter=ACMR -- '*.ipynb' '*.py' \
+    | grep -q .
+then
+    # --no-project keeps the check running even mid-sync, when the project
+    # venv may be in an inconsistent state.
+    git diff --cached --name-only --diff-filter=ACMR -z -- '*.ipynb' '*.py' \
+        | xargs -0 uv run --quiet --no-project python nb_check.py
+fi

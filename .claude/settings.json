@@ -27,7 +27,7 @@
             "type": "command",
             "shell": "bash",
             "command": "uv run --quiet --no-project python \"${CLAUDE_PROJECT_DIR:-.}/nb_check.py\" --hook",
-            "statusMessage": "Checking notebook backend",
+            "statusMessage": "Checking notebook and file path rules",
             "timeout": 60
           }
         ]

@@ -193,24 +193,70 @@ def square(x: float) -> float:
 
 ---
 
-## Comments and Writing Style
+## File Input and Output
 
-- Comments must be **functional and explanatory**
-- Focus on:
-  - Purpose of the code
-  - Mathematical meaning
-  - Instructions to the reader/student
+Every file a script reads or writes lives in the **same folder as the script
+itself**. Data written by one lab is read back by its partner in that folder,
+so a student can open any session folder and find the inputs and the outputs
+together.
 
-### Avoid
+A bare filename does not do this. Python resolves a relative path against the
+current working directory, which is wherever the terminal happened to be when
+the script was launched. Run the same script from the repository root and the
+output lands in the repository root, where its partner script will not find
+it.
 
-- Decorative or stylistic comments
-- Redundant comments that restate obvious code
-- Em dashes or long dashes
+Anchor the path to the script instead:
 
-Instead:
+```python
+file_name = "samples.csv"
+file_path = Path(__file__).parent / file_name
+np.savetxt(file_path, samples, fmt="%3.6f", delimiter=",")
+print(f"Saved file {file_path}")
+```
 
-- Use normal hyphens `-`
-- Or rewrite the sentence for clarity
+Reading uses the same anchor, so the writer and the reader always agree:
+
+```python
+file_name = "samples.csv"
+file_path = Path(__file__).parent / file_name
+times, volts = np.genfromtxt(file_path, delimiter=",", unpack=True)
+```
+
+Two rules follow, and the second is the one that actually gets broken:
+
+- Build `file_path` from `Path(__file__).parent`, never from the bare name.
+- Pass `file_path` to **every** call that touches the file. Computing
+  `file_path` and then handing `file_name` to `np.savetxt` looks correct at a
+  glance and silently writes to the wrong folder.
+
+Print the full `file_path` rather than the bare name when reporting a save.
+A student who sees the whole path can tell at once where the file went.
+
+`nb_check.py` enforces this, and `githooks/pre-commit` refuses a commit that
+breaks it.
+
+### Notebooks
+
+A notebook has no `__file__`, so it cannot use that anchor, and writing
+`Path(__file__)` in a cell raises `NameError`. Notebook file names resolve
+against the kernel's working directory, which is the folder holding the
+notebook. ``qis101.code-workspace`` pins this with
+
+    "jupyter.notebookFileRoot": "${fileDirname}"
+
+so a bare `"ray.csv"` in a notebook means the `ray.csv` sitting next to it.
+That setting is the extension's own default; stating it in the workspace keeps
+a machine-level override from breaking a lab.
+
+Notebooks that write files should say so plainly. Set the destination once,
+near the top, and name it in the output:
+
+```python
+# Notebooks have no __file__, so anchor output to the working directory
+LAB_DIR = Path.cwd()
+print(f"Files will be written to {LAB_DIR}")
+```
 
 ---
 
