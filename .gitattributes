@@ -9,7 +9,17 @@
 # show the enclosing function in the hunk header instead of a bare line
 # number.
 *.py    text eol=lf diff=python
-*.ipynb text eol=lf
+
+# Notebooks additionally run through the nb_clean filter, which strips the
+# interpreter version and the per-cell execution timestamps that Jupyter
+# rewrites on every save. Without it those fields produce a diff on files
+# nobody edited. Git will not run a filter a clone has not registered, so
+# enable it once per clone:
+#
+#   git config filter.nbclean.clean "uv run --quiet --no-project python nb_clean.py"
+#
+# Skipping that step is harmless: notebooks are then staged verbatim.
+*.ipynb text eol=lf filter=nbclean
 
 # Shell scripts must be LF or Linux refuses to run them.
 *.sh text eol=lf
