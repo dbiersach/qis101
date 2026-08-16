@@ -18,7 +18,20 @@
 #
 #   git config filter.nbclean.clean "uv run --quiet --no-project python nb_clean.py"
 #
+# nb_clean.py imports only the standard library, so
+# `git config filter.nbclean.clean "python3 nb_clean.py"` works too and keeps
+# uv out of the path.
+#
 # Skipping that step is harmless: notebooks are then staged verbatim.
+#
+# A checked-out notebook is smaller than the file Jupyter later writes back,
+# because the filter took those fields out of the blob. Git caches the size it
+# checked out and, when the file on disk no longer matches it, reports the
+# notebook modified WITHOUT running the filter to check. The notebook then
+# stays modified forever even though its cleaned bytes equal HEAD. It is not a
+# broken filter. Clear it with `git add --renormalize .`, which restages
+# nothing because the blob is unchanged. See the "Notebooks that will not stop
+# showing as modified" section of AGENTS.md.
 *.ipynb text eol=lf filter=nbclean
 
 # Shell scripts must be LF or Linux refuses to run them.

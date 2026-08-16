@@ -292,6 +292,65 @@ backend. Standalone `.py` scripts are unaffected and keep their interactive Qt
 window. See `.claude/skills/machine-environment-notes/SKILL.md` for why the Qt
 backend blocks the kernel and how to diagnose a cell that never finishes.
 
+### Notebooks that will not stop showing as modified
+
+`.gitattributes` routes every `.ipynb` through the `nbclean` clean filter, which
+drops `metadata.language_info.version` and the per-cell `metadata.execution`
+timestamps on the way into the index. The working copy keeps those fields. That
+is deliberate, and it is also why a notebook can get stuck showing as modified
+when nothing about it changed.
+
+The filter has no smudge half, so the file git checks out is *smaller* than the
+file Jupyter writes back the first time the notebook is opened. Git records the
+size it checked out, sees a different size on disk, and concludes the file
+changed. It reports the notebook modified without ever running the filter to
+compare the cleaned content. Once that happens the notebook stays modified
+forever.
+
+Nothing about the filter is broken, which is what makes this so slow to
+diagnose. Every obvious check comes back innocent, because none of them go
+through the path git is skipping:
+
+- `git diff` prints nothing.
+- `git hash-object <notebook>` equals the blob in the index and in `HEAD`.
+- `git -c filter.nbclean.required=true status` raises no error, since a filter
+  that is never invoked cannot fail.
+
+Confirm it by comparing the size git cached against the size on disk:
+
+```bash
+git ls-files --debug -- "<notebook>"   # the "size:" line
+stat -c %s "<notebook>"                # Linux
+(Get-Item "<notebook>").Length         # Windows PowerShell
+```
+
+If the cached size is the smaller, cleaned size, this is it. Fix it with
+
+```bash
+git add --renormalize .
+```
+
+which runs the filter, records the right size, and stages nothing, because the
+blob it produces is the one already committed. `git update-index
+--really-refresh` does the same job.
+
+It is a once-per-notebook event, not a recurring tax. In practice the only field
+written back is `language_info.version`, whose length is fixed, so the notebook
+grows by the same few bytes the first time a kernel attaches and then keeps that
+exact size on every later open. After one `git add --renormalize .` the cached
+size is the grown size and the notebook stays clean. Only a fresh clone,
+checkout, or branch switch resets it, and so does moving to a new Python patch
+release, since that changes the length of the version string.
+
+Nothing writes the per-cell `metadata.execution` timestamps here. The VS Code
+Jupyter extension does not record them, and no notebook in the repository
+carries any. `nb_clean.py` still strips them, because JupyterLab and `nbconvert
+--execute` do write them, and a notebook that arrives from either would
+otherwise carry timing noise into the index.
+
+`git add --renormalize .` is safe to run at any point and is the first thing to
+try when a notebook you never edited appears in `git status`.
+
 ---
 
 ## Reference Material Loaded On Demand
