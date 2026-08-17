@@ -19,8 +19,8 @@
         "version": "0.2.0"
     },
     "settings": {
-        "chat.editor.fontSize": 18,
-        "chat.fontSize": 18,
+        "chat.editor.fontSize": 16,
+        "chat.fontSize": 16,
         "debug.terminal.clearBeforeReusing": false,
         "editor.codeActionsOnSave": {
             "source.organizeImports.ruff": "explicit"
@@ -38,7 +38,7 @@
         ],
         "notebook.formatOnCellExecution": true,
         "notebook.formatOnSave.enabled": true,
-        "notebook.markup.fontSize": 18,
+        "notebook.markup.fontSize": 16,
         "output.smartScroll.enabled": false,
         "python.analysis.autoImportCompletions": true,
         "python.analysis.completeFunctionParens": true,
