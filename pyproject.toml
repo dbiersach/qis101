@@ -49,7 +49,7 @@ dependencies = [
     "cupy-cuda12x ; sys_platform == 'linux' or (sys_platform == 'win32' and platform_machine == 'AMD64')",
     "highspy>=1.13.1",
     "pyvista[all]>=0.47.1",
-    "ruff>=0.15.13",
+    "ruff==0.16.3",
     "python-constraint2>=2.5.0",
     "pymupdf>=1.28.0",
 ]
