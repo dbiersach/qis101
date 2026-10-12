@@ -1,6 +1,6 @@
 # Radiation from an Electron Accelerated Along a Straight Line
 
-Companion notes for `electron_radiation.py`.
+Companion notes for `linac_electron_radiation_direction.py`.
 
 This document explains the physics behind the script and then walks through
 the code one piece at a time. Open it in VS Code with **Markdown: Open
@@ -271,9 +271,9 @@ P = \frac{q^2 a^2 \gamma^6}{6\pi\varepsilon_0 c^3}
 $$
 
 The $\gamma^6$ looks alarming, but it is misleading for a LINAC. The
-companion notes `electron_acceleration.md` show that at a fixed accelerating
-force the radiated power does not depend on energy at all, and that it is
-only about $10^{-13}$ of the energy the electron gains.
+companion notes `linac_electron_radiation_power.md` show that at a fixed
+accelerating force the radiated power does not depend on energy at all, and
+that it is only about $10^{-13}$ of the energy the electron gains.
 
 This script plots the **shape** of the pattern, not its absolute size. For
 that reason it normalizes the pattern so its peak equals 1.
@@ -316,7 +316,7 @@ Three points about the map:
 
 ```python
 #!/usr/bin/env -S uv run
-"""electron_radiation.py"""
+"""linac_electron_radiation_direction.py"""
 
 from pathlib import Path
 
@@ -495,5 +495,6 @@ convention.
   forward beaming, $(1-\beta\cos\theta)^{-5}$.
 - The cone half-angle is $\cos\theta_{\max} = (\sqrt{1+15\beta^2}-1)/(3\beta)$,
   which approaches $1/(2\gamma)$ at high energy.
-- `electron_radiation.py` turns this into a log-scaled intensity map with a
-  polar-plot overlay. You can rerun it at any speed by changing one line.
+- `linac_electron_radiation_direction.py` turns this into a log-scaled
+  intensity map with a polar-plot overlay. You can rerun it at any speed by
+  changing one line.

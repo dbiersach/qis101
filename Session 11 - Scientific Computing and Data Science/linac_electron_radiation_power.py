@@ -1,5 +1,5 @@
 #!/usr/bin/env -S uv run
-"""electron_acceleration.py"""
+"""linac_electron_radiation_power.py"""
 
 from pathlib import Path
 

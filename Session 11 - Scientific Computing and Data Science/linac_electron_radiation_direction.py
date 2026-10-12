@@ -1,5 +1,5 @@
 #!/usr/bin/env -S uv run
-"""electron_radiation.py"""
+"""linac_electron_radiation_direction.py"""
 
 from pathlib import Path
 

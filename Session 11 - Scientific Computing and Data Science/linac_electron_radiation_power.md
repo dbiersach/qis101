@@ -1,12 +1,12 @@
 # How Much Does a LINAC Electron Radiate?
 
-Companion notes for `electron_acceleration.py`.
+Companion notes for `linac_electron_radiation_power.py`.
 
 This document explains the physics behind the script and then walks through
 the code one piece at a time. Open it in VS Code with **Markdown: Open
 Preview** (`Ctrl+Shift+V`) so the equations render. The *direction* of the
-radiation is covered in `electron_radiation.md`. This document is about how
-*much* power is radiated.
+radiation is covered in `linac_electron_radiation_direction.md`. This
+document is about how *much* power is radiated.
 
 ---
 
@@ -487,6 +487,6 @@ highest energy is printed in the corner.
 - In a ring the force is perpendicular, the power grows as $\gamma^4$ at
   fixed radius, and losses become severe. That is why the highest-energy
   electron machines are planned as straight lines.
-- `electron_acceleration.py` checks all of this numerically. It shows the
-  two forms agreeing to machine precision and the $\gamma^6$ being cancelled
-  exactly by the shrinking acceleration.
+- `linac_electron_radiation_power.py` checks all of this numerically. It
+  shows the two forms agreeing to machine precision and the $\gamma^6$ being
+  cancelled exactly by the shrinking acceleration.
