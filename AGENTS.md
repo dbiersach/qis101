@@ -15,6 +15,28 @@ The goal is clarity, consistency, and strong pedagogical value.
 
 ---
 
+## Code Comments
+
+Comments describe the code **as it stands now**, in the present tense. The reader
+sees only the current version, so anything about the code's past is confusing noise.
+
+- **Never refer to a prior version of the code**, an earlier approach, or how the
+  code used to behave.
+- **Never describe a past mistake or bug**, or frame the current code as a "fix,"
+  "correction," or improvement over something that came before.
+- Do not use words like *now*, *again*, *still*, *no longer*, *previously*, *used
+  to*, or *the old way* to contrast with an earlier state.
+- State what the code does and **why it is written this way**, on its own terms. If
+  a design choice needs justifying, justify it by the requirement it meets, not by
+  the alternative it replaced.
+
+Example — instead of "The n4 test is the cure: the old (1,1)-only method missed a
+third of cases, so we added it," write "Two tests detect a factor: the (1,1) test
+and the n4 test. Both are needed because each alone leaves some semiprimes
+unfactored."
+
+---
+
 ## File Naming
 
 - Use lowercase `snake_case` for all files.
