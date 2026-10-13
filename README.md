@@ -15,6 +15,28 @@ uv sync
 This creates a `.venv` with everything needed. The courseware runs on Windows,
 macOS (Apple Silicon and Intel), and Linux.
 
+### Git setup for contributors
+
+If you will commit changes, run these two commands once from the project
+folder after cloning:
+
+```sh
+git config core.hooksPath githooks
+git config filter.nbclean.clean "uv run --quiet --no-project python nb_clean.py"
+```
+
+The first registers the pre-commit hook, which runs `nb_check.py` and refuses
+a commit containing a notebook without `%matplotlib inline` or a script that
+reads or writes data files outside its own folder. The second registers the
+filter that strips the interpreter version and execution timestamps from
+notebooks as they are staged, so notebooks nobody edited do not show up as
+changed.
+
+Git never runs hooks or filters that arrive with a clone until they are
+registered locally, so skipping this step causes no errors. The checks simply
+do not run. See [nb_check vs nb_clean.md](<nb_check vs nb_clean.md>) for how
+both tools work.
+
 ### Linux notes
 
 Standalone `.py` scripts open an interactive matplotlib window via Qt (PySide6).
