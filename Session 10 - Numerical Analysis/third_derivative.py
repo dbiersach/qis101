@@ -14,9 +14,8 @@ def f(x):
 
 def main():
     a, b, n = 0, 5, 500
-    dx = (b - a) / n
-
     x = np.linspace(a, b, n)
+    dx = x[1] - x[0]
     y = f(x)
 
     # Compute the first derivative using the central difference formula
@@ -37,18 +36,18 @@ def main():
     plt.figure(Path(__file__).name)
     plt.plot(x, 20 * y, label=r"$\mathbf{20}\times\frac{\sin{x^2}}{1+x^3}$")
     plt.plot(
-        x[1:-2],
-        10 * y_prime[1:-2],
+        x[1:-1],
+        10 * y_prime[1:-1],
         label=r"$\mathbf{10}\times\frac{\partial}{\partial x}\;\frac{\sin{x^2}}{1+x^3}$",
     )
     plt.plot(
-        x[2:-3],
-        y_prime2[2:-3],
+        x[2:-2],
+        y_prime2[2:-2],
         label=r"$\frac{\partial ^2}{\partial x^2}\;\frac{\sin{x^2}}{1+x^3}$",
     )
     plt.plot(
-        x[3:-4],
-        y_prime3[3:-4],
+        x[3:-3],
+        y_prime3[3:-3],
         label=r"$\frac{\partial ^3}{\partial x^3}\;\frac{\sin{x^2}}{1+x^3}$",
     )
     plt.title(r"Higher Order Numerical Derivatives of $\frac{\sin{x^2}}{1+x^3}$")

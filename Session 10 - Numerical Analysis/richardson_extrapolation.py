@@ -49,19 +49,19 @@ def main():
 
     print(f"{'Basic 2nd order CD':<27}: {est_2nd_basic:.16f}")
     print(f"{'APE (Basic 2nd Order)':<27}", end=": ")
-    print(f"{abs((est_2nd_basic - exact) / exact) * 100:.16%}\n")
+    print(f"{abs((est_2nd_basic - exact) / exact):.16%}\n")
 
     print(f"{'Basic 4th order CD':<27}: {est_4th_basic:.16f}")
     print(f"{'APE (Basic 4th Order)':<27}", end=": ")
-    print(f"{abs((est_4th_basic - exact) / exact) * 100:.16%}\n")
+    print(f"{abs((est_4th_basic - exact) / exact):.16%}\n")
 
     print(f"{'Richardson 2nd order CD':<27}: {est_2nd_rich:.16f}")
     print(f"{'APE (Richardson 2nd Order)':<27}", end=": ")
-    print(f"{abs((est_2nd_rich - exact) / exact) * 100:.16%}\n")
+    print(f"{abs((est_2nd_rich - exact) / exact):.16%}\n")
 
     print(f"{'Richardson 4th order CD':<27}: {est_4th_rich:.16f}")
     print(f"{'APE (Richardson 4th Order)':<27}", end=": ")
-    print(f"{abs((est_4th_rich - exact) / exact) * 100:.16%}\n")
+    print(f"{abs((est_4th_rich - exact) / exact):.16%}\n")
 
 
 if __name__ == "__main__":

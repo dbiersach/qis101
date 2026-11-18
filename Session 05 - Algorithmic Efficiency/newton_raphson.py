@@ -9,7 +9,11 @@ iterations = 30
 
 
 def bisection(x):
-    low, high = 0, x
+    if not np.isfinite(x) or x < 0:
+        raise ValueError("Expected a finite nonnegative number")
+    if x == 0:
+        return 0.0
+    low, high = 0.0, max(1.0, x)
     est = (low + high) / 2
     for _ in range(iterations):
         if est**2 < x:

@@ -30,7 +30,7 @@ def main():
     y_euler[0] = np.cos(x_euler[0])
     for i in range(1, len(x_euler)):
         y_euler[i] = y_euler[i - 1] - np.sin(x_euler[i - 1]) * dx_euler
-    plt.plot(x_euler, y_euler, label=f"Euler ({num_terms_euler} intervals)")
+    plt.plot(x_euler, y_euler, label=f"Euler ({num_terms_euler - 1} intervals)")
 
     plt.title(r"Series Comparison for $y = \cos(x)$")
     plt.xlabel("x")

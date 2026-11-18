@@ -46,7 +46,7 @@ def main():
     (plot1,) = ax_theta.plot(
         time_steps, theta, lw=2, label=r"$\theta$ (rad)", color="C0"
     )
-    ax_theta.set_title("Simple Pendulum (RKF45 Method)")
+    ax_theta.set_title("Simple Pendulum (Dormand–Prince RK45)")
     ax_theta.set_xlabel("Time (sec)")
     ax_theta.set_ylabel(r"Angular Displacement $\theta$ (rad)", color="C0")
     ax_theta.tick_params(axis="y", labelcolor="C0")

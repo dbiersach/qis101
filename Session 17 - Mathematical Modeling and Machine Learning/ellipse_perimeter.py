@@ -15,7 +15,7 @@ def d_s(theta, a, b):
 
 
 def ramanujan_estimate(a, b):
-    h = (a - b) / (a + b)
+    h = ((a - b) / (a + b)) ** 2
     return np.pi * (a + b) * (1 + 3 * h / (10 + np.sqrt(4 - 3 * h)))
 
 

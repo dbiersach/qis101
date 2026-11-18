@@ -35,19 +35,16 @@ rlineAC = RadLine(theta=0.0, d=0.0)
 rlineBC = RadLine(theta=0.0, d=0.0)
 
 
-def radline_y(rline, x):
-    return np.array((rline.d - x * np.cos(rline.theta)) / np.sin(rline.theta))
+def plot_radline(ax, rline, t, **kwargs):
+    # Parameterize along the line instead of solving for y as a function of x.
+    c, s = np.cos(rline.theta), np.sin(rline.theta)
+    ax.plot(rline.d * c - t * s, rline.d * s + t * c, **kwargs)
 
 
 def radline_connect(pt1, pt2):
-    # Prevent divide by zero due to a vertical line
-    if pt2.y == pt1.y:
-        theta = np.pi / 4
-    else:
-        theta = np.arctan((pt1.x - pt2.x) / (pt2.y - pt1.y))
-        # Ensure theta remains within the interval [0, pi)
-        if theta < 0:
-            theta += np.pi
+    if pt1 == pt2:
+        raise ValueError("A line needs two distinct points")
+    theta = np.arctan2(pt2.x - pt1.x, pt1.y - pt2.y) % np.pi
     d = pt1.x * np.cos(theta) + pt1.y * np.sin(theta)
     return RadLine(theta, d)
 
@@ -89,9 +86,12 @@ def random_pt():
 def plot_triangle(ax):
     # Generate three random vertices
     global ptA, ptB, ptC
-    ptA = random_pt()
-    ptB = random_pt()
-    ptC = random_pt()
+    while True:
+        ptA, ptB, ptC = random_pt(), random_pt(), random_pt()
+        twice_area = ((ptB.x - ptA.x) * (ptC.y - ptA.y)
+                      - (ptB.y - ptA.y) * (ptC.x - ptA.x))
+        if twice_area != 0:
+            break
 
     # Formulate the radon line connecting the adjacent vertices
     global rlineAB, rlineAC, rlineBC
@@ -99,19 +99,16 @@ def plot_triangle(ax):
     rlineAC = radline_connect(ptA, ptC)
     rlineBC = radline_connect(ptB, ptC)
 
-    # Plot the edges
-    x = np.linspace(ptA.x, ptB.x, 100)
-    ax.plot(x, radline_y(rlineAB, x), color="purple", linewidth=3, label="Edges")
-    x = np.linspace(ptA.x, ptC.x, 100)
-    ax.plot(x, radline_y(rlineAC, x), color="purple", linewidth=3)
-    x = np.linspace(ptB.x, ptC.x, 100)
-    ax.plot(x, radline_y(rlineBC, x), color="purple", linewidth=3)
+    # Draw each edge directly between its vertices, including vertical edges.
+    ax.plot([ptA.x, ptB.x], [ptA.y, ptB.y], color="purple", linewidth=3, label="Edges")
+    ax.plot([ptA.x, ptC.x], [ptA.y, ptC.y], color="purple", linewidth=3)
+    ax.plot([ptB.x, ptC.x], [ptB.y, ptC.y], color="purple", linewidth=3)
 
     # Plot the extended edges
     x = np.linspace(-100, 100, 100)
-    ax.plot(x, radline_y(rlineAB, x), color="purple", linestyle="dotted")
-    ax.plot(x, radline_y(rlineAC, x), color="purple", linestyle="dotted")
-    ax.plot(x, radline_y(rlineBC, x), color="purple", linestyle="dotted")
+    plot_radline(ax, rlineAB, x, color="purple", linestyle="dotted")
+    plot_radline(ax, rlineAC, x, color="purple", linestyle="dotted")
+    plot_radline(ax, rlineBC, x, color="purple", linestyle="dotted")
 
     # Calculate the centroid, which is the mean value
     # of the cartesian coordinates of every vertex
@@ -132,11 +129,10 @@ def plot_orthocenter(ax):
 
     # Plot the altitudes
     x = np.linspace(-100, 100, 100)
-    ax.plot(
-        x, radline_y(rlineA_alt, x), color="blue", linestyle="dotted", label="Altitudes"
+    plot_radline(ax, rlineA_alt, x, color="blue", linestyle="dotted", label="Altitudes"
     )
-    ax.plot(x, radline_y(rlineB_alt, x), color="blue", linestyle="dotted")
-    ax.plot(x, radline_y(rlineC_alt, x), color="blue", linestyle="dotted")
+    plot_radline(ax, rlineB_alt, x, color="blue", linestyle="dotted")
+    plot_radline(ax, rlineC_alt, x, color="blue", linestyle="dotted")
 
     # Calculate the orthocenter which is the intersection of the altitudes
     global ptOrtho
@@ -160,15 +156,13 @@ def plot_circumcenter(ax):
 
     # Plot the perpendicular bisectors
     x = np.linspace(-100, 100, 100)
-    ax.plot(
-        x,
-        radline_y(rlineA_bis, x),
+    plot_radline(ax, rlineA_bis, x,
         color="green",
         linestyle="dotted",
         label="Perpendicular Bisectors",
     )
-    ax.plot(x, radline_y(rlineB_bis, x), color="green", linestyle="dotted")
-    ax.plot(x, radline_y(rlineC_bis, x), color="green", linestyle="dotted")
+    plot_radline(ax, rlineB_bis, x, color="green", linestyle="dotted")
+    plot_radline(ax, rlineC_bis, x, color="green", linestyle="dotted")
 
     # Calculate the circumcenter, which is the intersection
     # of the perpendicular bisectors for each edge
@@ -183,8 +177,10 @@ def plot_euler_Line(ax):
     # Plot the Euler line, which intersects the orthocenter,
     # the circumcenter, and the centroid of every triangle
     x = np.linspace(-100, 100, 100)
+    if np.allclose((ptOrtho.x, ptOrtho.y), (ptCircum.x, ptCircum.y)):
+        return
     rlineEuler = radline_connect(ptOrtho, ptCircum)
-    ax.plot(x, radline_y(rlineEuler, x), color="black", linewidth=3, label="Euler line")
+    plot_radline(ax, rlineEuler, x, color="black", linewidth=3, label="Euler line")
 
 
 def plot_incenter(ax):
@@ -238,15 +234,13 @@ def plot_incenter(ax):
 
     # Plot the angle bisectors of each vertex
     x = np.linspace(-100, 100, 100)
-    ax.plot(
-        x,
-        radline_y(rlineA_inctr, x),
+    plot_radline(ax, rlineA_inctr, x,
         color="red",
         label="Angle Bisectors",
         linestyle="dotted",
     )
-    ax.plot(x, radline_y(rlineB_inctr, x), color="red", linestyle="dotted")
-    ax.plot(x, radline_y(rlineC_inctr, x), color="red", linestyle="dotted")
+    plot_radline(ax, rlineB_inctr, x, color="red", linestyle="dotted")
+    plot_radline(ax, rlineC_inctr, x, color="red", linestyle="dotted")
 
     # Plot the incenter, which is the intersection of the
     # angle bisectors of every vertex

@@ -52,13 +52,20 @@ def binomial_expand(
 def heron(s: float) -> tuple[int, float]:
     """
     Returns a tuple containing the number of iterations (n) of Heron's Method
-    to calculate sqrt(s) to within 1e-14, along with the actual root value
+    to calculate sqrt(s), using a relative update tolerance of 1e-14
     """
-    x, t = s / 2, 1
-    while x**2 - s > 1e-14:
-        x = (s / x + x) / 2
+    if s < 0:
+        raise ValueError("Heron's method requires a nonnegative input")
+    if s == 0:
+        return 0, 0.0
+
+    x, t = max(1.0, s / 2), 0
+    while True:
+        next_x = (s / x + x) / 2
         t += 1
-    return t, x
+        if abs(next_x - x) <= 1e-14 * next_x:
+            return t, next_x
+        x = next_x
 
 
 def main():

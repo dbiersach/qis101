@@ -10,7 +10,7 @@ from matplotlib.animation import FuncAnimation
 run_number = 0
 
 # Each wave parameter tuple contains these values in order:
-# Amplitude (amp), Wave Number (k), Angular Velocity (w)
+# Amplitude (amp), Wave Number (k), Angular Frequency (w)
 wave_params = (
     # Run 0 (Blue wave parameters are fixed)
     (1, 1, 1 / 16),
@@ -20,7 +20,7 @@ wave_params = (
     (1 / 2, 1, 1 / 16),
     # Run 3 (RED wave has half wave number)
     (1, 1 / 2, 1 / 16),
-    # Run 4 (RED wave has half velocity)
+    # Run 4 (RED wave has double the phase speed)
     (1, 1, 1 / 8),
     # Run 5 (RED wave 2 has opposite velocity)
     (1, 1, -1 / 16),

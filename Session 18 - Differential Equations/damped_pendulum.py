@@ -42,7 +42,7 @@ def main():
         max_step=0.01,
         args=(phase_constant, underdamped_constant),
     )
-    time_steps = sol.t
+    times_underdamped = sol.t
     theta_underdamped = sol.y[1]
 
     # Calculate for an overdamped pendulum
@@ -53,6 +53,7 @@ def main():
         max_step=0.01,
         args=(phase_constant, overdamped_constant),
     )
+    times_overdamped = sol.t
     theta_overdamped = sol.y[1]
 
     # Calculate for a critically damped pendulum
@@ -63,15 +64,16 @@ def main():
         max_step=0.01,
         args=(phase_constant, critically_damped_constant),
     )
+    times_critically_damped = sol.t
     theta_critically_damped = sol.y[1]
 
     plt.figure(Path(__file__).name)
     # fmt: off
-    plt.plot(time_steps, theta_underdamped, label="underdamped",
+    plt.plot(times_underdamped, theta_underdamped, label="underdamped",
         c="red", lw=2, zorder=3)
-    plt.plot(time_steps, theta_overdamped, label="overdamped",
+    plt.plot(times_overdamped, theta_overdamped, label="overdamped",
         c="blue", lw=2, zorder=3)
-    plt.plot(time_steps, theta_critically_damped, label="critically damped",
+    plt.plot(times_critically_damped, theta_critically_damped, label="critically damped",
         c="green", lw=2, zorder=3)
     # fmt: on
     plt.title("Damped Pendulums")

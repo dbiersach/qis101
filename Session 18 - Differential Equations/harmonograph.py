@@ -33,6 +33,7 @@ def main():
     # Set model duration (seconds)
     time_initial = 0
     time_final = 10
+    times = np.linspace(time_initial, time_final, 1001)
 
     # Calculate trajectory of 1st pendulum
     sol = solve_ivp(
@@ -40,6 +41,7 @@ def main():
         (time_initial, time_final),
         [omega1_initial, theta1_initial],
         max_step=0.01,
+        t_eval=times,
         args=(phase1_constant,),
     )
     theta1 = sol.y[1]
@@ -50,15 +52,10 @@ def main():
         (time_initial, time_final),
         [omega2_initial, theta2_initial],
         max_step=0.01,
+        t_eval=times,
         args=(phase2_constant,),
     )
     theta2 = sol.y[1]
-
-    # Ensure both vectors are same length because solve_ivp()
-    # may produce slightly different numbers of time steps
-    # for each pendulum due to its adaptive internal step-size control
-    n = min(len(theta1), len(theta2))
-    theta1, theta2 = theta1[:n], theta2[:n]
 
     plt.figure(Path(__file__).name)
     plt.plot(theta1, theta2, color="blue", lw=2)

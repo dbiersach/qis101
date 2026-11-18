@@ -14,7 +14,7 @@ def f(x):
 
 def dft(ts, fs):
     num_samples = ts.size  # ts = sample time
-    num_terms = int(num_samples / 2)  # Nyquist limit
+    num_terms = num_samples // 2 + 1  # Include the highest nonnegative bin
     # ct = complex terms of the DFT
     ct = np.zeros(num_terms, dtype=complex)
     for k in range(num_terms):  # k = filter wave number
@@ -22,6 +22,8 @@ def dft(ts, fs):
             ct[k] += fs[n] * np.exp(complex(0, (k * ts[n])))
     ct = ct * 2 / num_samples
     ct[0] /= 2  # DC value should NOT be doubled
+    if num_samples % 2 == 0:
+        ct[-1] /= 2  # Even-length Nyquist bin has no distinct partner
     return ct
 
 

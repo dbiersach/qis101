@@ -7,7 +7,7 @@ FILE_NAME = "ciphertext1.txt"
 KEY_SHIFT = -45
 
 # Read the file as bytes
-file_path = Path(__file__).parent / FILE_NAME
+file_path = Path(__file__).parents[1] / FILE_NAME
 with open(file_path, "rb") as f_in:
     f_bytes = bytearray(f_in.read())
 

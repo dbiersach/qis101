@@ -15,10 +15,10 @@ def F(x):
 def midpoint_fixed(a, b):
     # Pedagogical implementation of the fixed-width midpoint rule.
     # For production use, prefer scipy.integrate.quad(f, a, b).
-    x, dx, area = a, (b - a) / 1e6, 0.0
-    while x < b:
-        area += f(x + dx / 2) * dx
-        x += dx
+    steps = 1_000_000
+    dx, area = (b - a) / steps, 0.0
+    for i in range(steps):
+        area += f(a + (i + 0.5) * dx) * dx
     return area
 
 
@@ -26,7 +26,10 @@ def midpoint_adaptive(a, b):
     # Pedagogical implementation of the adaptive-width midpoint rule.
     # For production use, prefer scipy.integrate.quad(f, a, b).
     x, dx, area = a, 1, 0.0
+    if b < a:
+        return -midpoint_adaptive(b, a)
     while x < b:
+        dx = min(dx, b - x)
         f1 = f(x)
         f2 = f(x + dx)
         # Keep halving dx if current delta is too great;
@@ -36,7 +39,10 @@ def midpoint_adaptive(a, b):
             f2 = f(x + dx)
         # Use the midpoint rule
         area += f(x + dx / 2) * dx
-        x += dx
+        next_x = x + dx
+        if next_x == x:
+            raise ArithmeticError("Step too small to advance")
+        x = next_x
         # Expand current interval width
         dx *= 2
     return area

@@ -19,32 +19,15 @@ def chakravala_solution(n):
 
     # Apply the Chakravala method until k becomes 1
     while k != 1:
-        """
-        Find m such that both conditions are true:
-            (a + b * m) % k == 0 -> to ensure the next b is an integer
-            m^2 - n is minimized -> to reduce the next k as much as possible
-        """
+        # Among nonnegative m with (a + b*m) divisible by k, minimize
+        # abs(m*m - n). Only the nearest eligible m on each side of
+        # sqrt(n) can win; each side repeats every abs(k) integers.
         m0 = isqrt(n)
-        best_m = 0
-        min_delta = 0
-        found_m = False
-
-        # Search for m around m0
-        for t in range(abs(k) + 1):
-            # Check both sides of m0
-            for m in (m0 - t, m0 + t):
-                # Verify divisibility requirement
-                if (a + b * m) % k == 0:
-                    # We have a potential m, calculate the gap
-                    delta = m**2 - n
-                    # Update best m if this is the first m or if delta is smaller
-                    if not found_m or delta < min_delta:
-                        best_m = m
-                        min_delta = delta
-                        found_m = True
-            # Stop searching once we find a valid m
-            if found_m:
-                break
+        modulus = abs(k)
+        low = max(0, m0 - modulus + 1)
+        high = m0 + modulus + 1
+        candidates = (m for m in range(low, high) if (a + b * m) % k == 0)
+        best_m = min(candidates, key=lambda m: abs(m * m - n))
 
         # Update (a, b, k) using the best m found
         m, a_old, b_old, k_old = best_m, a, b, k

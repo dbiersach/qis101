@@ -24,10 +24,8 @@ def score_deal(hands):
             score += (np.sum(hands[player][suit]) - 3.25) ** 2
         # Ideally each player should have one card of each rank
         for rank in range(13):
-            score += (hands[player][0][rank] - 1) ** 2
-            score += (hands[player][1][rank] - 1) ** 2
-            score += (hands[player][2][rank] - 1) ** 2
-            score += (hands[player][3][rank] - 1) ** 2
+            rank_count = np.sum(hands[player, :, rank])
+            score += (rank_count - 1) ** 2
     return score
 
 

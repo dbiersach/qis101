@@ -206,7 +206,7 @@ def reassign(pts: list[DataPoint], cs: list[Cluster]) -> bool:
         for p in pts:
             c = p.cluster
             d = np.hypot(p.x - c.x, p.y - c.y)
-            if d < c.mean_distance * MEAN_MULTIPLE:
+            if d <= c.mean_distance * MEAN_MULTIPLE or c.population == 1:
                 surviving.append(p)
             elif c.population > 1:
                 print(f"Evicted DataPoint({p.x}, {p.y}) from Cluster {c.index}")

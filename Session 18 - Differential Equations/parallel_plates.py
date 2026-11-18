@@ -9,10 +9,9 @@ from matplotlib.patches import Rectangle
 from scipy.ndimage import convolve, generate_binary_structure
 
 
-def conductor_walls(a):
+def zero_normal_field_walls(a):
     # Carl Neumann (1832-1925)
-    # A conductor forces the walls to
-    # have zero potential (gradient=0)
+    # Homogeneous Neumann condition: no normal electric field.
     a[0, :] = a[1, :]
     a[-1, :] = a[-2, :]
     a[:, 0] = a[:, 1]
@@ -20,10 +19,9 @@ def conductor_walls(a):
     return a
 
 
-def insulator_walls(a):
+def grounded_walls(a):
     # Johann Dirichlet (1805-1859)
-    # An insulator forces the walls to
-    # have a fixed charge (voltage=0)
+    # Homogeneous Dirichlet condition: grounded walls have zero potential.
     a[0, :] = 0
     a[-1, :] = 0
     a[:, 0] = 0
@@ -67,10 +65,10 @@ def solve_laplace(ax, boundary_func):
     ax.add_patch(Rectangle((70, 30), 1, 40, edgecolor="k", facecolor="k"))
 
     # Title each graph
-    if boundary_func == conductor_walls:
-        ax.set_title("Conductor Walls")
+    if boundary_func == zero_normal_field_walls:
+        ax.set_title("Zero-Normal-Field Walls")
     else:
-        ax.set_title("Insulator Walls")
+        ax.set_title("Grounded Conducting Walls")
 
     ax.get_figure().suptitle(
         "Electrostatic Field Potential\nSurrounding a Parallel Plate Capacitor"
@@ -80,8 +78,8 @@ def solve_laplace(ax, boundary_func):
 
 def main():
     plt.figure(Path(__file__).name, figsize=(10, 5.5))
-    solve_laplace(plt.subplot(1, 2, 1), conductor_walls)
-    solve_laplace(plt.subplot(1, 2, 2), insulator_walls)
+    solve_laplace(plt.subplot(1, 2, 1), zero_normal_field_walls)
+    solve_laplace(plt.subplot(1, 2, 2), grounded_walls)
     plt.tight_layout()
     plt.show()
 

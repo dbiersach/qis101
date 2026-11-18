@@ -19,9 +19,9 @@ def F(theta):
 def main():
     a, b, n = 0, np.pi, 50  # n = Number of samples
 
-    # Generate 'n' sorted random angles (in radians)
+    # Include both endpoints so both methods integrate the same interval.
     np.random.seed(2019)
-    theta_samples = np.sort((b - a) * np.random.rand(n))
+    theta_samples = np.sort(np.r_[a, a + (b - a) * np.random.rand(n - 2), b])
     # Samples the curve at those angles
     f_samples = f(theta_samples)
 
@@ -35,7 +35,7 @@ def main():
 
     # Plot discrete (sampled) data
     plt.figure(Path(__file__).name)
-    theta = np.linspace(0, np.pi, 1000)
+    theta = np.linspace(a, b, 1000)
     plt.plot(theta, f(theta), label=r"$\sin^2\theta$")
     plt.scatter(theta_samples, f_samples, c="r", label=f"samples ({n})")
     plt.title("Integration over Irregularly Spaced Points")

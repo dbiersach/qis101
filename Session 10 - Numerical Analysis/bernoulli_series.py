@@ -40,9 +40,11 @@ def main() -> None:
     y2 = np.zeros_like(x, dtype=np.float64)  # quadrature estimates
 
     # See https://en.wikipedia.org/wiki/Sophomore%27s_dream
-    for n in range(1, terms):
-        y1[n] = y1[n - 1] + n ** (-n)
-        y2[n] = gauss_legendre_substituted(n)
+    partial_sum = 0.0
+    for n in range(1, terms + 1):
+        partial_sum += n ** (-n)
+        y1[n - 1] = partial_sum
+        y2[n - 1] = gauss_legendre_substituted(n)
 
     plt.figure(Path(__file__).name)
     plt.plot(x, y1, label=r"$\sum_{n=1}^{N} n^{-n}$")
