@@ -69,12 +69,12 @@ def main():
 
     plt.figure(Path(__file__).name)
     # fmt: off
-    plt.plot(times_underdamped, theta_underdamped, label="underdamped",
-        c="red", lw=2, zorder=3)
-    plt.plot(times_overdamped, theta_overdamped, label="overdamped",
-        c="blue", lw=2, zorder=3)
-    plt.plot(times_critically_damped, theta_critically_damped, label="critically damped",
-        c="green", lw=2, zorder=3)
+    plt.plot(times_underdamped, theta_underdamped,
+        label="underdamped", c="red", lw=2, zorder=3)
+    plt.plot(times_overdamped, theta_overdamped,
+        label="overdamped", c="blue", lw=2, zorder=3)
+    plt.plot(times_critically_damped, theta_critically_damped,
+        label="critically damped", c="green", lw=2, zorder=3)
     # fmt: on
     plt.title("Damped Pendulums")
     plt.xlabel("Time (sec)")

@@ -4,7 +4,8 @@
 import numpy as np
 
 
-def newton_sqrt(x):
+def newton_sqrt(x: float) -> float:
+    """Bisect until estimate and x / estimate agree relatively or rounding stalls."""
     if not np.isfinite(x) or x < 0:
         raise ValueError("Expected a finite nonnegative number")
     if x == 0:
@@ -26,8 +27,8 @@ def newton_sqrt(x):
 def main():
     x = 168923.74
     print(f"x = {x}")
-    print(f"Bisection sqrt(x) = {newton_sqrt(x):.12f}")
-    print(f"Numpy  sqrt(x) = {np.sqrt(x):.12f}")
+    print(f"Bisection sqrt(x) = {newton_sqrt(x):.16g}")
+    print(f"Numpy  sqrt(x)    = {np.sqrt(x):.16g}")
 
 
 if __name__ == "__main__":

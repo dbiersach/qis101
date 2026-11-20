@@ -38,14 +38,17 @@ def solve_laplace(ax, boundary_func):
     grid[30:70, 29:30] = left_volts
     grid[30:70, 70:71] = right_volts
 
-    mask_neg = grid == left_volts
-    mask_pos = grid == right_volts
+    mask_neg = np.zeros_like(grid, dtype=bool)
+    mask_pos = np.zeros_like(grid, dtype=bool)
+    mask_neg[30:70, 29:30] = True
+    mask_pos[30:70, 70:71] = True
 
     kern = generate_binary_structure(2, 1).astype(float) / 4
     kern[1, 1] = 0
 
-    iters = 5000
-    for _ in range(iters):
+    max_iters = 100000
+    tolerance = 1e-10  # maximum voltage change per Jacobi iteration
+    for iteration in range(1, max_iters + 1):
         # Average every four neighbor cells in the grid
         grid_next = convolve(grid, kern, mode="constant")
         # Reapply the boundary conditions
@@ -53,11 +56,25 @@ def solve_laplace(ax, boundary_func):
         # Reapply the plate voltages
         grid_next[mask_neg] = left_volts
         grid_next[mask_pos] = right_volts
-        # The next grid becomes the current grid
+        # Check every grid point for a change in voltage
+        max_change = np.max(np.abs(grid_next - grid))
         grid = grid_next
+        if max_change < tolerance:
+            break
+    else:
+        raise RuntimeError("Jacobi iteration did not converge")
+    print(
+        f"{boundary_func.__name__}: {iteration:,} iterations; "
+        f"maximum update {max_change:.3e} V"
+    )
 
     # Render a colored contour plot of the electrostatic field potential
-    surf = ax.contourf(range(N), range(N), grid, cmap="rainbow", levels=20)
+    voltage_min = min(left_volts, right_volts, float(grid.min()))
+    voltage_max = max(left_volts, right_volts, float(grid.max()))
+    if voltage_max - voltage_min < 1e-5:
+        voltage_min, voltage_max = left_volts - 1, left_volts + 1
+    levels = np.linspace(voltage_min, voltage_max, 21)
+    surf = ax.contourf(range(N), range(N), grid, cmap="rainbow", levels=levels)
     ax.get_figure().colorbar(surf, ax=ax, shrink=0.5, label="Volts")
 
     # Blacken the two parallel plates

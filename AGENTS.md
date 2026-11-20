@@ -173,6 +173,7 @@ the notebook after editing it.
 ### Type Hints
 
 - Use type hints for all reusable functions and classes
+- Do not suppress type-checker diagnostics with `# pyright: ignore`, `# type: ignore`, or equivalent settings unless no viable type-correct solution exists. Investigate and verify proper typing alternatives first. If suppression is unavoidable, explain why and limit it to the specific diagnostic and line.
 - Prefer modern Python 3.13 syntax:
 
 ```python

@@ -5,15 +5,16 @@ from mpmath import mp, mpf
 
 
 def sqrt(x):
+    """Bisect to the relative tolerance set by mp.dps or the rounding limit."""
     if not mp.isfinite(x) or x < 0:
         raise ValueError("Expected a finite nonnegative number")
     if x == 0:
         return mpf(0)
     low, high = mpf(0), max(mpf(1), x)
     est = (high + low) / 2
-    epsilon = mpf(10) ** (-(mp.dps // 2))
+    epsilon = mpf(10) ** (-mp.dps)
     while abs(est - x / est) > epsilon * est:
-        if est**2 > x:
+        if est > x / est:
             high = est
         else:
             low = est
