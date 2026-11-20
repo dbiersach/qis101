@@ -15,10 +15,37 @@ The goal is clarity, consistency, and strong pedagogical value.
 
 ---
 
+## Code Screenshots: Actual VS Code, Dark Modern
+
+- Use actual captures of the current source file displayed in VS Code with the
+  **Dark Modern** theme. Verify the active theme and the source text before
+  capturing. Do not substitute Dark 2026, VS Code Dark, or another theme.
+- Do not generate lookalike code images or recreate editor text with a renderer,
+  syntax highlighter, drawing library, or image generator. Do not recolor an older
+  screenshot to simulate the required theme; retake it in VS Code.
+- Prefer lossless PNG captures. Crop the actual capture without retouching its
+  text, and preserve its aspect ratio with equal horizontal and vertical scaling.
+  Check the actual file encoding, saved image and installed PowerPoint rendering.
+- Tell the user immediately before taking control of their machine, including
+  when resuming control after a pause. Explain which application will be used;
+  avoid selecting or editing source text merely to capture it. Tell the user
+  when mouse and keyboard interaction is finished.
+- Preserve existing compound arrows, highlights, shape IDs, equations, animation
+  targets and build sequences. Move arrow-and-number groups intact and fit the
+  existing highlights to the captured source; follow the callout rules below.
+  These protections apply to retained content. Apply the justified-removal rules
+  below when revised code or the teaching sequence makes an annotation redundant.
+- As work reaches each deck after Session 04, check its source-code screenshots
+  against the current source and the **Dark Modern** scheme. Retake any that do
+  not match when working on that deck. Do not change later decks in advance.
+
 ## PowerPoint Code Callouts: Preserve Compound Objects
 
 Treat each numbered arrow as one compound object. Use the matching callout in
 `Session 00 - Template.pptx` as the reference for its construction and formatting.
+This reference is not permission to normalize or reconstruct an existing object.
+Never alter the internal geometry of a red arrow and its number as a side effect
+of updating code, replacing screenshots, or aligning annotations.
 
 - Move the entire arrow-and-number group as a unit. Do not independently move,
   resize, shorten, stretch, regroup, or rebuild its children unless the user
@@ -40,11 +67,110 @@ Treat each numbered arrow as one compound object. Use the matching callout in
   its size, horizontal placement, color, stroke, and other formatting unless the
   user requests those changes too.
 - Preserve shape IDs, group membership, stacking order, animation targets, builds,
-  and transitions. Group bounds and child coordinates must describe the same
-  compound object, so selecting or aligning the group behaves correctly.
+  and transitions. Preserve animation order, click steps, triggers, delays,
+  durations, entrance/exit effects, motion paths, interactive sequences, and slide
+  transition settings. Do not recreate or flatten animated objects, reset their
+  timing, or change their targets while replacing screenshots. Preserve these
+  properties for retained content. The narrow exception is removing effects that
+  belong to an obsolete or redundant annotation under the rules below; unrelated
+  animation or transition changes require an explicit user request.
+- Group bounds and child coordinates must describe the same compound object, so
+  selecting or aligning the group behaves correctly. If an inconsistency exists,
+  report it; do not silently repair or normalize its geometry during another edit.
 - Verify both the rendered appearance and the native group bounds and properties
   in PowerPoint. A correct-looking screenshot alone does not verify the compound
   object's geometry or editing behavior.
+
+## Replacing Code Screenshots: Preserve Annotation Meaning and Builds
+
+- Read and understand the actual source before choosing screenshot boundaries.
+  Read the enclosing function or algorithm, not just isolated lines. Identify
+  each stage's inputs, operation, result and relationship to the next stage.
+- Review the preceding, current and following slides together. State what the
+  current slide teaches and where the next teaching step begins. Choose the
+  excerpt to serve that instructional flow before considering how many existing
+  callouts it contains. Do not add code or comments merely to retain a callout.
+- Replacing or overlaying a code screenshot with an updated actual VS Code capture
+  is allowed. Align and scale the capture proportionally, and preserve the
+  surrounding slide structure and its animation behavior. Prefer replacing the
+  existing image content in place so its identity and animation targets survive.
+  An overlay must not hide callouts, equations or other content, or show revised
+  code at a different build step from the image it replaces.
+- Before editing, inspect the original slide and its builds. Record what each
+  numbered callout, arrow and highlight identifies: the specific condition,
+  expression, statement, output or teaching point. Use an earlier deck when the
+  current screenshot or annotation is already mismatched.
+- After updating the screenshot, preserve each annotation's original meaning
+  wherever that concept remains relevant to this slide's teaching purpose. Follow
+  renamed variables, moved statements and equivalent conditions to their current
+  locations. Do not align an annotation merely to the nearest line or attach it
+  to unrelated code to retain a number or a build count.
+- Move arrow-and-number groups only as intact units. Reposition or resize an
+  existing highlight rectangle only as needed to enclose its intended revised
+  expression, retaining its identity, style and animation target. Preserve all
+  unrelated object geometry and formatting.
+- Preservation is not a requirement to keep every object or the same build count.
+  During an authorized deck revision, remove an annotation when reading the code
+  and neighboring slides establishes that its teaching point is obsolete,
+  redundant, or belongs on another slide. Explain the specific instructional
+  reason in the change record. Such a removal is justified, not arbitrary.
+- Remove the redundant screenshot content and its whole arrow-and-number group
+  together. Remove only animation effects and build references targeting the
+  removed objects; leave no dangling references or empty click steps. Preserve
+  the relative order, triggers and timing of the retained teaching sequence, and
+  preserve all unrelated transitions and geometry. Verify the intended resulting
+  sequence rather than demanding an identical object or click count.
+- Do not duplicate a section-heading comment across adjacent screenshots unless
+  the repetition has a clear teaching purpose. For example, when slide 139 teaches
+  choosing `best_m` and slide 140 teaches updating `(a, b, k)`, end slide 139 before
+  `# Update (a, b, k) ...`. Remove slide 139's arrow 7 and its associated effects;
+  keep the update comment and arrow 1 on slide 140. Do not append the comment to
+  slide 139 merely to give arrow 7 a target.
+- If the instructional purpose remains ambiguous after reading the code and
+  adjacent slides, report the uncertainty and ask a focused question. Do not
+  invent a new meaning for a callout. Clear, justified removals within the
+  authorized revision do not require a separate approval merely because they
+  change the number of callouts or build steps.
+- Preserve a recoverable pre-edit copy. Compare before and after renders and
+  object/build properties, and replay affected builds in PowerPoint. Check the
+  installed deck, not only a staging copy. Report the exact slides changed and
+  any unresolved source-to-screenshot or annotation mismatch. Document justified
+  removals and the resulting build sequence separately from accidental damage.
+
+## Review Code Slides as a Teaching Sequence
+
+- Audit adjacent code slides together against the enclosing function in the
+  current workspace. Give each slide a distinct teaching purpose: prerequisites,
+  initialization, selection, update, result, or another coherent stage. The next
+  slide should advance that explanation, not restart the same statements under
+  new callout numbers.
+- Check both ends of every excerpt. A section-heading comment belongs with the
+  statements it introduces. Avoid carrying it onto the preceding slide, and
+  avoid repeating setup statements just to fill space or preserve old callouts.
+  Retain repeated code only when its specific teaching purpose is clear.
+- Consider combining adjacent slides when they explain one coherent operation
+  and the combined code remains readable at the existing scale. For example,
+  the Chakravala selection conditions and the code that chooses best_m form one
+  step; updating (a, b, k) is the following step. Remove a redundant equation
+  panel when it merely restates the highlighted conditions and obstructs that
+  layout. Do not compress unrelated stages or shrink code merely to save a slide.
+- For an authorized merge, reuse actual VS Code captures and move complete
+  callout groups with their code. Renumber labels coherently without changing
+  their font, margins, justification, internal geometry, or group dimensions.
+  Preserve highlights and their meaning. Remap shape and timing IDs only where
+  needed to prevent collisions, updating every reference consistently.
+- Plan the merged build sequence explicitly. A callout that appeared
+  automatically at the start of the second slide may need to become the next
+  click in the combined slide. Preserve unrelated effect types and timing;
+  remove effects for omitted content and avoid empty clicks. Replay every step
+  through the transition to the following slide in PowerPoint.
+- Verify all other slides by stable slide identity and package content, because
+  deleting an absorbed slide shifts later slide numbers. Report the old-to-new
+  numbering and distinguish automatic footer renumbering from content edits.
+- In a read-only audit, recommend exact slide-specific edits before changing
+  the deck. Separate confirmed source mismatches, layout/build problems,
+  pedagogical recommendations, and capture-provenance uncertainty. A similar
+  palette alone does not prove an image came from VS Code or used Dark Modern.
 
 ---
 
