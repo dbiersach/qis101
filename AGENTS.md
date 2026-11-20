@@ -15,6 +15,39 @@ The goal is clarity, consistency, and strong pedagogical value.
 
 ---
 
+## PowerPoint Code Callouts: Preserve Compound Objects
+
+Treat each numbered arrow as one compound object. Use the matching callout in
+`Session 00 - Template.pptx` as the reference for its construction and formatting.
+
+- Move the entire arrow-and-number group as a unit. Do not independently move,
+  resize, shorten, stretch, regroup, or rebuild its children unless the user
+  explicitly requests a repair of the compound object itself.
+- Preserve the template's arrow length, stroke, arrowhead, number font and size,
+  internal spacing, text justification, margins, horizontal and vertical anchors,
+  and relative positions. Do not apply generic alignment or sizing defaults.
+- Position the arrowhead tip just to the right of the last visible character on
+  the target code line, leaving a small, consistent horizontal gap. Align the tip
+  vertically with the actual visible character, not the line box, text-box center,
+  nominal baseline, or an approximate fraction of the font size. For a closing
+  parenthesis, the tip points at the vertical center of the parenthesis's bulge.
+- Use the rendered code to check this alignment. Move the whole group to correct
+  its target; do not change its internal geometry to make it fit. Resolve or report
+  collisions without silently distorting the callout.
+- Center red, white, and yellow highlight rectangles vertically around the visible
+  characters of the enclosed code snippet. Nudge the rectangle up or down as
+  needed; do not center it on the line box or an assumed font baseline. Preserve
+  its size, horizontal placement, color, stroke, and other formatting unless the
+  user requests those changes too.
+- Preserve shape IDs, group membership, stacking order, animation targets, builds,
+  and transitions. Group bounds and child coordinates must describe the same
+  compound object, so selecting or aligning the group behaves correctly.
+- Verify both the rendered appearance and the native group bounds and properties
+  in PowerPoint. A correct-looking screenshot alone does not verify the compound
+  object's geometry or editing behavior.
+
+---
+
 ## Code Comments
 
 Comments describe the code **as it stands now**, in the present tense. The reader

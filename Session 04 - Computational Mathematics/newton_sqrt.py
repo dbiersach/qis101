@@ -17,7 +17,7 @@ def newton_sqrt(x: float) -> float:
             low = est
         else:
             high = est
-        next_est = low + (high - low) / 2
+        next_est = (low + high) / 2
         if next_est == est:
             break
         est = next_est
